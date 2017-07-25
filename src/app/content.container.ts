@@ -1,19 +1,17 @@
 import {Input, OnInit} from "@angular/core";
+import jp from "jsonpath";
 
 export class ContentContainer implements OnInit {
   elements: any;
   @Input() context: any;
   @Input() path: string;
 
-  constructor(private elementName: string) {
-  }
-
   ngOnInit(): void {
     if (typeof this.context === 'string' || this.context instanceof String) {
       return;
     }
     this.elements = [];
-    let elements = this.elementName === null ? this.context : this.context[this.elementName];
+    let elements = jp.query(this.context, '$..controls')[0];
     for (let el in elements) {
       this.elements.push({context: elements[el], path: this.getPath(el)});
     }

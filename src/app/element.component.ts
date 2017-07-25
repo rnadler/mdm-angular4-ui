@@ -15,6 +15,6 @@ export class ElementComponent implements OnInit {
   type: string;
 
   ngOnInit(): void {
-    this.type =  this.context.editable != null ? this.context.editable.format : ElementService.DEFAULT;
+    this.type =  this.context.ui != null ? this.context.ui : ElementService.DEFAULT;
   }
 }
