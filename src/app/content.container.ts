@@ -1,10 +1,13 @@
 import {Input, OnInit} from "@angular/core";
 import jp from "jsonpath";
+import {RuleSet} from "./rules/rule-set";
+import {RulesService} from "./rules/rules.service";
 
 export class ContentContainer implements OnInit {
   elements: any;
   @Input() context: any;
   @Input() path: string;
+  ruleSet: RuleSet;
 
   ngOnInit(): void {
     if (typeof this.context === 'string' || this.context instanceof String) {
@@ -15,6 +18,7 @@ export class ContentContainer implements OnInit {
     for (let el in elements) {
       this.elements.push({context: elements[el], path: this.getPath(el)});
     }
+    this.ruleSet = RulesService.createRuleSet(this);
   }
   setContext(data: any) {
     this.context = data;
@@ -25,5 +29,8 @@ export class ContentContainer implements OnInit {
       return name;
     }
     return this.path + '.' + name;
+  }
+  updateRelevance(testResult: boolean) {
+    console.log(this.path + ' updateRelevance testResult=' + testResult);
   }
 }
