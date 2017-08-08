@@ -1,6 +1,5 @@
-import {Component, OnDestroy} from "@angular/core";
+import {Component, Input, OnDestroy} from "@angular/core";
 import {DataService} from "./data.service";
-import {ContentContainer} from "./content.container";
 import {Subject} from "rxjs/Subject";
 import 'rxjs/add/operator/takeUntil';
 import {RulesService} from "./rules/rules.service";
@@ -11,26 +10,23 @@ import {ModelUpdatedMessage} from "./model/model-updated-message";
 @Component({
   selector: 'xforms',
   template: `
-  <div class="center">
-    <h1>{{title}}</h1>
-  </div>
-  <div *ngFor="let element of elements">
-    <table [context]="element.context" [path]="element.path"></table>
-  </div>
-`
+    <div class="center">
+      <h1>{{title}}</h1>
+    </div>
+    <table-element *ngIf="context" [context]="context" [path]="path"></table-element>
+  `
 })
-export class XformsComponent extends ContentContainer implements OnDestroy {
-  title: string;
+export class XformsComponent implements OnDestroy {
+  @Input() title: string;
+  context: any;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(private dataService: DataService) {
-    super();
     this.dataService.getJSON('xforms-example.json')
       .takeUntil(this.ngUnsubscribe)
       .subscribe(data => {
-        this.title = this.context;
         ModelService.setModel(data.Model);
-        this.setContext(data.Controls);
+        this.context = data.Controls;
     });
     MessagingService.of(ModelUpdatedMessage)
       .takeUntil(this.ngUnsubscribe)

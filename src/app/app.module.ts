@@ -10,26 +10,26 @@ import {
   DynamicContentComponent,
 } from './dynamic-content.component';
 import {XformsComponent} from "./xforms.component";
-import {TableComponent} from "./table.component";
-import {ElementComponent} from "./element.component";
 import {TextElementComponent} from "./elements/text.element.component";
 import {DefaultElementComponent} from "./elements/default.element.component";
 import {SelectElementComponent} from "./elements/select.element.component";
 import {SwitchElementComponent} from "./elements/switch.element.component";
-import { RangeElementComponent} from "./elements/range.element.component"
+import {RangeElementComponent} from "./elements/range.element.component"
+import {GroupElementComponent} from "./elements/group.element.component"
+import {TableElementComponent} from "./elements/table.element.component"
 
 @NgModule({
   declarations: [
     AppComponent,
     DynamicContentComponent,
     XformsComponent,
-    TableComponent,
-    ElementComponent,
     TextElementComponent,
     SelectElementComponent,
     SwitchElementComponent,
     RangeElementComponent,
-    DefaultElementComponent
+    DefaultElementComponent,
+    GroupElementComponent,
+    TableElementComponent
   ],
   imports: [
     BrowserModule,
@@ -41,13 +41,13 @@ import { RangeElementComponent} from "./elements/range.element.component"
   ],
   entryComponents: [
     XformsComponent,
-    TableComponent,
-    ElementComponent,
     TextElementComponent,
     SelectElementComponent,
     SwitchElementComponent,
     RangeElementComponent,
-    DefaultElementComponent
+    DefaultElementComponent,
+    GroupElementComponent,
+    TableElementComponent
   ],
   bootstrap: [AppComponent]
 })

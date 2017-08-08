@@ -39,6 +39,7 @@ export class DynamicContentComponent implements OnInit, OnDestroy {
       let instance = <DynamicComponent> this.componentRef.instance;
       instance.context = this.context;
       instance.path = this.path;
+      instance.type = this.type;
     }
   }
 
