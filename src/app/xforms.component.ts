@@ -21,20 +21,22 @@ export class XformsComponent implements OnDestroy {
   context: any;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
-  constructor(private dataService: DataService) {
+  constructor(private dataService: DataService,
+              private messagingService: MessagingService, private modelService: ModelService,
+              private rulesService: RulesService) {
     this.dataService.getJSON('xforms-example.json')
       .takeUntil(this.ngUnsubscribe)
       .subscribe(data => {
-        ModelService.setModel(data.Model);
+        this.modelService.setModel(data.Model);
         this.context = data.Controls;
     });
-    MessagingService.of(ModelUpdatedMessage)
+    this.messagingService.of(ModelUpdatedMessage)
       .takeUntil(this.ngUnsubscribe)
       .subscribe(message => this.onModelUpdated(message));
   }
   private onModelUpdated(message: ModelUpdatedMessage) {
     console.log('onModelUpdated: ref=' + message.ref + ' value=' + message.value);
-    RulesService.evaluateUpdateRules();
+    this.rulesService.evaluateUpdateRules();
   }
   ngOnDestroy() {
     this.ngUnsubscribe.next();

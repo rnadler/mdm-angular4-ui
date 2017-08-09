@@ -1,12 +1,16 @@
-
+import {Injectable} from "@angular/core";
 import {Rule} from "./rule";
 import {RuleSet} from "./rule-set";
 import {RuleTypeEnum} from "./rule-type-enum";
+import {ModelService} from "../model/model.service";
 
+@Injectable()
 export class RulesService {
-  private static ruleSets: Array<RuleSet> = [];
+  private ruleSets: Array<RuleSet> = [];
 
-  static createRuleSet(component: any): RuleSet {
+  constructor(private modelService: ModelService){}
+
+  createRuleSet(component: any): RuleSet {
     let rv = [];
     this.addRule(rv, RuleTypeEnum.setup, component);
     this.addRule(rv, RuleTypeEnum.calculate, component);
@@ -19,19 +23,19 @@ export class RulesService {
     }
     return ruleSet;
   }
-  static evaluateUpdateRules() {
-    console.log('evaluateUpdateRules (total ruleSets=' + RulesService.ruleSets.length + ')');
+  evaluateUpdateRules() {
+    console.log('evaluateUpdateRules (total ruleSets=' + this.ruleSets.length + ')');
     for (let ruleSet of this.ruleSets) {
       ruleSet.evaluateRelevantRules();
       ruleSet.evaluateCalculateRules();
     }
   }
 
-  private static addRule(rules: Array<Rule>, type: RuleTypeEnum, component: any) {
+  private addRule(rules: Array<Rule>, type: RuleTypeEnum, component: any) {
     let name = RuleTypeEnum[type];
     let ruleContext = component.context[name];
     if (ruleContext) {
-      let rule = new Rule(type);
+      let rule = new Rule(type, this.modelService);
       for (let rd of ruleContext) {
         rule.addRuleDescption(rd);
       }

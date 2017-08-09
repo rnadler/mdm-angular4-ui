@@ -3,6 +3,7 @@ import {Component} from "@angular/core";
 import {ElementService} from "../element.service";
 import {DynamicComponent} from "../dynamic.component";
 import {ModelService} from "../model/model.service";
+import {RulesService} from "../rules/rules.service";
 
 @Component({
   selector: 'switch-element',
@@ -12,12 +13,15 @@ import {ModelService} from "../model/model.service";
 export class SwitchElementComponent extends DynamicComponent {
   checked: boolean;
 
+  constructor(modelService: ModelService, rulesService: RulesService) {
+    super(modelService, rulesService);
+  }
   ngOnInit(): void {
     this.update();
     super.ngOnInit();
   }
   update() {
-    this.checked = ModelService.getValue(this.context.ref);
+    this.checked = this.modelService.getValue(this.context.ref);
     console.log(this.path + ' switch update: checked=' + this.checked);
     super.update();
   }

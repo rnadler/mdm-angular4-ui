@@ -13,8 +13,10 @@ export abstract class DynamicComponent implements OnInit {
   elements: any;
   ruleSet: RuleSet;
 
+  constructor(protected modelService: ModelService, private rulesService: RulesService) {}
+
   ngOnInit(): void {
-    this.ruleSet = RulesService.createRuleSet(this);
+    this.ruleSet = this.rulesService.createRuleSet(this);
   }
   update() {
     this.elements = [];
@@ -28,7 +30,7 @@ export abstract class DynamicComponent implements OnInit {
 
   onChange(newValue: any) {
     console.log('onChange: ' + this.path + ' setting ref=' + this.context.ref + ' to newValue=' + newValue);
-    ModelService.setValue(this.context.ref, newValue);
+    this.modelService.setValue(this.context.ref, newValue);
   }
   updateRelevance(testResult: boolean) {
     this.hidden = !testResult;

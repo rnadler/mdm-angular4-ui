@@ -4,7 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
-import { DataService} from "./data.service"
+import { DataService } from "./data.service"
+import { ModelService } from "./model/model.service"
+import { RulesService } from "./rules/rules.service"
+import { MessagingService } from "./model/messaging-service"
 
 import {
   DynamicContentComponent,
@@ -37,7 +40,10 @@ import {TableElementComponent} from "./elements/table.element.component"
     HttpModule
   ],
   providers: [
-    DataService
+    DataService,
+    ModelService,
+    MessagingService,
+    RulesService
   ],
   entryComponents: [
     XformsComponent,

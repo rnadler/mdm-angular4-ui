@@ -1,16 +1,19 @@
-
+import {Injectable} from "@angular/core";
 import jp from "jsonpath";
 import {MessagingService} from "./messaging-service";
 import {ModelUpdatedMessage} from "./model-updated-message";
 
+@Injectable()
 export class ModelService {
-  private static model: any;
+  private model: any;
 
-  static setModel(model: any) {
+  constructor(private messagingService: MessagingService) {}
+
+  setModel(model: any) {
     this.model = model;
   }
 
-  static getValue(ref: string) {
+  getValue(ref: string) {
     let val = jp.value(this.model, '$.' + ref);
     if (val === null) {
       console.error("ModelService: Failed to get ref=" + ref);
@@ -19,16 +22,16 @@ export class ModelService {
     return val;
   }
 
-  static setValue(ref: string, value: any) {
-    return ModelService.setContextValue(this.model, ref, value);
+  setValue(ref: string, value: any) {
+    return this.setContextValue(this.model, ref, value);
   }
 
-  static setContextValue(context: any, ref: string, value: any) {
+  setContextValue(context: any, ref: string, value: any) {
     let rv = jp.apply(context, '$.' + ref, oldValue => value);
     if (rv.length === 0) {
       return null;
     }
-    MessagingService.publish(new ModelUpdatedMessage(ref, value));
+    this.messagingService.publish(new ModelUpdatedMessage(ref, value));
     console.log('ModelService setValue ref=' + ref + ' value=' + value);
     return rv;
   }

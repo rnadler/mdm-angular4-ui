@@ -6,21 +6,23 @@ import {Subject} from "rxjs/Subject";
 import "rxjs/add/operator/filter";
 import {async} from "rxjs/scheduler/async";
 import "rxjs/add/operator/observeOn";
+import {Injectable} from "@angular/core";
 
 interface Message {
   channel: string;
   data: any;
 }
 
+@Injectable()
 export class MessagingService {
-  private static message$: Subject<Message> = new Subject<Message>();
+  private message$: Subject<Message> = new Subject<Message>();
 
-  public static publish<T>(message: T): void {
+  public publish<T>(message: T): void {
     const channel = (<any>message.constructor).name;
     this.message$.next({ channel: channel, data: message });
   }
 
-  public static of<T>(messageType: { new(...args: any[]): T }): Observable<T> {
+  public of<T>(messageType: { new(...args: any[]): T }): Observable<T> {
     const channel = (<any>messageType).name;
     return this.message$
       .observeOn(async)

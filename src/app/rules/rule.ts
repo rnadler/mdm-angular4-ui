@@ -7,10 +7,12 @@ import {ModelService} from "../model/model.service";
 export class Rule {
   type: RuleTypeEnum;
   ruleDescriptions: Array<RuleDescription>;
+  private modelService: ModelService;
 
-  constructor(type: RuleTypeEnum) {
+  constructor(type: RuleTypeEnum, modelService: ModelService) {
     this.type = type;
     this.ruleDescriptions = [];
+    this.modelService = modelService;
   }
   addRuleDescption(ruleDesc: any) {
     this.ruleDescriptions.push(ruleDesc);
@@ -20,14 +22,14 @@ export class Rule {
       let ruleDescription = this.ruleDescriptions[rd];
       let test = ruleDescription.test;
       let label = RuleTypeEnum[this.type] + '[' + rd + '] ';
-      let testResult = new TestEvaluator(test).evaluate();
+      let testResult = new TestEvaluator(test, this.modelService).evaluate();
       console.log(component.path + ' test ' + label + 'testText=' + test + ' testResult=' + testResult);
       let keyPath = ruleDescription.keyPath;
       if (testResult && keyPath) {
-        let value = ModelService.getValue(ruleDescription.value);
-        let setRv = ModelService.setValue(keyPath, value);
+        let value = this.modelService.getValue(ruleDescription.value);
+        let setRv = this.modelService.setValue(keyPath, value);
         if (setRv === null) {
-          setRv = ModelService.setContextValue(component.context, keyPath, value);
+          setRv = this.modelService.setContextValue(component.context, keyPath, value);
         }
         console.log(component.path + ' evaluate ' + label + 'set keyPath=' + keyPath + ' to value=' + value);
           //' setRv=' + JSON.stringify(setRv));

@@ -6,9 +6,11 @@ import {isNumeric} from "rxjs/util/isNumeric";
 export class TestEvaluator {
   private test: string;
   expression: any;
+  private modelService: ModelService;
 
-  constructor(test: string) {
+  constructor(test: string, modelService: ModelService) {
     this.test = test;
+    this.modelService = modelService;
     try {
       // Doesn't like periods in the variable names.
       this.expression = Parser.parse(test.replace(/\./g, '_'));
@@ -27,7 +29,7 @@ export class TestEvaluator {
     let vars = {'YES': true, 'NO': false};
     let variables = this.expression.variables();
     for (let vname of variables) {
-      let value = ModelService.getValue(vname.replace(/_/g,'.'));
+      let value = this.modelService.getValue(vname.replace(/_/g,'.'));
       if (value != null) {
         vars[vname] = isNumeric(value) ? Number(value) : value;
       }
