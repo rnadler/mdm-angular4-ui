@@ -6,6 +6,12 @@
         "MinimumValue": 1,
         "MaximumValue": 25,
         "Range": 100
+      },
+      "Internal": {
+        "Boolean": {
+          "YES": true,
+          "NO": false
+        }
       }
     },
     "Controls": {
@@ -53,7 +59,7 @@
             "label": "Hidden Controls",
             "relevant": [
               {
-                "test": "UIData.ShowHide == YES"
+                "test": "UIData.ShowHide == Internal.Boolean.YES"
               }
             ],
             "controls": {

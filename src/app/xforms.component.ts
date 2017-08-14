@@ -20,11 +20,13 @@ export class XformsComponent implements OnDestroy {
   @Input() title: string;
   context: any;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
+  // 'xforms-example.json' 'mini_model_ui_example.json'
+  readonly MODEL_JSON_FILE: string = 'mini_model_ui_example.json';
 
   constructor(private dataService: DataService,
               private messagingService: MessagingService, private modelService: ModelService,
               private rulesService: RulesService) {
-    this.dataService.getJSON('xforms-example.json')
+    this.dataService.getJSON(this.MODEL_JSON_FILE)
       .takeUntil(this.ngUnsubscribe)
       .subscribe(data => {
         this.modelService.setModel(data.Model);

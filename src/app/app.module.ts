@@ -20,6 +20,7 @@ import {SwitchElementComponent} from "./elements/switch.element.component";
 import {RangeElementComponent} from "./elements/range.element.component"
 import {GroupElementComponent} from "./elements/group.element.component"
 import {TableElementComponent} from "./elements/table.element.component"
+import {OutputElementComponent} from "./elements/output.element.component"
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import {TableElementComponent} from "./elements/table.element.component"
     RangeElementComponent,
     DefaultElementComponent,
     GroupElementComponent,
-    TableElementComponent
+    TableElementComponent,
+    OutputElementComponent
   ],
   imports: [
     BrowserModule,
@@ -53,7 +55,8 @@ import {TableElementComponent} from "./elements/table.element.component"
     RangeElementComponent,
     DefaultElementComponent,
     GroupElementComponent,
-    TableElementComponent
+    TableElementComponent,
+    OutputElementComponent
   ],
   bootstrap: [AppComponent]
 })

@@ -15,9 +15,8 @@ export class ModelService {
 
   getValue(ref: string) {
     let val = jp.value(this.model, '$.' + ref);
-    if (val === null) {
-      console.error("ModelService: Failed to get ref=" + ref);
-      return null;
+    if (val === undefined) {
+      console.warn("ModelService: Failed to get ref=" + ref);
     }
     return val;
   }
