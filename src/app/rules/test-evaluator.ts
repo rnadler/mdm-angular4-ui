@@ -26,7 +26,7 @@ export class TestEvaluator {
     }
   }
   evaluate() : boolean {
-    let vars = {'YES': true, 'NO': false};
+    let vars = {};
     let variables = this.expression.variables();
     for (let vname of variables) {
       let value = this.modelService.getValue(vname.replace(/_/g,'.'));

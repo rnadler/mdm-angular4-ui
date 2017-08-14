@@ -6,8 +6,28 @@
         "MinimumValue": 1,
         "MaximumValue": 25,
         "Range": 100
+      },
+      "Internal": {
+        "Boolean": {
+          "YES": true,
+          "NO": false
+        }
       }
     },
+   "Rules": {
+     "calculate": [
+       {
+         "test": "UIData.Range < UIData.MinimumValue",
+         "keyPath": "UIData.Range",
+         "value": "UIData.MinimumValue"
+       },
+       {
+         "test": "UIData.Range > UIData.MaximumValue",
+         "keyPath": "UIData.Range",
+         "value": "UIData.MaximumValue"
+       }
+     ]
+   },
     "Controls": {
       "exampleTable": {
         "ui": "table",
@@ -53,7 +73,7 @@
             "label": "Hidden Controls",
             "relevant": [
               {
-                "test": "UIData.ShowHide == YES"
+                "test": "UIData.ShowHide == Internal.Boolean.YES"
               }
             ],
             "controls": {
@@ -85,18 +105,6 @@
                     "test": true,
                     "keyPath": "range.start",
                     "value": "UIData.MinimumValue"
-                  }
-                ],
-                "calculate": [
-                  {
-                    "test": "UIData.Range < UIData.MinimumValue",
-                    "keyPath": "UIData.Range",
-                    "value": "UIData.MinimumValue"
-                  },
-                  {
-                    "test": "UIData.Range > UIData.MaximumValue",
-                    "keyPath": "UIData.Range",
-                    "value": "UIData.MaximumValue"
                   }
                 ],
                 "range": {

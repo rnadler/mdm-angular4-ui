@@ -3,10 +3,14 @@ import {Rule} from "./rule";
 import {RuleSet} from "./rule-set";
 import {RuleTypeEnum} from "./rule-type-enum";
 import {ModelService} from "../model/model.service";
+import {DynamicComponent} from "../dynamic.component";
 
 @Injectable()
 export class RulesService {
   private ruleSets: Array<RuleSet> = [];
+  private globalRuleSet: RuleSet;
+  // TODO: This shouldn't be here. Need a DynamicComponentService.
+  private dynamicComponents: Array<DynamicComponent> = [];
 
   constructor(private modelService: ModelService){}
 
@@ -15,7 +19,8 @@ export class RulesService {
     this.addRule(rv, RuleTypeEnum.setup, component);
     this.addRule(rv, RuleTypeEnum.calculate, component);
     this.addRule(rv, RuleTypeEnum.relevant, component);
-    let ruleSet = new RuleSet(component, rv);
+    let ruleSet = new RuleSet(rv);
+    ruleSet.addComponent(component);
     if (rv.length > 0) {
       this.ruleSets.push(ruleSet);
       ruleSet.evaluateSetupRules();
@@ -29,6 +34,27 @@ export class RulesService {
       ruleSet.evaluateRelevantRules();
       ruleSet.evaluateCalculateRules();
     }
+  }
+  updateDynamicComponents() {
+    for (let component of this.dynamicComponents) {
+      component.update();
+    }
+  }
+  addGlobalRules(rules: any) {
+    let fakeComponent = {context: rules, path: 'global'};
+    this.globalRuleSet = this.createRuleSet(fakeComponent);
+    this.globalRuleSet.components = [];
+  }
+  addDynamicComponent(component: DynamicComponent) {
+    if (!component.context.ref) {
+      return;
+    }
+    let keyPaths = this.globalRuleSet.getKeyPaths()[0];
+    if (keyPaths.filter(kpath => kpath === component.context.ref).length > 0) {
+      console.log('addGlobalRules added component=' + component.path);
+      this.globalRuleSet.addComponent(component);
+    }
+    this.dynamicComponents.push(component);
   }
 
   private addRule(rules: Array<Rule>, type: RuleTypeEnum, component: any) {

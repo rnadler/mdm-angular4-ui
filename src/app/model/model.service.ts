@@ -14,10 +14,12 @@ export class ModelService {
   }
 
   getValue(ref: string) {
-    let val = jp.value(this.model, '$.' + ref);
-    if (val === null) {
-      console.error("ModelService: Failed to get ref=" + ref);
-      return null;
+    return this.getContextValue(this.model, ref);
+  }
+  getContextValue(context: any, ref: string) {
+    let val = jp.value(context, '$.' + ref);
+    if (val === undefined) {
+      console.warn("ModelService: Failed to get ref=" + ref);
     }
     return val;
   }
@@ -34,5 +36,8 @@ export class ModelService {
     this.messagingService.publish(new ModelUpdatedMessage(ref, value));
     console.log('ModelService setValue ref=' + ref + ' value=' + value);
     return rv;
+  }
+  setFgData(fgData: any) {
+    this.setValue('FlowGenerator', fgData.FlowGenerator);
   }
 }

@@ -17,25 +17,41 @@ export class Rule {
   addRuleDescption(ruleDesc: any) {
     this.ruleDescriptions.push(ruleDesc);
   }
-  evaluateRules(component: any) {
+  getKeyPaths() {
+    return this.ruleDescriptions.filter(rd => rd.keyPath).map(rd => rd.keyPath);
+  }
+  evaluateRules(components: Array<any>) {
     for (let rd in this.ruleDescriptions) {
       let ruleDescription = this.ruleDescriptions[rd];
       let test = ruleDescription.test;
       let label = RuleTypeEnum[this.type] + '[' + rd + '] ';
       let testResult = new TestEvaluator(test, this.modelService).evaluate();
-      console.log(component.path + ' test ' + label + 'testText=' + test + ' testResult=' + testResult);
+      console.log('test ' + label + 'testText=' + test + ' testResult=' + testResult);
       let keyPath = ruleDescription.keyPath;
       if (testResult && keyPath) {
         let value = this.modelService.getValue(ruleDescription.value);
-        let setRv = this.modelService.setValue(keyPath, value);
-        if (setRv === null) {
-          setRv = this.modelService.setContextValue(component.context, keyPath, value);
-        }
-        console.log(component.path + ' evaluate ' + label + 'set keyPath=' + keyPath + ' to value=' + value);
-          //' setRv=' + JSON.stringify(setRv));
-        component.update();
+        this.setComponentsValue(components, keyPath, value);
+        console.log('evaluate ' + label + 'set keyPath=' + keyPath + ' to value=' + value);
+        this.updateComonents(components);
       } else if (this.type === RuleTypeEnum.relevant) {
-        component.updateRelevance(testResult);
+        this.updateComonentsRelevance(components, testResult);
+      }
+    }
+  }
+  private updateComonents(components: Array<any>) {
+    for (let component of components) {
+      component.update();
+    }
+  }
+  private updateComonentsRelevance(components: Array<any>, testResult) {
+    for (let component of components) {
+      component.updateRelevance(testResult);
+    }
+  }
+  private setComponentsValue(components: Array<any>, keyPath, value) {
+    if (this.modelService.setValue(keyPath, value) === null) {
+      for (let component of components) {
+        this.modelService.setContextValue(component.context, keyPath, value);
       }
     }
   }

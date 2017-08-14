@@ -9,25 +9,23 @@ import {ModelUpdatedMessage} from "./model/model-updated-message";
 
 @Component({
   selector: 'xforms',
-  template: `
-    <div class="center">
-      <h1>{{title}}</h1>
-    </div>
-    <table-element *ngIf="context" [context]="context" [path]="path"></table-element>
-  `
+  template: `<table-element *ngIf="context" [context]="context" [path]="path"></table-element>`
 })
 export class XformsComponent implements OnDestroy {
-  @Input() title: string;
+  @Input() fgData: any;
   context: any;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
+  readonly MODEL_JSON_FILE: string = 'mini_model_ui_example.json';
 
   constructor(private dataService: DataService,
               private messagingService: MessagingService, private modelService: ModelService,
               private rulesService: RulesService) {
-    this.dataService.getJSON('xforms-example.json')
+    this.dataService.getJSON(this.MODEL_JSON_FILE)
       .takeUntil(this.ngUnsubscribe)
       .subscribe(data => {
+        this.rulesService.addGlobalRules(data.Rules);
         this.modelService.setModel(data.Model);
+        this.modelService.setFgData(this.fgData);
         this.context = data.Controls;
     });
     this.messagingService.of(ModelUpdatedMessage)

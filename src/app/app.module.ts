@@ -20,6 +20,8 @@ import {SwitchElementComponent} from "./elements/switch.element.component";
 import {RangeElementComponent} from "./elements/range.element.component"
 import {GroupElementComponent} from "./elements/group.element.component"
 import {TableElementComponent} from "./elements/table.element.component"
+import {OutputElementComponent} from "./elements/output.element.component"
+import {HorzGroupElementComponent} from "./elements/horzgroup.element.component"
 
 @NgModule({
   declarations: [
@@ -32,7 +34,9 @@ import {TableElementComponent} from "./elements/table.element.component"
     RangeElementComponent,
     DefaultElementComponent,
     GroupElementComponent,
-    TableElementComponent
+    TableElementComponent,
+    OutputElementComponent,
+    HorzGroupElementComponent
   ],
   imports: [
     BrowserModule,
@@ -53,7 +57,9 @@ import {TableElementComponent} from "./elements/table.element.component"
     RangeElementComponent,
     DefaultElementComponent,
     GroupElementComponent,
-    TableElementComponent
+    TableElementComponent,
+    OutputElementComponent,
+    HorzGroupElementComponent
   ],
   bootstrap: [AppComponent]
 })

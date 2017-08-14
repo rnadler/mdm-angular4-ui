@@ -1,0 +1,44 @@
+{
+  "FlowGenerator": {
+    "IdentificationProfiles": {
+      "Product": {
+        "UniversalIdentifier": "F8FDdfe0-261d-37D6-1Cfb-dCe3faaDbaB0"
+      },
+      "Software": {
+        "PlatformIdentifier": 20,
+        "VariantIdentifier": 93,
+        "RegionIdentifier": 15
+      }
+    },
+    "SettingProfiles": {
+      "ActiveProfiles": {
+        "TherapyProfile": "CpapProfile",
+        "FeatureProfiles": "SmartStartStopFeature"
+      },
+      "TherapyProfiles": {
+        "AutoSetProfile": {
+          "TherapyMode": "AutoSet",
+          "StartPressure": 4,
+          "MinPressure": 4,
+          "MaxPressure": 20
+        },
+        "AutoSetForHerProfile": {
+          "TherapyMode": "HerAuto",
+          "StartPressure": 4,
+          "MinPressure": 4,
+          "MaxPressure": 20
+        },
+        "CpapProfile": {
+          "TherapyMode": "CPAP",
+          "SetPressure": 10,
+          "StartPressure": 4
+        }
+      },
+      "FeatureProfiles": {
+        "SmartStartStopFeature": {
+          "SmartStart": "On"
+        }
+      }
+    }
+  }
+}
