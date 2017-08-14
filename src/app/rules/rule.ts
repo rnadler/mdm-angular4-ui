@@ -18,7 +18,7 @@ export class Rule {
     this.ruleDescriptions.push(ruleDesc);
   }
   getKeyPaths() {
-    return [].concat(this.ruleDescriptions.filter(rd => rd.keyPath).map(rd => rd.keyPath));
+    return this.ruleDescriptions.filter(rd => rd.keyPath).map(rd => rd.keyPath);
   }
   evaluateRules(components: Array<any>) {
     for (let rd in this.ruleDescriptions) {
@@ -32,7 +32,6 @@ export class Rule {
         let value = this.modelService.getValue(ruleDescription.value);
         this.setComponentsValue(components, keyPath, value);
         console.log('evaluate ' + label + 'set keyPath=' + keyPath + ' to value=' + value);
-          //' setRv=' + JSON.stringify(setRv));
         this.updateComonents(components);
       } else if (this.type === RuleTypeEnum.relevant) {
         this.updateComonentsRelevance(components, testResult);
@@ -50,10 +49,9 @@ export class Rule {
     }
   }
   private setComponentsValue(components: Array<any>, keyPath, value) {
-    let setRv = this.modelService.setValue(keyPath, value);
-    if (setRv === null) {
+    if (this.modelService.setValue(keyPath, value) === null) {
       for (let component of components) {
-        setRv = this.modelService.setContextValue(component.context, keyPath, value);
+        this.modelService.setContextValue(component.context, keyPath, value);
       }
     }
   }

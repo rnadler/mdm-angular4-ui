@@ -11,8 +11,8 @@ export class RuleSet {
     this.components = [];
   }
   addComponent(component: any) {
-    let label = component.context.label;
-    if (this.components.filter(c => c.context.label === label).length == 0) {
+    let path = component.context.path;
+    if (this.components.filter(c => c.context.path === path).length == 0) {
       this.components.push(component);
     }
   }
@@ -27,7 +27,7 @@ export class RuleSet {
   }
 
   getKeyPaths() {
-    return [].concat(this.rules.map(r => r.getKeyPaths()));
+    return this.rules.map(r => r.getKeyPaths());
   }
   private evaluateRulesOfType(type: RuleTypeEnum) {
     for (let rule of this.getRulesOfType(type)) {
