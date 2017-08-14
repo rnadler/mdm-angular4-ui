@@ -29,6 +29,7 @@ export class XformsComponent implements OnDestroy {
     this.dataService.getJSON(this.MODEL_JSON_FILE)
       .takeUntil(this.ngUnsubscribe)
       .subscribe(data => {
+        this.rulesService.addGlobalRules(data.Rules);
         this.modelService.setModel(data.Model);
         this.context = data.Controls;
     });

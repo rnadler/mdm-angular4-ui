@@ -14,6 +14,20 @@
         }
       }
     },
+   "Rules": {
+     "calculate": [
+       {
+         "test": "UIData.Range < UIData.MinimumValue",
+         "keyPath": "UIData.Range",
+         "value": "UIData.MinimumValue"
+       },
+       {
+         "test": "UIData.Range > UIData.MaximumValue",
+         "keyPath": "UIData.Range",
+         "value": "UIData.MaximumValue"
+       }
+     ]
+   },
     "Controls": {
       "exampleTable": {
         "ui": "table",
@@ -91,18 +105,6 @@
                     "test": true,
                     "keyPath": "range.start",
                     "value": "UIData.MinimumValue"
-                  }
-                ],
-                "calculate": [
-                  {
-                    "test": "UIData.Range < UIData.MinimumValue",
-                    "keyPath": "UIData.Range",
-                    "value": "UIData.MinimumValue"
-                  },
-                  {
-                    "test": "UIData.Range > UIData.MaximumValue",
-                    "keyPath": "UIData.Range",
-                    "value": "UIData.MaximumValue"
                   }
                 ],
                 "range": {

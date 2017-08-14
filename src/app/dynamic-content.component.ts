@@ -5,6 +5,7 @@ import {
 } from '@angular/core';
 import {ElementService} from "./element.service";
 import {DynamicComponent} from "./dynamic.component";
+import {RulesService} from "./rules/rules.service";
 
 @Component({
   selector: 'dynamic-content',
@@ -24,7 +25,7 @@ export class DynamicContentComponent implements OnInit, OnDestroy {
   private componentRef: ComponentRef<{}>;
 
   constructor(
-    private componentFactoryResolver: ComponentFactoryResolver) {
+    private componentFactoryResolver: ComponentFactoryResolver, private rulesService: RulesService) {
   }
 
   ngOnInit() {
@@ -40,6 +41,7 @@ export class DynamicContentComponent implements OnInit, OnDestroy {
       instance.context = this.context;
       instance.path = this.path;
       instance.type = this.type;
+      this.rulesService.addDynamicComponent(instance);
     }
   }
 

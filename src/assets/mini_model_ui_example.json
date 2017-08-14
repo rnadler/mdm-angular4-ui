@@ -63,49 +63,49 @@
       {
         "id": "AutoSet_MinPressure_greater_than_MaxPressure",
         "test": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.MinPressure > FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.MaxPressure",
-        "keypath": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.MinPressure",
+        "keyPath": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.MinPressure",
         "value": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.MaxPressure",
         "message": "MinPressure should not be greater than MaxPressure."
       },
       {
         "id": "AutoSet_StartPressure_less_than_MinPressure",
         "test": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.StartPressure < FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.MinPressure",
-        "keypath": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.StartPressure",
+        "keyPath": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.StartPressure",
         "value": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.MinPressure",
         "message": "StartPressure should not be less than MinPressure."
       },
       {
         "id": "AutoSet_StartPressure_greater_than_MaxPressure",
         "test": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.StartPressure > FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.MaxPressure",
-        "keypath": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.StartPressure",
+        "keyPath": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.StartPressure",
         "value": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.MaxPressure",
         "message": "StartPressure should not be greater than MaxPressure."
       },
       {
         "id": "AutoSetForHer_MinPressure_greater_than_MaxPressure",
         "test": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.MinPressure > FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.MaxPressure",
-        "keypath": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.MinPressure",
+        "keyPath": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.MinPressure",
         "value": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.MaxPressure",
         "message": "MinPressure should not be greater than MaxPressure."
       },
       {
         "id": "AutoSetForHer_StartPressure_less_than_MinPressure",
         "test": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.StartPressure < FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.MinPressure",
-        "keypath": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.StartPressure",
+        "keyPath": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.StartPressure",
         "value": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.MinPressure",
         "message": "StartPressure should not be less than MinPressure."
       },
       {
         "id": "AutoSetForHer_StartPressure_greater_than_MaxPressure",
         "test": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.StartPressure > FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.MaxPressure",
-        "keypath": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.StartPressure",
+        "keyPath": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.StartPressure",
         "value": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.MaxPressure",
         "message": "StartPressure should not be greater than MaxPressure."
       },
       {
         "id": "Cpap_StartPressure_greater_than_SetPressure",
         "test": "FlowGenerator.SettingProfiles.TherapyProfiles.CpapProfile.StartPressure > FlowGenerator.SettingProfiles.TherapyProfiles.CpapProfile.SetPressure",
-        "keypath": "FlowGenerator.SettingProfiles.TherapyProfiles.CpapProfile.StartPressure",
+        "keyPath": "FlowGenerator.SettingProfiles.TherapyProfiles.CpapProfile.StartPressure",
         "value": "FlowGenerator.SettingProfiles.TherapyProfiles.CpapProfile.SetPressure",
         "message": "StartPressure should not be greater than SetPressure."
       }
