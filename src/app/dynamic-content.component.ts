@@ -9,11 +9,7 @@ import {RulesService} from "./rules/rules.service";
 
 @Component({
   selector: 'dynamic-content',
-  template: `
-        <div>
-            <div #container></div>
-        </div>
-    `
+  template: `<div #container></div>`
 })
 export class DynamicContentComponent implements OnInit, OnDestroy {
 

@@ -120,7 +120,7 @@
           "label": "IdentificationProfiles",
           "controls": {
             "productGroup": {
-              "ui": "group",
+              "ui": "horz-group",
               "label": "Product",
               "controls": {
                 "universalIdentifier": {
@@ -131,7 +131,7 @@
               }
             },
             "softwareGroup": {
-              "ui": "group",
+              "ui": "horz-group",
               "label": "Software",
               "controls": {
                 "platformIdentifier": {
@@ -158,7 +158,7 @@
           "label": "SettingProfiles",
           "controls": {
             "activeProfilesGroup": {
-              "ui": "group",
+              "ui": "horz-group",
               "label": "ActiveProfiles",
               "controls": {
                 "therapyProfile": {
@@ -178,7 +178,7 @@
               "label": "SettingProfiles",
               "controls": {
                 "autoSetProfileGroup": {
-                  "ui": "group",
+                  "ui": "horz-group",
                   "label": "AutoSetProfile",
                   "controls": {
                     "therapyMode": {
@@ -204,7 +204,7 @@
                   }
                 },
                 "autoSetForHerProfileGroup": {
-                  "ui": "group",
+                  "ui": "horz-group",
                   "label": "AutoSetForHerProfile",
                   "controls": {
                     "therapyMode": {
@@ -230,7 +230,7 @@
                   }
                 },
                 "cpapProfileGroup": {
-                  "ui": "group",
+                  "ui": "horz-group",
                   "label": "CpapProfile",
                   "controls": {
                     "therapyMode": {
@@ -257,7 +257,7 @@
               "label": "FeatureProfiles",
               "controls": {
                 "smartStartStopFeatureGroup": {
-                  "ui": "group",
+                  "ui": "horz-group",
                   "label": "SmartStartStopFeature",
                   "controls": {
                     "SmartStart": {

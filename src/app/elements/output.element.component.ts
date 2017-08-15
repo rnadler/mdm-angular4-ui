@@ -7,7 +7,7 @@ import {ModelService} from "../model/model.service";
 
 @Component({
   selector: 'output-element',
-  template: `<div>Output Element: path={{path}} <strong>{{context?.label}}</strong>={{value}}</div>`
+  template: `<div><strong>{{context?.label}}</strong><br>{{value}}</div>`
 })
 export class OutputElementComponent extends DynamicComponent {
   value: string;

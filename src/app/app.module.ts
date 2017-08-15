@@ -21,6 +21,7 @@ import {RangeElementComponent} from "./elements/range.element.component"
 import {GroupElementComponent} from "./elements/group.element.component"
 import {TableElementComponent} from "./elements/table.element.component"
 import {OutputElementComponent} from "./elements/output.element.component"
+import {HorzGroupElementComponent} from "./elements/horzgroup.element.component"
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import {OutputElementComponent} from "./elements/output.element.component"
     DefaultElementComponent,
     GroupElementComponent,
     TableElementComponent,
-    OutputElementComponent
+    OutputElementComponent,
+    HorzGroupElementComponent
   ],
   imports: [
     BrowserModule,
@@ -56,7 +58,8 @@ import {OutputElementComponent} from "./elements/output.element.component"
     DefaultElementComponent,
     GroupElementComponent,
     TableElementComponent,
-    OutputElementComponent
+    OutputElementComponent,
+    HorzGroupElementComponent
   ],
   bootstrap: [AppComponent]
 })
