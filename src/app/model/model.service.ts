@@ -14,7 +14,10 @@ export class ModelService {
   }
 
   getValue(ref: string) {
-    let val = jp.value(this.model, '$.' + ref);
+    return this.getContextValue(this.model, ref);
+  }
+  getContextValue(context: any, ref: string) {
+    let val = jp.value(context, '$.' + ref);
     if (val === undefined) {
       console.warn("ModelService: Failed to get ref=" + ref);
     }
