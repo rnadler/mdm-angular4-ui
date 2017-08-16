@@ -1,4 +1,4 @@
-import {Component, OnDestroy} from "@angular/core";
+import {Component, Input, OnDestroy} from "@angular/core";
 import {DataService} from "./data.service";
 import {Subject} from "rxjs/Subject";
 import 'rxjs/add/operator/takeUntil';
@@ -12,9 +12,9 @@ import {ModelUpdatedMessage} from "./model/model-updated-message";
   template: `<table-element *ngIf="context" [context]="context" [path]="path"></table-element>`
 })
 export class XformsComponent implements OnDestroy {
+  @Input() fgData: any;
   context: any;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
-  // 'xforms-example.json' 'mini_model_ui_example.json'
   readonly MODEL_JSON_FILE: string = 'mini_model_ui_example.json';
 
   constructor(private dataService: DataService,
@@ -25,6 +25,7 @@ export class XformsComponent implements OnDestroy {
       .subscribe(data => {
         this.rulesService.addGlobalRules(data.Rules);
         this.modelService.setModel(data.Model);
+        this.modelService.setFgData(this.fgData);
         this.context = data.Controls;
     });
     this.messagingService.of(ModelUpdatedMessage)

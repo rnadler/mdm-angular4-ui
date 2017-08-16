@@ -37,4 +37,7 @@ export class ModelService {
     console.log('ModelService setValue ref=' + ref + ' value=' + value);
     return rv;
   }
+  setFgData(fgData: any) {
+    this.setValue('FlowGenerator', fgData.FlowGenerator);
+  }
 }
