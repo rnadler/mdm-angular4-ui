@@ -10,11 +10,11 @@ import {Subscription} from "rxjs/Subscription";
     <div class="center">
       <h1>{{title}}</h1>
     </div>
-    <strong>Active Profile: </strong>
+    <strong>Therapy Profile: </strong>
     <select (change)="onChange($event.target.value)" [(ngModel)]="defaultProfile">
       <option *ngFor="let profile of profiles"
               [value]="profile"
-              [selected]="value == defaultProfile">
+              [selected]="profile == defaultProfile">
         {{profile}}
       </option>
     </select>
@@ -25,10 +25,10 @@ import {Subscription} from "rxjs/Subscription";
 export class AppComponent implements OnDestroy {
   title: string = 'Data Driven Angular4 Dynamic Content Demo';
   readonly profilePath: string = 'FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile';
-  private defaultProfile: string;
-  private fgData: any;
-  private sub: Subscription;
-  private profiles = [
+  defaultProfile: string;
+  fgData: any;
+  private subscription: Subscription;
+  profiles = [
     'CpapProfile',
     'AutoSetProfile',
     'AutoSetForHerProfile'
@@ -36,7 +36,7 @@ export class AppComponent implements OnDestroy {
 
   constructor(private dataService: DataService, private modelService: ModelService,
               private rulesService: RulesService) {
-    this.sub = this.dataService.getJSON('fg-model.json')
+    this.subscription = this.dataService.getJSON('fg-model.json')
       .subscribe(data => {
         this.fgData = data;
         this.defaultProfile = this.modelService.getContextValue(this.fgData, this.profilePath)
@@ -44,22 +44,26 @@ export class AppComponent implements OnDestroy {
   }
   onChange(value) {
     console.log('active profile change: value=' + value);
-    this.modelService.setContextValue(this.fgData, this.profilePath, value);
-    this.modelService.setContextValue(this.fgData, 'FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.MaxPressure',
-      this.randomIntFromInterval(20, 30));
-    this.modelService.setContextValue(this.fgData, 'FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.MaxPressure',
-      this.randomIntFromInterval(20, 30));
     // Update FG data in Model.
     this.modelService.setFgData(this.fgData);
+    this.modelService.setValue(this.profilePath, value);
+    // Change some settings to random values.
+    this.modelService.setValue('FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.MaxPressure',
+      this.randomIntFromInterval(20, 30));
+    this.modelService.setValue('FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.MaxPressure',
+      this.randomIntFromInterval(20, 30));
+    this.modelService.setValue('FlowGenerator.SettingProfiles.TherapyProfiles.CpapProfile.SetPressure',
+      this.randomIntFromInterval(8, 20));
+    // Update all components
     this.rulesService.updateDynamicComponents();
   }
-  randomIntFromInterval(min, max)
+  private randomIntFromInterval(min, max)
   {
     return Math.floor(Math.random()*(max-min+1)+min);
   }
   ngOnDestroy() {
-    if (this.sub) {
-      this.sub.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
     }
   }
 }

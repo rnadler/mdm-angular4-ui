@@ -20,15 +20,13 @@ import {ModelService} from "../model/model.service";
       <div class="panel-heading" *ngIf="context.label">
         <h2 class="panel-title">{{context.label}}</h2>
       </div>
-      <div class="panel-body">
-        <table>
+        <table class="table-condensed">
           <tr>
             <td *ngFor="let element of elements">
               <dynamic-content [type]="element.type" [context]="element.context"
                                [path]="element.path"></dynamic-content>
             </td>
         </table>
-      </div>
     </div>
   `
 })

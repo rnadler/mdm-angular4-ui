@@ -80,174 +80,144 @@
     "exampleTable": {
       "ui": "table",
       "controls": {
-        "identificationProfilesGroup": {
-          "ui": "group",
-          "label": "IdentificationProfiles",
+        "productGroup": {
+          "ui": "horz-group",
+          "label": "Product",
           "controls": {
-            "productGroup": {
-              "ui": "horz-group",
-              "label": "Product",
-              "controls": {
-                "universalIdentifier": {
-                  "ui": "output",
-                  "label": "UniversalIdentifier",
-                  "ref": "FlowGenerator.IdentificationProfiles.Product.UniversalIdentifier"
-                }
-              }
+            "universalIdentifier": {
+              "ui": "output",
+              "label": "UniversalIdentifier",
+              "ref": "FlowGenerator.IdentificationProfiles.Product.UniversalIdentifier"
             },
-            "softwareGroup": {
-              "ui": "horz-group",
-              "label": "Software",
-              "controls": {
-                "platformIdentifier": {
-                  "ui": "output",
-                  "label": "PlatformIdentifier",
-                  "ref": "FlowGenerator.IdentificationProfiles.Software.PlatformIdentifier"
-                },
-                "variantIdentifier": {
-                  "ui": "output",
-                  "label": "VariantIdentifier",
-                  "ref": "FlowGenerator.IdentificationProfiles.Software.VariantIdentifier"
-                },
-                "regionIdentifier": {
-                  "ui": "output",
-                  "label": "RegionIdentifier",
-                  "ref": "FlowGenerator.IdentificationProfiles.Software.RegionIdentifier"
-                }
-              }
+            "platformIdentifier": {
+              "ui": "output",
+              "label": "PlatformIdentifier",
+              "ref": "FlowGenerator.IdentificationProfiles.Software.PlatformIdentifier"
+            },
+            "variantIdentifier": {
+              "ui": "output",
+              "label": "VariantIdentifier",
+              "ref": "FlowGenerator.IdentificationProfiles.Software.VariantIdentifier"
+            },
+            "regionIdentifier": {
+              "ui": "output",
+              "label": "RegionIdentifier",
+              "ref": "FlowGenerator.IdentificationProfiles.Software.RegionIdentifier"
             }
           }
         },
-        "settingProfilesGroup": {
-          "ui": "group",
-          "label": "SettingProfiles",
+        "activeProfilesGroup": {
+          "ui": "horz-group",
+          "label": "ActiveProfiles",
           "controls": {
-            "activeProfilesGroup": {
-              "ui": "horz-group",
-              "label": "ActiveProfiles",
-              "controls": {
-                "therapyProfile": {
-                  "ui": "output",
-                  "label": "TherapyProfile",
-                  "ref": "FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile"
-                },
-                "featureProfiles": {
-                  "ui": "output",
-                  "label": "FeatureProfiles",
-                  "ref": "FlowGenerator.SettingProfiles.ActiveProfiles.FeatureProfiles"
-                }
-              }
+            "therapyProfile": {
+              "ui": "output",
+              "label": "TherapyProfile",
+              "ref": "FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile"
             },
-            "therapyProfilesGroup": {
-              "ui": "group",
-              "label": "SettingProfiles",
-              "controls": {
-                "autoSetProfileGroup": {
-                  "ui": "horz-group",
-                  "label": "AutoSetProfile",
-                  "relevant": [
-                    {
-                      "test": "FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile == Internal.TherapyProfiles.AutoSetTherapyProfile"
-                    }
-                  ],
-                  "controls": {
-                    "therapyMode": {
-                      "ui": "output",
-                      "label": "TherapyMode",
-                      "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.TherapyMode"
-                    },
-                    "startPressure": {
-                      "ui": "output",
-                      "label": "StartPressure",
-                      "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.StartPressure"
-                    },
-                    "minPressure": {
-                      "ui": "output",
-                      "label": "MinPressure",
-                      "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.MinPressure"
-                    },
-                    "maxPressure": {
-                      "ui": "output",
-                      "label": "MaxPressure",
-                      "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.MaxPressure"
-                    }
-                  }
-                },
-                "autoSetForHerProfileGroup": {
-                  "ui": "horz-group",
-                  "label": "AutoSetForHerProfile",
-                  "relevant": [
-                    {
-                      "test": "FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile == Internal.TherapyProfiles.AutoSetForHerTherapyProfile"
-                    }
-                  ],
-                  "controls": {
-                    "therapyMode": {
-                      "ui": "output",
-                      "label": "TherapyMode",
-                      "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.TherapyMode"
-                    },
-                    "startPressure": {
-                      "ui": "output",
-                      "label": "StartPressure",
-                      "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.StartPressure"
-                    },
-                    "minPressure": {
-                      "ui": "output",
-                      "label": "MinPressure",
-                      "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.MinPressure"
-                    },
-                    "maxPressure": {
-                      "ui": "output",
-                      "label": "MaxPressure",
-                      "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.MaxPressure"
-                    }
-                  }
-                },
-                "cpapProfileGroup": {
-                  "ui": "horz-group",
-                  "label": "CpapProfile",
-                  "relevant": [
-                    {
-                      "test": "FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile == Internal.TherapyProfiles.CpapTherapyProfile"
-                    }
-                  ],
-                  "controls": {
-                    "therapyMode": {
-                      "ui": "output",
-                      "label": "TherapyMode",
-                      "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.CpapProfile.TherapyMode"
-                    },
-                    "startPressure": {
-                      "ui": "output",
-                      "label": "StartPressure",
-                      "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.CpapProfile.StartPressure"
-                    },
-                    "SetPressure": {
-                      "ui": "output",
-                      "label": "SetPressure",
-                      "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.CpapProfile.SetPressure"
-                    }
-                  }
-                }
-              }
-            },
-            "featureProfilesGroup": {
-              "ui": "group",
+            "featureProfiles": {
+              "ui": "output",
               "label": "FeatureProfiles",
-              "controls": {
-                "smartStartStopFeatureGroup": {
-                  "ui": "horz-group",
-                  "label": "SmartStartStopFeature",
-                  "controls": {
-                    "SmartStart": {
-                      "ui": "output",
-                      "label": "SmartStart",
-                      "ref": "FlowGenerator.SettingProfiles.FeatureProfiles.SmartStartStopFeature.SmartStart"
-                    }
-                  }
-                }
-              }
+              "ref": "FlowGenerator.SettingProfiles.ActiveProfiles.FeatureProfiles"
+            }
+          }
+        },
+        "autoSetProfileGroup": {
+          "ui": "horz-group",
+          "label": "AutoSetProfile",
+          "relevant": [
+            {
+              "test": "FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile == Internal.TherapyProfiles.AutoSetTherapyProfile"
+            }
+          ],
+          "controls": {
+            "therapyMode": {
+              "ui": "output",
+              "label": "TherapyMode",
+              "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.TherapyMode"
+            },
+            "startPressure": {
+              "ui": "output",
+              "label": "StartPressure",
+              "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.StartPressure"
+            },
+            "minPressure": {
+              "ui": "output",
+              "label": "MinPressure",
+              "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.MinPressure"
+            },
+            "maxPressure": {
+              "ui": "output",
+              "label": "MaxPressure",
+              "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.MaxPressure"
+            }
+          }
+        },
+        "autoSetForHerProfileGroup": {
+          "ui": "horz-group",
+          "label": "AutoSetForHerProfile",
+          "relevant": [
+            {
+              "test": "FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile == Internal.TherapyProfiles.AutoSetForHerTherapyProfile"
+            }
+          ],
+          "controls": {
+            "therapyMode": {
+              "ui": "output",
+              "label": "TherapyMode",
+              "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.TherapyMode"
+            },
+            "startPressure": {
+              "ui": "output",
+              "label": "StartPressure",
+              "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.StartPressure"
+            },
+            "minPressure": {
+              "ui": "output",
+              "label": "MinPressure",
+              "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.MinPressure"
+            },
+            "maxPressure": {
+              "ui": "output",
+              "label": "MaxPressure",
+              "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.MaxPressure"
+            }
+          }
+        },
+        "cpapProfileGroup": {
+          "ui": "horz-group",
+          "label": "CpapProfile",
+          "relevant": [
+            {
+              "test": "FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile == Internal.TherapyProfiles.CpapTherapyProfile"
+            }
+          ],
+          "controls": {
+            "therapyMode": {
+              "ui": "output",
+              "label": "TherapyMode",
+              "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.CpapProfile.TherapyMode"
+            },
+            "startPressure": {
+              "ui": "output",
+              "label": "StartPressure",
+              "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.CpapProfile.StartPressure"
+            },
+            "SetPressure": {
+              "ui": "output",
+              "label": "SetPressure",
+              "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.CpapProfile.SetPressure"
+            }
+          }
+        },
+        "smartStartStopFeatureGroup": {
+          "ui": "horz-group",
+          "label": "SmartStartStopFeature",
+          "controls": {
+            "SmartStart": {
+              "ui": "output",
+              "label": "SmartStart",
+              "ref": "FlowGenerator.SettingProfiles.FeatureProfiles.SmartStartStopFeature.SmartStart"
             }
           }
         }
