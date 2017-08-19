@@ -6,28 +6,37 @@ import {ModelService} from "../model/model.service";
 
 @Component({
   selector: 'select-element',
-  template: `<div>Select Element: path={{path}} label={{context?.label}} 
-    <select [attr.reloadOnChange]="context.editable.constraints?.reloadOnChange">
-      <option *ngFor="let option of options"
-        [value]="option.op"
-        [selected]="option.value == context.editable.value ? true : null">
-      {{option.value}}
+  template: `<div *ngIf="defaultItem"><strong>{{context?.label}}</strong><br>
+    <select (change)="onChange($event.target.value)" [(ngModel)]="defaultItem">
+      <option *ngFor="let item of items"
+        [value]="item"
+        [selected]="item == defaultItem ? true : null">
+      {{item}}
       </option>
     </select>
   </div>`
 })
 export class SelectElementComponent extends DynamicComponent {
-  options: any;
+  items: any;
+  defaultItem: any;
   constructor(modelService: ModelService, rulesService: RulesService) {
     super(modelService, rulesService);
   }
 
   ngOnInit(): void {
-    this.options = [];
-    for (let op in this.context.editable.options) {
-      this.options.push({ op: op, value: this.context.editable.options[op]});
-    }
+    this.update();
     super.ngOnInit();
+  }
+  update() {
+    this.items = [];
+    let contextItems = this.modelService.getValue(this.context.itemsRef);
+    if (!contextItems) {
+      contextItems = this.context.items;
+    }
+    for (let op of contextItems) {
+      this.items.push(op);
+    }
+    this.defaultItem = this.modelService.getValue(this.context.ref);
   }
 }
 ElementService.addElement('select', SelectElementComponent);

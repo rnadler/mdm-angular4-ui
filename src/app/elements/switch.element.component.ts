@@ -7,8 +7,8 @@ import {RulesService} from "../rules/rules.service";
 
 @Component({
   selector: 'switch-element',
-  template: `<div>Switch Element: path={{path}} label=<strong>{{context?.label}}</strong>
-    <input type='checkbox' [checked]="checked" (change)="onChange($event.target.checked)"></div>`
+  template: `<div><input type='checkbox' [checked]="checked" (change)="onChange($event.target.checked)">
+    <strong>{{context?.label}}</strong></div>`
 })
 export class SwitchElementComponent extends DynamicComponent {
   checked: boolean;

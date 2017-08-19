@@ -1,14 +1,60 @@
 {
   "Model": {
     "FlowGenerator": {
+      "IdentificationProfiles": {
+        "Product": {
+          "UniversalIdentifier": "F8FDdfe0-261d-37D6-1Cfb-dCe3faaDbaB0"
+        },
+        "Software": {
+          "PlatformIdentifier": 20,
+          "VariantIdentifier": 93,
+          "RegionIdentifier": 15
+        }
+      },
+      "SettingProfiles": {
+        "ActiveProfiles": {
+          "TherapyProfile": "CpapProfile",
+          "FeatureProfiles": "SmartStartStopFeature"
+        },
+        "TherapyProfiles": {
+          "AutoSetProfile": {
+            "TherapyMode": "AutoSet",
+            "StartPressure": 4,
+            "MinPressure": 4,
+            "MaxPressure": 20
+          },
+          "AutoSetForHerProfile": {
+            "TherapyMode": "HerAuto",
+            "StartPressure": 4,
+            "MinPressure": 4,
+            "MaxPressure": 20
+          },
+          "CpapProfile": {
+            "TherapyMode": "CPAP",
+            "SetPressure": 10,
+            "StartPressure": 4
+          }
+        },
+        "FeatureProfiles": {
+          "SmartStartStopFeature": {
+            "SmartStart": "On"
+          }
+        }
+      }
     },
     "Internal": {
+      "Switches": {
+        "TherapyEditSwitch": false
+      },
       "TherapyModes": {
         "items": [
+          "CPAP",
           "AutoSet",
-          "HerAuto",
-          "CPAP"
-        ]
+          "HerAuto"
+        ],
+        "CPAP": "CPAP",
+        "AutoSet" : "AutoSet",
+        "HerAuto": "HerAuto"
       },
       "PressureRanges": {
         "min": 4,
@@ -25,6 +71,12 @@
   },
   "Rules": {
     "calculate": [
+      {
+        "id": "AutoSet_Mode_Change",
+        "test": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.TherapyMode == Internal.TherapyModes.AutoSet",
+        "keyPath": "FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile",
+        "value": "Internal.TherapyProfiles.AutoSetTherapyProfile"
+      },
       {
         "id": "AutoSet_MinPressure_greater_than_MaxPressure",
         "test": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.MinPressure > FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.MaxPressure",
@@ -122,12 +174,68 @@
             }
           }
         },
+        "therapyEditSwitch": {
+          "ui": "switch",
+          "label": "Edit Therapy Settings",
+          "ref": "Internal.Switches.TherapyEditSwitch"
+        },
+        "autoSetProfileGroupEdit": {
+          "ui": "horz-group",
+          "label": "Edit AutoSetProfile",
+          "relevant": [
+            {
+              "test": "Internal.Switches.TherapyEditSwitch and FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile == Internal.TherapyProfiles.AutoSetTherapyProfile"
+            }
+          ],
+          "controls": {
+            "therapyMode": {
+              "ui": "select",
+              "label": "TherapyMode",
+              "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.TherapyMode",
+              "itemsRef": "Internal.TherapyModes.items"
+            }
+          }
+        },
+        "autoSetForHerProfileGroupEdit": {
+          "ui": "horz-group",
+          "label": "Edit AutoSetForHerProfile",
+          "relevant": [
+            {
+              "test": "Internal.Switches.TherapyEditSwitch and FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile == Internal.TherapyProfiles.AutoSetForHerTherapyProfile"
+            }
+          ],
+          "controls": {
+            "therapyMode": {
+              "ui": "select",
+              "label": "TherapyMode",
+              "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.TherapyMode",
+              "itemsRef": "Internal.TherapyModes.items"
+            }
+          }
+        },
+        "cpapProfileGroupEdit": {
+          "ui": "horz-group",
+          "label": "Edit CpapProfile",
+          "relevant": [
+            {
+              "test": "Internal.Switches.TherapyEditSwitch and FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile == Internal.TherapyProfiles.CpapTherapyProfile"
+            }
+          ],
+          "controls": {
+            "therapyMode": {
+              "ui": "select",
+              "label": "TherapyMode",
+              "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.CpapProfile.TherapyMode",
+              "itemsRef": "Internal.TherapyModes.items"
+            }
+          }
+        },
         "autoSetProfileGroup": {
           "ui": "horz-group",
           "label": "AutoSetProfile",
           "relevant": [
             {
-              "test": "FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile == Internal.TherapyProfiles.AutoSetTherapyProfile"
+              "test": "not Internal.Switches.TherapyEditSwitch and FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile == Internal.TherapyProfiles.AutoSetTherapyProfile"
             }
           ],
           "controls": {
@@ -158,7 +266,7 @@
           "label": "AutoSetForHerProfile",
           "relevant": [
             {
-              "test": "FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile == Internal.TherapyProfiles.AutoSetForHerTherapyProfile"
+              "test": "not Internal.Switches.TherapyEditSwitch and FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile == Internal.TherapyProfiles.AutoSetForHerTherapyProfile"
             }
           ],
           "controls": {
@@ -189,7 +297,7 @@
           "label": "CpapProfile",
           "relevant": [
             {
-              "test": "FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile == Internal.TherapyProfiles.CpapTherapyProfile"
+              "test": "not Internal.Switches.TherapyEditSwitch and FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile == Internal.TherapyProfiles.CpapTherapyProfile"
             }
           ],
           "controls": {

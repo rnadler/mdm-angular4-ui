@@ -34,7 +34,7 @@ export class TestEvaluator {
         vars[vname] = isNumeric(value) ? Number(value) : value;
       }
     }
-    console.log(this.expression.toString() + ' evalVars=' +  JSON.stringify(vars));
+    // console.log(this.expression.toString() + ' evalVars=' +  JSON.stringify(vars));
     return this.expression.evaluate(vars);
   }
 }

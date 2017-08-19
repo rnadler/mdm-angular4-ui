@@ -33,6 +33,7 @@ export class AppComponent implements OnDestroy {
     'AutoSetProfile',
     'AutoSetForHerProfile'
   ];
+  private counter: number = 0;
 
   constructor(private dataService: DataService, private modelService: ModelService,
               private rulesService: RulesService) {
@@ -48,6 +49,9 @@ export class AppComponent implements OnDestroy {
     this.modelService.setFgData(this.fgData);
     this.modelService.setValue(this.profilePath, value);
     // Change some settings to random values.
+    this.modelService.setValue('FlowGenerator.IdentificationProfiles.Software.VariantIdentifier',
+        this.counter % 2 == 0 ? this.randomIntFromInterval(1, 15) : undefined);
+    this.counter++;
     this.modelService.setValue('FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.MaxPressure',
       this.randomIntFromInterval(20, 30));
     this.modelService.setValue('FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.MaxPressure',
