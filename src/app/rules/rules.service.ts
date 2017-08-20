@@ -11,6 +11,7 @@ export class RulesService {
   private globalRuleSet: RuleSet;
   // TODO: This shouldn't be here. Need a DynamicComponentService.
   private dynamicComponents: Array<DynamicComponent> = [];
+  private evaluating: boolean = false;
 
   constructor(private modelService: ModelService){}
 
@@ -29,10 +30,14 @@ export class RulesService {
     return ruleSet;
   }
   evaluateUpdateRules() {
-    console.log('evaluateUpdateRules (total ruleSets=' + this.ruleSets.length + ')');
-    for (let ruleSet of this.ruleSets) {
-      ruleSet.evaluateRelevantRules();
-      ruleSet.evaluateCalculateRules();
+    if (!this.evaluating) {
+      this.evaluating = true;
+      console.log('evaluateUpdateRules (total ruleSets=' + this.ruleSets.length + ')');
+      for (let ruleSet of this.ruleSets) {
+        ruleSet.evaluateRelevantRules();
+        ruleSet.evaluateCalculateRules();
+      }
+      this.evaluating = false;
     }
   }
   updateDynamicComponents() {
@@ -46,15 +51,27 @@ export class RulesService {
     this.globalRuleSet.components = [];
   }
   addDynamicComponent(component: DynamicComponent) {
-    if (!component.context.ref) {
-      return;
+    let shouldAdd: boolean = false;
+    if (component.context.ruleId) {
+      shouldAdd = true;
+      let ids = this.globalRuleSet.getIds()[0];
+      if (ids.filter(id => id === component.context.ruleId).length > 0) {
+        console.log('addGlobalRules added ruleId component=' + component.path);
+        this.globalRuleSet.addComponent(component);
+      }
     }
-    let keyPaths = this.globalRuleSet.getKeyPaths()[0];
-    if (keyPaths.filter(kpath => kpath === component.context.ref).length > 0) {
-      console.log('addGlobalRules added component=' + component.path);
-      this.globalRuleSet.addComponent(component);
+    if (!shouldAdd && component.context.ref) {
+      shouldAdd = true;
+      let keyPaths = this.globalRuleSet.getKeyPaths()[0];
+      if (keyPaths.filter(kpath => kpath === component.context.ref).length > 0) {
+        console.log('addGlobalRules added keyPath component=' + component.path);
+        this.globalRuleSet.addComponent(component);
+      }
     }
-    this.dynamicComponents.push(component);
+
+    if (shouldAdd) {
+      this.dynamicComponents.push(component);
+    }
   }
 
   private addRule(rules: Array<Rule>, type: RuleTypeEnum, component: any) {

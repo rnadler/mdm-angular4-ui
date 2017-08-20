@@ -3,6 +3,7 @@ import {RuleDescription} from "./rule-description";
 import {TestEvaluator} from "./test-evaluator";
 import {RuleTypeEnum} from "./rule-type-enum";
 import {ModelService} from "../model/model.service";
+import {DynamicComponent} from "../dynamic.component";
 
 export class Rule {
   type: RuleTypeEnum;
@@ -20,7 +21,10 @@ export class Rule {
   getKeyPaths() {
     return this.ruleDescriptions.filter(rd => rd.keyPath).map(rd => rd.keyPath);
   }
-  evaluateRules(components: Array<any>) {
+  getIds() {
+    return this.ruleDescriptions.filter(rd => rd.id).map(rd => rd.id);
+  }
+  evaluateRules(components: Array<DynamicComponent>) {
     for (let rd in this.ruleDescriptions) {
       let ruleDescription = this.ruleDescriptions[rd];
       let test = ruleDescription.test;

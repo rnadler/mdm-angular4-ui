@@ -21,11 +21,12 @@ export class ModelService {
       console.warn("ModelService: Undefined ref from context=" + JSON.stringify(context));
       return undefined;
     }
-    let val = jp.value(context, '$.' + ref);
-    if (val === undefined) {
-      console.warn("ModelService: Failed to get ref=" + ref);
-    }
-    return val;
+    // let val = jp.value(context, '$.' + ref);
+    // if (val === undefined) {
+    //   console.warn("ModelService: Failed to get ref=" + ref);
+    // }
+    // return val;
+    return jp.value(context, '$.' + ref);
   }
 
   setValue(ref: string, value: any) {
@@ -33,6 +34,10 @@ export class ModelService {
   }
 
   setContextValue(context: any, ref: string, value: any) {
+    let previousValue = this.getContextValue(context, ref);
+    if (previousValue === value) {
+      return null;
+    }
     let rv = jp.apply(context, '$.' + ref, oldValue => value);
     if (rv.length === 0) {
       return null;

@@ -54,7 +54,8 @@
         ],
         "CPAP": "CPAP",
         "AutoSet" : "AutoSet",
-        "HerAuto": "HerAuto"
+        "HerAuto": "HerAuto",
+        "CurrentTherapyMode" : "CPAP"
       },
       "PressureRanges": {
         "min": 4,
@@ -72,10 +73,40 @@
   "Rules": {
     "calculate": [
       {
-        "id": "AutoSet_Mode_Change",
-        "test": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.TherapyMode == Internal.TherapyModes.AutoSet",
+        "id": "AutoSetProfile_TherapyMode_Change",
+        "test": "Internal.Switches.TherapyEditSwitch and FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile == Internal.TherapyProfiles.AutoSetTherapyProfile",
+        "keyPath": "Internal.TherapyModes.CurrentTherapyMode",
+        "value": "Internal.TherapyModes.AutoSet"
+      },
+      {
+        "id": "AutoSetForHerProfile_TherapyMode_Change",
+        "test": "Internal.Switches.TherapyEditSwitch and FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile == Internal.TherapyProfiles.AutoSetForHerTherapyProfile",
+        "keyPath": "Internal.TherapyModes.CurrentTherapyMode",
+        "value": "Internal.TherapyModes.HerAuto"
+      },
+      {
+        "id": "CpapProfile_TherapyMode_Change",
+        "test": "Internal.Switches.TherapyEditSwitch and FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile == Internal.TherapyProfiles.CpapTherapyProfile",
+        "keyPath": "Internal.TherapyModes.CurrentTherapyMode",
+        "value": "Internal.TherapyModes.CPAP"
+      },
+      {
+        "id": "AutoSet_TherapyMode_Change",
+        "test": "Internal.Switches.TherapyEditSwitch and Internal.TherapyModes.CurrentTherapyMode == Internal.TherapyModes.AutoSet",
         "keyPath": "FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile",
         "value": "Internal.TherapyProfiles.AutoSetTherapyProfile"
+      },
+      {
+        "id": "HerAuto_TherapyMode_Change",
+        "test": "Internal.Switches.TherapyEditSwitch and Internal.TherapyModes.CurrentTherapyMode == Internal.TherapyModes.HerAuto",
+        "keyPath": "FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile",
+        "value": "Internal.TherapyProfiles.AutoSetForHerTherapyProfile"
+      },
+      {
+        "id": "CPAP_TherapyMode_Change",
+        "test": "Internal.Switches.TherapyEditSwitch and Internal.TherapyModes.CurrentTherapyMode == Internal.TherapyModes.CPAP",
+        "keyPath": "FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile",
+        "value": "Internal.TherapyProfiles.CpapTherapyProfile"
       },
       {
         "id": "AutoSet_MinPressure_greater_than_MaxPressure",
@@ -191,7 +222,15 @@
             "therapyMode": {
               "ui": "select",
               "label": "TherapyMode",
-              "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.TherapyMode",
+              "setup": [
+                {
+                  "test": true,
+                  "keyPath": "Internal.TherapyModes.CurrentTherapyMode",
+                  "value": "Internal.TherapyModes.AutoSet"
+                }
+              ],
+              "ruleId" : "AutoSet_TherapyMode_Change",
+              "ref": "Internal.TherapyModes.CurrentTherapyMode",
               "itemsRef": "Internal.TherapyModes.items"
             }
           }
@@ -208,7 +247,15 @@
             "therapyMode": {
               "ui": "select",
               "label": "TherapyMode",
-              "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.TherapyMode",
+              "setup": [
+                {
+                  "test": true,
+                  "keyPath": "Internal.TherapyModes.CurrentTherapyMode",
+                  "value": "Internal.TherapyModes.HerAuto"
+                }
+              ],
+              "ruleId" : "HerAuto_TherapyMode_Change",
+              "ref": "Internal.TherapyModes.CurrentTherapyMode",
               "itemsRef": "Internal.TherapyModes.items"
             }
           }
@@ -225,7 +272,15 @@
             "therapyMode": {
               "ui": "select",
               "label": "TherapyMode",
-              "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.CpapProfile.TherapyMode",
+              "setup": [
+                {
+                  "test": true,
+                  "keyPath": "Internal.TherapyModes.CurrentTherapyMode",
+                  "value": "Internal.TherapyModes.CPAP"
+                }
+              ],
+              "ruleId" : "CPAP_TherapyMode_Change",
+              "ref": "Internal.TherapyModes.CurrentTherapyMode",
               "itemsRef": "Internal.TherapyModes.items"
             }
           }

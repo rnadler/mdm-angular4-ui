@@ -14,6 +14,7 @@ import {ModelUpdatedMessage} from "./model/model-updated-message";
 export class XformsComponent implements OnDestroy {
   @Input() fgData: any;
   context: any;
+  path: string;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   readonly MODEL_JSON_FILE: string = 'mini_model_ui_example.json';
 

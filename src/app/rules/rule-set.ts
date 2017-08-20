@@ -1,18 +1,19 @@
 
 import {Rule} from "./rule";
 import {RuleTypeEnum} from "./rule-type-enum";
+import {DynamicComponent} from "../dynamic.component";
 
 export class RuleSet {
-  components: Array<any>;
+  components: Array<DynamicComponent>;
   rules: Array<Rule>;
 
   constructor(rules: Array<Rule>) {
     this.rules = rules;
     this.components = [];
   }
-  addComponent(component: any) {
-    let path = component.context.path;
-    if (this.components.filter(c => c.context.path === path).length == 0) {
+  addComponent(component: DynamicComponent) {
+    let path = component.path;
+    if (this.components.filter(c => c.path === path).length == 0) {
       this.components.push(component);
     }
   }
@@ -28,6 +29,9 @@ export class RuleSet {
 
   getKeyPaths() {
     return this.rules.map(r => r.getKeyPaths());
+  }
+  getIds() {
+    return this.rules.map(r => r.getIds());
   }
   private evaluateRulesOfType(type: RuleTypeEnum) {
     for (let rule of this.getRulesOfType(type)) {
