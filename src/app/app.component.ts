@@ -6,11 +6,16 @@ import {Subscription} from "rxjs/Subscription";
 
 @Component({
   selector: 'app-root',
+  styles: [
+    `hr {
+      border: 1px dashed lightblue;
+    }`
+  ],
   template: `
     <div class="center">
       <h1>{{title}}</h1>
     </div>
-    <strong>Therapy Profile: </strong>
+    <strong>Device Therapy Profile: </strong>
     <select (change)="onChange($event.target.value)" [(ngModel)]="defaultProfile">
       <option *ngFor="let profile of profiles"
               [value]="profile"
@@ -18,13 +23,13 @@ import {Subscription} from "rxjs/Subscription";
         {{profile}}
       </option>
     </select>
-    <br><br>
+    <hr>
     <xforms *ngIf="fgData" [fgData]="fgData"></xforms>
   `
 })
 export class AppComponent implements OnDestroy {
   title: string = 'Data Driven Angular4 Dynamic Content Demo';
-  readonly profilePath: string = 'FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile';
+  readonly PROFILE_PATH: string = 'FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile';
   defaultProfile: string;
   fgData: any;
   private subscription: Subscription;
@@ -40,14 +45,15 @@ export class AppComponent implements OnDestroy {
     this.subscription = this.dataService.getJSON('fg-model.json')
       .subscribe(data => {
         this.fgData = data;
-        this.defaultProfile = this.modelService.getContextValue(this.fgData, this.profilePath)
+        this.defaultProfile = this.modelService.getContextValue(this.fgData, this.PROFILE_PATH)
       });
   }
-  onChange(value) {
+  onChange(value: string) {
     console.log('active profile change: value=' + value);
     // Update FG data in Model.
     this.modelService.setFgData(this.fgData);
-    this.modelService.setValue(this.profilePath, value);
+    this.modelService.setValue(this.PROFILE_PATH, value);
+    this.setCurrentTherapyMode(value);
     // Change some settings to random values.
     this.modelService.setValue('FlowGenerator.IdentificationProfiles.Software.VariantIdentifier',
         this.counter % 2 == 0 ? this.randomIntFromInterval(1, 15) : undefined);
@@ -65,6 +71,12 @@ export class AppComponent implements OnDestroy {
   {
     return Math.floor(Math.random()*(max-min+1)+min);
   }
+
+  private setCurrentTherapyMode(currentProfile: string) {
+    this.modelService.setValue('Internal.TherapyModes.CurrentTherapyMode',
+      this.modelService.getValue('FlowGenerator.SettingProfiles.TherapyProfiles.' + currentProfile + '.TherapyMode'));
+  }
+
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();

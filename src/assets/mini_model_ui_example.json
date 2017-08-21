@@ -73,24 +73,6 @@
   "Rules": {
     "calculate": [
       {
-        "id": "AutoSetProfile_TherapyMode_Change",
-        "test": "Internal.Switches.TherapyEditSwitch and FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile == Internal.TherapyProfiles.AutoSetTherapyProfile",
-        "keyPath": "Internal.TherapyModes.CurrentTherapyMode",
-        "value": "Internal.TherapyModes.AutoSet"
-      },
-      {
-        "id": "AutoSetForHerProfile_TherapyMode_Change",
-        "test": "Internal.Switches.TherapyEditSwitch and FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile == Internal.TherapyProfiles.AutoSetForHerTherapyProfile",
-        "keyPath": "Internal.TherapyModes.CurrentTherapyMode",
-        "value": "Internal.TherapyModes.HerAuto"
-      },
-      {
-        "id": "CpapProfile_TherapyMode_Change",
-        "test": "Internal.Switches.TherapyEditSwitch and FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile == Internal.TherapyProfiles.CpapTherapyProfile",
-        "keyPath": "Internal.TherapyModes.CurrentTherapyMode",
-        "value": "Internal.TherapyModes.CPAP"
-      },
-      {
         "id": "AutoSet_TherapyMode_Change",
         "test": "Internal.Switches.TherapyEditSwitch and Internal.TherapyModes.CurrentTherapyMode == Internal.TherapyModes.AutoSet",
         "keyPath": "FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile",
