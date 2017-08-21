@@ -29,11 +29,7 @@ export class SelectElementComponent extends DynamicComponent {
   }
   update() {
     this.items = [];
-    let contextItems = this.modelService.getValue(this.context.itemsRef);
-    if (contextItems  === undefined) {
-      contextItems = this.context.items;
-    }
-    for (let op of contextItems) {
+    for (let op of this.modelService.getValue(this.context.bind)) {
       this.items.push(op);
     }
     this.defaultItem = this.modelService.getValue(this.context.ref);

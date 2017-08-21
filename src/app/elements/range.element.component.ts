@@ -30,10 +30,7 @@ export class RangeElementComponent extends DynamicComponent {
     super.ngOnInit();
   }
   update() {
-    let contextRange = this.modelService.getValue(this.context.rangeRef);
-    if (contextRange  === undefined) {
-      contextRange = this.context.range;
-    }
+    let contextRange = this.modelService.getValue(this.context.bind);
     let start = Number(contextRange.min);
     let end = Number(contextRange.max);
     let step = Number(contextRange.step);

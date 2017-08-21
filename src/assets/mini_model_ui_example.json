@@ -164,7 +164,7 @@
       "ui": "table",
       "controls": {
         "productGroup": {
-          "ui": "horz-group",
+          "ui": "repeat",
           "label": "Product",
           "controls": {
             "universalIdentifier": {
@@ -190,7 +190,7 @@
           }
         },
         "activeProfilesGroup": {
-          "ui": "horz-group",
+          "ui": "repeat",
           "label": "ActiveProfiles",
           "controls": {
             "therapyProfile": {
@@ -211,7 +211,7 @@
           "ref": "Internal.Switches.TherapyEditSwitch"
         },
         "autoSetProfileGroupEdit": {
-          "ui": "horz-group",
+          "ui": "repeat",
           "label": "Edit AutoSetProfile",
           "relevant": [
             {
@@ -231,30 +231,30 @@
               ],
               "ruleId" : "AutoSet_TherapyMode_Change",
               "ref": "Internal.TherapyModes.CurrentTherapyMode",
-              "itemsRef": "Internal.TherapyModes.items"
+              "bind": "Internal.TherapyModes.items"
             },
             "startPressure": {
               "ui": "range",
               "label": "StartPressure",
               "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.StartPressure",
-              "rangeRef": "Internal.PressureRanges"
+              "bind": "Internal.PressureRanges"
             },
             "minPressure": {
               "ui": "range",
               "label": "MinPressure",
               "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.MinPressure",
-              "rangeRef": "Internal.PressureRanges"
+              "bind": "Internal.PressureRanges"
             },
             "maxPressure": {
               "ui": "range",
               "label": "MaxPressure",
               "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.MaxPressure",
-              "rangeRef": "Internal.PressureRanges"
+              "bind": "Internal.PressureRanges"
             }
           }
         },
         "autoSetForHerProfileGroupEdit": {
-          "ui": "horz-group",
+          "ui": "repeat",
           "label": "Edit AutoSetForHerProfile",
           "relevant": [
             {
@@ -274,30 +274,30 @@
               ],
               "ruleId" : "HerAuto_TherapyMode_Change",
               "ref": "Internal.TherapyModes.CurrentTherapyMode",
-              "itemsRef": "Internal.TherapyModes.items"
+              "bind": "Internal.TherapyModes.items"
             },
             "startPressure": {
               "ui": "range",
               "label": "StartPressure",
-              "ref": "FlowGenerator.SettingProfiles.TherapyProfiles..StartPressure",
-              "rangeRef": "Internal.PressureRanges"
+              "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.StartPressure",
+              "bind": "Internal.PressureRanges"
             },
             "minPressure": {
               "ui": "range",
               "label": "MinPressure",
               "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.MinPressure",
-              "rangeRef": "Internal.PressureRanges"
+              "bind": "Internal.PressureRanges"
             },
             "maxPressure": {
               "ui": "range",
               "label": "MaxPressure",
               "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.MaxPressure",
-              "rangeRef": "Internal.PressureRanges"
+              "bind": "Internal.PressureRanges"
             }
           }
         },
         "cpapProfileGroupEdit": {
-          "ui": "horz-group",
+          "ui": "repeat",
           "label": "Edit CpapProfile",
           "relevant": [
             {
@@ -317,24 +317,24 @@
               ],
               "ruleId" : "CPAP_TherapyMode_Change",
               "ref": "Internal.TherapyModes.CurrentTherapyMode",
-              "itemsRef": "Internal.TherapyModes.items"
+              "bind": "Internal.TherapyModes.items"
             },
             "startPressure": {
               "ui": "range",
               "label": "StartPressure",
               "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.CpapProfile.StartPressure",
-              "rangeRef": "Internal.PressureRanges"
+              "bind": "Internal.PressureRanges"
             },
             "SetPressure": {
               "ui": "range",
               "label": "SetPressure",
               "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.CpapProfile.SetPressure",
-              "rangeRef": "Internal.PressureRanges"
+              "bind": "Internal.PressureRanges"
             }
           }
         },
         "autoSetProfileGroup": {
-          "ui": "horz-group",
+          "ui": "repeat",
           "label": "AutoSetProfile",
           "relevant": [
             {
@@ -365,7 +365,7 @@
           }
         },
         "autoSetForHerProfileGroup": {
-          "ui": "horz-group",
+          "ui": "repeat",
           "label": "AutoSetForHerProfile",
           "relevant": [
             {
@@ -396,7 +396,7 @@
           }
         },
         "cpapProfileGroup": {
-          "ui": "horz-group",
+          "ui": "repeat",
           "label": "CpapProfile",
           "relevant": [
             {
@@ -422,7 +422,7 @@
           }
         },
         "smartStartStopFeatureGroup": {
-          "ui": "horz-group",
+          "ui": "repeat",
           "label": "SmartStartStopFeature",
           "controls": {
             "SmartStart": {

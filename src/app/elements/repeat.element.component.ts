@@ -5,7 +5,7 @@ import {RulesService} from "../rules/rules.service";
 import {ModelService} from "../model/model.service";
 
 @Component({
-  selector: 'horz-group-element',
+  selector: 'repeat-element',
   styles: [
     `table {
       border-collapse: separate;
@@ -30,7 +30,7 @@ import {ModelService} from "../model/model.service";
     </div>
   `
 })
-export class HorzGroupElementComponent extends DynamicComponent  {
+export class RepeatElementComponent extends DynamicComponent  {
 
   constructor(modelService: ModelService, rulesService: RulesService) {
     super(modelService, rulesService);
@@ -40,4 +40,4 @@ export class HorzGroupElementComponent extends DynamicComponent  {
     super.ngOnInit();
   }
 }
-ElementService.addElement('horz-group', HorzGroupElementComponent);
+ElementService.addElement('repeat', RepeatElementComponent);

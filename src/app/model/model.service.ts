@@ -6,6 +6,7 @@ import {ModelUpdatedMessage} from "./model-updated-message";
 @Injectable()
 export class ModelService {
   private model: any;
+  readonly FLOWGENERATOR: string = 'FlowGenerator';
 
   constructor(private messagingService: MessagingService) {}
 
@@ -21,12 +22,11 @@ export class ModelService {
       console.warn("ModelService: Undefined ref from context=" + JSON.stringify(context));
       return undefined;
     }
-    // let val = jp.value(context, '$.' + ref);
-    // if (val === undefined) {
-    //   console.warn("ModelService: Failed to get ref=" + ref);
-    // }
-    // return val;
-    return jp.value(context, '$.' + ref);
+    let val = jp.value(context, '$.' + ref);
+    if (val === undefined && !ref.startsWith(this.FLOWGENERATOR)) {
+      console.warn("ModelService: Failed to get ref=" + ref);
+    }
+    return val;
   }
 
   setValue(ref: string, value: any) {
@@ -36,7 +36,7 @@ export class ModelService {
   setContextValue(context: any, ref: string, value: any) {
     let previousValue = this.getContextValue(context, ref);
     if (previousValue === value) {
-      return null;
+      return value;
     }
     let rv = jp.apply(context, '$.' + ref, oldValue => value);
     if (rv.length === 0) {
@@ -47,6 +47,6 @@ export class ModelService {
     return rv;
   }
   setFgData(fgData: any) {
-    this.setValue('FlowGenerator', fgData.FlowGenerator);
+    this.setValue(this.FLOWGENERATOR, fgData[this.FLOWGENERATOR]);
   }
 }
