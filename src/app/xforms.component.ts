@@ -35,7 +35,7 @@ export class XformsComponent implements OnDestroy {
   }
   private onModelUpdated(message: ModelUpdatedMessage) {
     console.log('onModelUpdated: ref=' + message.ref + ' value=' + message.value);
-    this.rulesService.evaluateUpdateRules();
+    this.rulesService.evaluateUpdateRules(message.ref);
   }
   ngOnDestroy() {
     this.ngUnsubscribe.next();

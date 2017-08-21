@@ -29,7 +29,7 @@ export class RulesService {
     }
     return ruleSet;
   }
-  evaluateUpdateRules() {
+  evaluateUpdateRules(ref: string) {
     if (!this.evaluating) {
       this.evaluating = true;
       console.log('evaluateUpdateRules (total ruleSets=' + this.ruleSets.length + ')');
@@ -39,9 +39,11 @@ export class RulesService {
       }
       this.evaluating = false;
     }
+    this.updateDynamicComponents(ref);
   }
-  updateDynamicComponents() {
-    for (let component of this.dynamicComponents) {
+  updateDynamicComponents(ref: string = undefined) {
+    let components = this.dynamicComponents.filter(c => ref === undefined || c.context.ref === ref);
+    for (let component of components) {
       component.update();
     }
   }

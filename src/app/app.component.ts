@@ -53,11 +53,11 @@ export class AppComponent implements OnDestroy {
         this.counter % 2 == 0 ? this.randomIntFromInterval(1, 15) : undefined);
     this.counter++;
     this.modelService.setValue('FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.MaxPressure',
-      this.randomIntFromInterval(20, 30));
+      this.randomIntFromInterval(15, 20));
     this.modelService.setValue('FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.MaxPressure',
-      this.randomIntFromInterval(20, 30));
+      this.randomIntFromInterval(15, 20));
     this.modelService.setValue('FlowGenerator.SettingProfiles.TherapyProfiles.CpapProfile.SetPressure',
-      this.randomIntFromInterval(8, 20));
+      this.randomIntFromInterval(5, 15));
     // Update all components
     this.rulesService.updateDynamicComponents();
   }

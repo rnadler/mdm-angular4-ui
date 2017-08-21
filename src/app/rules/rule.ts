@@ -30,7 +30,7 @@ export class Rule {
       let test = ruleDescription.test;
       let label = RuleTypeEnum[this.type] + '[' + rd + '] ';
       let testResult = new TestEvaluator(test, this.modelService).evaluate();
-      console.log('test ' + label + 'testText=' + test + ' testResult=' + testResult);
+      //console.log('test ' + label + 'testText=' + test + ' testResult=' + testResult);
       let keyPath = ruleDescription.keyPath;
       if (testResult && keyPath) {
         let value = this.modelService.getValue(ruleDescription.value);
@@ -42,17 +42,17 @@ export class Rule {
       }
     }
   }
-  private updateComonents(components: Array<any>) {
+  private updateComonents(components: Array<DynamicComponent>) {
     for (let component of components) {
       component.update();
     }
   }
-  private updateComonentsRelevance(components: Array<any>, testResult) {
+  private updateComonentsRelevance(components: Array<DynamicComponent>, testResult) {
     for (let component of components) {
       component.updateRelevance(testResult);
     }
   }
-  private setComponentsValue(components: Array<any>, keyPath, value) {
+  private setComponentsValue(components: Array<DynamicComponent>, keyPath, value) {
     if (this.modelService.setValue(keyPath, value) === null) {
       for (let component of components) {
         this.modelService.setContextValue(component.context, keyPath, value);

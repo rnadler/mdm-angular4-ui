@@ -34,17 +34,9 @@ export class RuleSet {
     return this.rules.map(r => r.getIds());
   }
   private evaluateRulesOfType(type: RuleTypeEnum) {
-    for (let rule of this.getRulesOfType(type)) {
+    let rules = this.rules.filter(r => type === null || r.type === type);
+    for (let rule of rules) {
       rule.evaluateRules(this.components);
     }
-  }
-  private getRulesOfType(type: RuleTypeEnum) {
-    let rv = [];
-    for (let rule of this.rules) {
-      if (type == null || rule.type === type) {
-        rv.push(rule)
-      }
-    }
-    return rv;
   }
 }

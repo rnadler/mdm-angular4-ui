@@ -7,7 +7,7 @@ import {RulesService} from "../rules/rules.service";
 
 @Component({
   selector: 'range-element',
-  template: `<div>Range Element: path={{path}} label=<strong>{{context?.label}}</strong>
+  template: `<div *ngIf="defaultValue"><strong>{{context?.label}}</strong><br>
     <select (change)="onChange($event.target.value)" [(ngModel)]="defaultValue">
       <option *ngFor="let value of values"
               [value]="value"
@@ -30,15 +30,19 @@ export class RangeElementComponent extends DynamicComponent {
     super.ngOnInit();
   }
   update() {
-    let start = Number(this.context.range.start);
-    let end = Number(this.context.range.end);
-    let step = Number(this.context.range.step);
+    let contextRange = this.modelService.getValue(this.context.rangeRef);
+    if (contextRange  === undefined) {
+      contextRange = this.context.range;
+    }
+    let start = Number(contextRange.min);
+    let end = Number(contextRange.max);
+    let step = Number(contextRange.step);
     this.defaultValue = Number(this.modelService.getValue(this.context.ref));
     this.values = [];
     for (let v = start; v <= end; v += step) {
       this.values.push(v)
     }
-    console.log(this.path + ' range update: start=' + start + ' end=' + end + ' defVal=' + this.defaultValue);
+    console.log(this.path + ' range update: min=' + start + ' max=' + end + ' defVal=' + this.defaultValue);
     super.update();
   }
 }
