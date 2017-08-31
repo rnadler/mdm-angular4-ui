@@ -42,26 +42,30 @@
         }
       }
     },
-    "Internal": {
-      "Switches": {
-        "TherapyEditSwitch": false
-      },
+    "Variant": {
       "TherapyModes": {
         "items": [
           "CPAP",
           "AutoSet",
           "HerAuto"
-        ],
-        "CPAP": "CPAP",
-        "AutoSet" : "AutoSet",
-        "HerAuto": "HerAuto",
-        "CurrentTherapyMode" : "CPAP"
+        ]
       },
       "PressureRanges": {
         "min": 4,
         "max": 20,
         "step": 0.5,
         "decimals": 2
+      }
+    },
+    "Internal": {
+      "Switches": {
+        "TherapyEditSwitch": false
+      },
+      "TherapyModes": {
+        "CPAP": "CPAP",
+        "AutoSet" : "AutoSet",
+        "HerAuto": "HerAuto",
+        "CurrentTherapyMode" : "CPAP"
       },
       "TherapyProfiles": {
         "CpapTherapyProfile": "CpapProfile",
@@ -213,25 +217,25 @@
               ],
               "ruleId" : "AutoSet_TherapyMode_Change",
               "ref": "Internal.TherapyModes.CurrentTherapyMode",
-              "bind": "Internal.TherapyModes.items"
+              "bind": "Variant.TherapyModes.items"
             },
             "startPressure": {
               "ui": "range",
               "label": "StartPressure",
               "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.StartPressure",
-              "bind": "Internal.PressureRanges"
+              "bind": "Variant.PressureRanges"
             },
             "minPressure": {
               "ui": "range",
               "label": "MinPressure",
               "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.MinPressure",
-              "bind": "Internal.PressureRanges"
+              "bind": "Variant.PressureRanges"
             },
             "maxPressure": {
               "ui": "range",
               "label": "MaxPressure",
               "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.MaxPressure",
-              "bind": "Internal.PressureRanges"
+              "bind": "Variant.PressureRanges"
             }
           }
         },
@@ -256,25 +260,25 @@
               ],
               "ruleId" : "HerAuto_TherapyMode_Change",
               "ref": "Internal.TherapyModes.CurrentTherapyMode",
-              "bind": "Internal.TherapyModes.items"
+              "bind": "Variant.TherapyModes.items"
             },
             "startPressure": {
               "ui": "range",
               "label": "StartPressure",
               "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.StartPressure",
-              "bind": "Internal.PressureRanges"
+              "bind": "Variant.PressureRanges"
             },
             "minPressure": {
               "ui": "range",
               "label": "MinPressure",
               "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.MinPressure",
-              "bind": "Internal.PressureRanges"
+              "bind": "Variant.PressureRanges"
             },
             "maxPressure": {
               "ui": "range",
               "label": "MaxPressure",
               "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.MaxPressure",
-              "bind": "Internal.PressureRanges"
+              "bind": "Variant.PressureRanges"
             }
           }
         },
@@ -299,19 +303,19 @@
               ],
               "ruleId" : "CPAP_TherapyMode_Change",
               "ref": "Internal.TherapyModes.CurrentTherapyMode",
-              "bind": "Internal.TherapyModes.items"
+              "bind": "Variant.TherapyModes.items"
             },
             "startPressure": {
               "ui": "range",
               "label": "StartPressure",
               "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.CpapProfile.StartPressure",
-              "bind": "Internal.PressureRanges"
+              "bind": "Variant.PressureRanges"
             },
             "SetPressure": {
               "ui": "range",
               "label": "SetPressure",
               "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.CpapProfile.SetPressure",
-              "bind": "Internal.PressureRanges"
+              "bind": "Variant.PressureRanges"
             }
           }
         },

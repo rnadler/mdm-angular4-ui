@@ -7,6 +7,7 @@ import {ModelUpdatedMessage} from "./model-updated-message";
 export class ModelService {
   private model: any;
   readonly FLOWGENERATOR: string = 'FlowGenerator';
+  readonly VARIANT: string = 'Variant';
 
   constructor(private messagingService: MessagingService) {}
 
@@ -21,6 +22,9 @@ export class ModelService {
     if (ref === undefined) {
       console.warn("ModelService: Undefined ref from context=" + JSON.stringify(context));
       return undefined;
+    }
+    if (!(typeof ref === 'string' || ref instanceof String)) {
+      return ref;
     }
     let val = jp.value(context, '$.' + ref);
     if (val === undefined && !ref.startsWith(this.FLOWGENERATOR)) {
@@ -48,5 +52,8 @@ export class ModelService {
   }
   setFgData(fgData: any) {
     this.setValue(this.FLOWGENERATOR, fgData[this.FLOWGENERATOR]);
+  }
+  setVariantData(variantData: any) {
+    this.setValue(this.VARIANT, variantData[this.VARIANT]);
   }
 }

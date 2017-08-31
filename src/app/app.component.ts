@@ -2,7 +2,8 @@ import {Component, OnDestroy} from '@angular/core';
 import {DataService} from "./data.service";
 import {ModelService} from "./model/model.service";
 import {RulesService} from "./rules/rules.service";
-import {Subscription} from "rxjs/Subscription";
+import {Subject} from "rxjs/Subject";
+import 'rxjs/add/operator/takeUntil';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,7 @@ import {Subscription} from "rxjs/Subscription";
       <h1>{{title}}</h1>
     </div>
     <strong>Device Therapy Profile: </strong>
-    <select (change)="onChange($event.target.value)" [(ngModel)]="defaultProfile">
+    <select (change)="onProfileChange($event.target.value)" [(ngModel)]="defaultProfile">
       <option *ngFor="let profile of profiles"
               [value]="profile"
               [selected]="profile == defaultProfile">
@@ -24,15 +25,17 @@ import {Subscription} from "rxjs/Subscription";
       </option>
     </select>
     <hr>
-    <xforms *ngIf="fgData" [fgData]="fgData"></xforms>
+    <xforms *ngIf="fgData && variantData" [fgData]="fgData" [variantData]="variantData"></xforms>
   `
 })
 export class AppComponent implements OnDestroy {
+
   title: string = 'Data Driven Angular4 Dynamic Content Demo';
   readonly PROFILE_PATH: string = 'FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile';
   defaultProfile: string;
   fgData: any;
-  private subscription: Subscription;
+  variantData: any;
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
   profiles = [
     'CpapProfile',
     'AutoSetProfile',
@@ -42,13 +45,19 @@ export class AppComponent implements OnDestroy {
 
   constructor(private dataService: DataService, private modelService: ModelService,
               private rulesService: RulesService) {
-    this.subscription = this.dataService.getJSON('fg-model.json')
+    this.dataService.getJSON('fg-model.json')
+      .takeUntil(this.ngUnsubscribe)
       .subscribe(data => {
         this.fgData = data;
-        this.defaultProfile = this.modelService.getContextValue(this.fgData, this.PROFILE_PATH)
+        this.defaultProfile = this.modelService.getContextValue(this.fgData, this.PROFILE_PATH);
+      });
+    this.dataService.getJSON('fg-variant.json')
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(data => {
+        this.variantData = data;
       });
   }
-  onChange(value: string) {
+  onProfileChange(value: string) {
     console.log('active profile change: value=' + value);
     // Update FG data in Model.
     this.modelService.setFgData(this.fgData);
@@ -78,8 +87,7 @@ export class AppComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }
