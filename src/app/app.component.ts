@@ -10,22 +10,37 @@ import 'rxjs/add/operator/takeUntil';
   styles: [
     `hr {
       border: 1px dashed lightblue;
+    }
+    .right {
+      text-align: right;
     }`
   ],
   template: `
     <div class="center">
       <h1>{{title}}</h1>
     </div>
-    <strong>Device Therapy Profile: </strong>
-    <select (change)="onProfileChange($event.target.value)" [(ngModel)]="defaultProfile">
-      <option *ngFor="let profile of profiles"
-              [value]="profile"
-              [selected]="profile == defaultProfile">
-        {{profile}}
-      </option>
-    </select>
+    <table class="table-condensed">
+      <tr><td class="right"><strong>Device Variant:</strong></td><td>
+        <select (change)="onVariantChange($event.target.value)" [(ngModel)]="defaultVariant">
+          <option *ngFor="let variant of variants"
+                  [value]="variant"
+                  [selected]="variant == defaultVariant">
+            {{variant}}
+          </option>
+        </select>
+      </td></tr>
+      <tr><td class="right"><strong>Device Therapy Profile:</strong></td><td>
+        <select (change)="onProfileChange($event.target.value)" [(ngModel)]="defaultProfile">
+          <option *ngFor="let profile of profiles"
+                  [value]="profile"
+                  [selected]="profile == defaultProfile">
+            {{profile}}
+          </option>
+        </select>
+      </td></tr>
+    </table>
     <hr>
-    <xforms *ngIf="fgData && variantData" [fgData]="fgData" [variantData]="variantData"></xforms>
+    <xforms *ngIf="fgData" [fgData]="fgData"></xforms>
   `
 })
 export class AppComponent implements OnDestroy {
@@ -34,13 +49,17 @@ export class AppComponent implements OnDestroy {
   readonly PROFILE_PATH: string = 'FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile';
   defaultProfile: string;
   fgData: any;
-  variantData: any;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   profiles = [
     'CpapProfile',
     'AutoSetProfile',
     'AutoSetForHerProfile'
   ];
+  variants = [
+    'Monaco-2',
+    'Monaco-3'
+  ];
+  defaultVariant: string = 'Monaco-2';
   private counter: number = 0;
 
   constructor(private dataService: DataService, private modelService: ModelService,
@@ -51,10 +70,15 @@ export class AppComponent implements OnDestroy {
         this.fgData = data;
         this.defaultProfile = this.modelService.getContextValue(this.fgData, this.PROFILE_PATH);
       });
-    this.dataService.getJSON('fg-variant.json')
+  }
+  onVariantChange(value: string) {
+    let file = value + '-variant.json';
+    console.log('Loading variant data: ' + file);
+    this.dataService.getJSON(file)
       .takeUntil(this.ngUnsubscribe)
       .subscribe(data => {
-        this.variantData = data;
+        this.modelService.setValue('FlowGenerator.IdentificationProfiles.Product.UniversalIdentifier',value);
+        this.modelService.setVariantData(data);
       });
   }
   onProfileChange(value: string) {

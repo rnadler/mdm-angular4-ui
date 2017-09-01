@@ -19,20 +19,20 @@
         "TherapyProfiles": {
           "AutoSetProfile": {
             "TherapyMode": "AutoSet",
-            "StartPressure": 4,
-            "MinPressure": 4,
+            "StartPressure": 6,
+            "MinPressure": 6,
             "MaxPressure": 20
           },
           "AutoSetForHerProfile": {
             "TherapyMode": "HerAuto",
-            "StartPressure": 4,
-            "MinPressure": 4,
+            "StartPressure": 6,
+            "MinPressure": 6,
             "MaxPressure": 20
           },
           "CpapProfile": {
             "TherapyMode": "CPAP",
             "SetPressure": 10,
-            "StartPressure": 4
+            "StartPressure": 6
           }
         },
         "FeatureProfiles": {
@@ -46,8 +46,7 @@
       "TherapyModes": {
         "items": [
           "CPAP",
-          "AutoSet",
-          "HerAuto"
+          "AutoSet"
         ]
       },
       "PressureRanges": {
@@ -76,6 +75,10 @@
   },
   "Rules": {
     "calculate": [
+      {
+        "id": "Pressure_Range_Update",
+        "test" : true
+      },
       {
         "id": "AutoSet_TherapyMode_Change",
         "test": "Internal.Switches.TherapyEditSwitch and Internal.TherapyModes.CurrentTherapyMode == Internal.TherapyModes.AutoSet",
@@ -234,6 +237,7 @@
             "maxPressure": {
               "ui": "range",
               "label": "MaxPressure",
+              "ruleId": "Pressure_Range_Update",
               "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.MaxPressure",
               "bind": "Variant.PressureRanges"
             }
@@ -277,6 +281,7 @@
             "maxPressure": {
               "ui": "range",
               "label": "MaxPressure",
+              "ruleId": "Pressure_Range_Update",
               "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.MaxPressure",
               "bind": "Variant.PressureRanges"
             }
@@ -314,6 +319,7 @@
             "SetPressure": {
               "ui": "range",
               "label": "SetPressure",
+              "ruleId": "Pressure_Range_Update",
               "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.CpapProfile.SetPressure",
               "bind": "Variant.PressureRanges"
             }

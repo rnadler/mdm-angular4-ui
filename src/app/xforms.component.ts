@@ -13,7 +13,6 @@ import {ModelUpdatedMessage} from "./model/model-updated-message";
 })
 export class XformsComponent implements OnDestroy {
   @Input() fgData: any;
-  @Input() variantData: any;
   context: any;
   path: string;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
@@ -28,7 +27,6 @@ export class XformsComponent implements OnDestroy {
         this.rulesService.addGlobalRules(data.Rules);
         this.modelService.setModel(data.Model);
         this.modelService.setFgData(this.fgData);
-        this.modelService.setVariantData(this.variantData);
         this.context = data.Controls;
     });
     this.messagingService.of(ModelUpdatedMessage)

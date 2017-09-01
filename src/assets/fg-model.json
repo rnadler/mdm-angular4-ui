@@ -18,20 +18,20 @@
       "TherapyProfiles": {
         "AutoSetProfile": {
           "TherapyMode": "AutoSet",
-          "StartPressure": 4,
-          "MinPressure": 4,
+          "StartPressure": 6,
+          "MinPressure": 6,
           "MaxPressure": 20
         },
         "AutoSetForHerProfile": {
           "TherapyMode": "HerAuto",
-          "StartPressure": 4,
-          "MinPressure": 4,
+          "StartPressure": 6,
+          "MinPressure": 6,
           "MaxPressure": 20
         },
         "CpapProfile": {
           "TherapyMode": "CPAP",
           "SetPressure": 10,
-          "StartPressure": 4
+          "StartPressure": 6
         }
       },
       "FeatureProfiles": {
