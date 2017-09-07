@@ -23,8 +23,7 @@ export class ModelService {
       console.warn("ModelService: Undefined ref from context=" + JSON.stringify(context));
       return undefined;
     }
-    const isString = typeof ref === 'string' || ref instanceof String;
-    if (!isString) {
+    if (typeof ref !== 'string') {
       return ref;
     }
     let val = jp.value(context, '$.' + ref);
