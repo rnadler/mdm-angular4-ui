@@ -76,10 +76,6 @@
   "Rules": {
     "calculate": [
       {
-        "id": "Pressure_Range_Update",
-        "test" : true
-      },
-      {
         "id": "AutoSet_TherapyMode_Change",
         "test": "Internal.Switches.TherapyEditSwitch and Internal.TherapyModes.CurrentTherapyMode == Internal.TherapyModes.AutoSet",
         "keyPath": "FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile",
@@ -237,7 +233,6 @@
             "maxPressure": {
               "ui": "range",
               "label": "MaxPressure",
-              "ruleId": "Pressure_Range_Update",
               "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.MaxPressure",
               "bind": "Variant.PressureRanges"
             }
@@ -281,7 +276,6 @@
             "maxPressure": {
               "ui": "range",
               "label": "MaxPressure",
-              "ruleId": "Pressure_Range_Update",
               "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.MaxPressure",
               "bind": "Variant.PressureRanges"
             }
@@ -319,7 +313,6 @@
             "SetPressure": {
               "ui": "range",
               "label": "SetPressure",
-              "ruleId": "Pressure_Range_Update",
               "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.CpapProfile.SetPressure",
               "bind": "Variant.PressureRanges"
             }

@@ -79,6 +79,7 @@ export class AppComponent implements OnDestroy {
       .subscribe(data => {
         this.modelService.setValue('FlowGenerator.IdentificationProfiles.Product.UniversalIdentifier',value);
         this.modelService.setVariantData(data);
+        this.rulesService.updateDynamicComponents();
       });
   }
   onProfileChange(value: string) {
