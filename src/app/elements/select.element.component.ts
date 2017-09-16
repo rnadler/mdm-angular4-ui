@@ -6,7 +6,7 @@ import {ModelService} from "../model/model.service";
 
 @Component({
   selector: 'select-element',
-  template: `<div *ngIf="defaultItem"><strong>{{context?.label}}</strong><br>
+  template: `<div *ngIf="defaultItem" [hidden]="hidden"><strong>{{context?.label}}</strong><br>
     <select (change)="onChange($event.target.value)" [(ngModel)]="defaultItem">
       <option *ngFor="let item of items"
         [value]="item"

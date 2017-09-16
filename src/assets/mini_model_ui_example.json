@@ -54,6 +54,9 @@
         "max": 20,
         "step": 0.5,
         "decimals": 2
+      },
+      "Attributes": {
+        "Category": "Sleep"
       }
     },
     "Internal": {
@@ -70,6 +73,10 @@
         "CpapTherapyProfile": "CpapProfile",
         "AutoSetTherapyProfile": "AutoSetProfile",
         "AutoSetForHerTherapyProfile": "AutoSetForHerProfile"
+      },
+      "Categories": {
+        "Sleep": "Sleep",
+        "Vent": "Vent"
       }
     }
   },
@@ -171,6 +178,11 @@
               "ui": "output",
               "label": "RegionIdentifier",
               "ref": "FlowGenerator.IdentificationProfiles.Software.RegionIdentifier"
+            },
+            "category": {
+              "ui": "output",
+              "label": "Category",
+              "ref": "Variant.Attributes.Category"
             }
           }
         },
@@ -235,6 +247,17 @@
               "label": "MaxPressure",
               "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.MaxPressure",
               "bind": "Variant.PressureRanges"
+            },
+            "xOne": {
+              "ui": "range",
+              "label": "xOne",
+              "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.MaxPressure",
+              "bind": "Variant.PressureRanges",
+              "relevant": [
+                {
+                  "test": "Variant.Attributes.Category == Internal.Categories.Vent"
+                }
+              ]
             }
           }
         },
@@ -346,6 +369,16 @@
               "ui": "output",
               "label": "MaxPressure",
               "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.MaxPressure"
+            },
+            "xOne": {
+              "ui": "output",
+              "label": "xOne",
+              "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.MaxPressure",
+              "relevant": [
+                {
+                  "test": "Variant.Attributes.Category == Internal.Categories.Vent"
+                }
+              ]
             }
           }
         },

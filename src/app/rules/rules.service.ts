@@ -34,8 +34,7 @@ export class RulesService {
       this.evaluating = true;
       console.log('evaluateUpdateRules (total ruleSets=' + this.ruleSets.length + ')');
       for (let ruleSet of this.ruleSets) {
-        ruleSet.evaluateRelevantRules();
-        ruleSet.evaluateCalculateRules();
+        ruleSet.evaluateUpdateRules();
       }
       this.evaluating = false;
     }
@@ -56,7 +55,7 @@ export class RulesService {
     let shouldAdd: boolean = false;
     if (component.context.ruleId) {
       shouldAdd = true;
-      let ids = this.globalRuleSet.getIds()[0];
+      let ids = this.globalRuleSet.getIds();
       if (ids.filter(id => id === component.context.ruleId).length > 0) {
         console.log('addGlobalRules added ruleId component=' + component.path);
         this.globalRuleSet.addComponent(component);
@@ -64,7 +63,7 @@ export class RulesService {
     }
     if (!shouldAdd && component.context.ref) {
       shouldAdd = true;
-      let keyPaths = this.globalRuleSet.getKeyPaths()[0];
+      let keyPaths = this.globalRuleSet.getKeyPaths();
       if (keyPaths.filter(kpath => kpath === component.context.ref).length > 0) {
         console.log('addGlobalRules added keyPath component=' + component.path);
         this.globalRuleSet.addComponent(component);

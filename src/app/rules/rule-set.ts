@@ -17,6 +17,10 @@ export class RuleSet {
       this.components.push(component);
     }
   }
+  evaluateUpdateRules() {
+    this.evaluateCalculateRules();
+    this.evaluateRelevantRules();
+  }
   evaluateSetupRules() {
     this.evaluateRulesOfType(RuleTypeEnum.setup);
   }
@@ -28,10 +32,10 @@ export class RuleSet {
   }
 
   getKeyPaths() {
-    return this.rules.map(r => r.getKeyPaths());
+    return this.rules.map(r => r.getKeyPaths()).reduce((a, b) => a.concat(b));
   }
   getIds() {
-    return this.rules.map(r => r.getIds());
+    return this.rules.map(r => r.getIds()).reduce((a, b) => a.concat(b));
   }
   private evaluateRulesOfType(type: RuleTypeEnum) {
     let rules = this.rules.filter(r => type === null || r.type === type);

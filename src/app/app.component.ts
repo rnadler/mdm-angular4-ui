@@ -20,6 +20,15 @@ import 'rxjs/add/operator/takeUntil';
       <h1>{{title}}</h1>
     </div>
     <table class="table-condensed">
+      <tr><td class="right"><strong>Device Category:</strong></td><td>
+        <select (change)="onCategoryChange($event.target.value)" [(ngModel)]="defaultCategory">
+          <option *ngFor="let category of categories"
+                  [value]="category"
+                  [selected]="category == defaultCategory">
+            {{category}}
+          </option>
+        </select>
+      </td></tr>
       <tr><td class="right"><strong>Device Variant:</strong></td><td>
         <select (change)="onVariantChange($event.target.value)" [(ngModel)]="defaultVariant">
           <option *ngFor="let variant of variants"
@@ -47,6 +56,7 @@ export class AppComponent implements OnDestroy {
 
   title: string = 'Data Driven Angular4 Dynamic Content Demo';
   readonly PROFILE_PATH: string = 'FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile';
+  readonly CATEGORY_PATH: string = 'Variant.Attributes.Category';
   defaultProfile: string;
   fgData: any;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
@@ -60,6 +70,11 @@ export class AppComponent implements OnDestroy {
     'Monaco-3'
   ];
   defaultVariant: string = 'Monaco-2';
+  categories = [
+    'Sleep',
+    'Vent'
+  ];
+  defaultCategory: string = 'Sleep';
   private counter: number = 0;
 
   constructor(private dataService: DataService, private modelService: ModelService,
@@ -71,6 +86,11 @@ export class AppComponent implements OnDestroy {
         this.defaultProfile = this.modelService.getContextValue(this.fgData, this.PROFILE_PATH);
       });
   }
+  onCategoryChange(value: string) {
+    console.log('Category changed to ' + value);
+    this.modelService.setValue(this.CATEGORY_PATH, value);
+    this.rulesService.updateDynamicComponents();
+  }
   onVariantChange(value: string) {
     let file = value + '-variant.json';
     console.log('Loading variant data: ' + file);
@@ -79,6 +99,7 @@ export class AppComponent implements OnDestroy {
       .subscribe(data => {
         this.modelService.setValue('FlowGenerator.IdentificationProfiles.Product.UniversalIdentifier',value);
         this.modelService.setVariantData(data);
+        this.modelService.setValue(this.CATEGORY_PATH, this.defaultCategory);
         this.rulesService.updateDynamicComponents();
       });
   }

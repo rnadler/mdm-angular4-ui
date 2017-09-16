@@ -49,7 +49,9 @@ export class Rule {
   }
   private updateComonentsRelevance(components: Array<DynamicComponent>, testResult) {
     for (let component of components) {
-      component.updateRelevance(testResult);
+      if(typeof component.updateRelevance === 'function') {
+        component.updateRelevance(testResult);
+      }
     }
   }
   private setComponentsValue(components: Array<DynamicComponent>, keyPath, value) {

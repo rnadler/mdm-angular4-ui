@@ -19,6 +19,10 @@ export class ModelService {
     return this.getContextValue(this.model, ref);
   }
   getContextValue(context: any, ref: string) {
+    if (context === undefined) {
+      console.warn("ModelService: Undefined context! ref=" + ref);
+      return undefined;
+    }
     if (ref === undefined) {
       console.warn("ModelService: Undefined ref from context=" + JSON.stringify(context));
       return undefined;
