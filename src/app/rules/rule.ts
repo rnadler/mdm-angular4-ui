@@ -31,9 +31,10 @@ export class Rule {
       let label = RuleTypeEnum[this.type] + '[' + rd + '] ';
       let testResult = new TestEvaluator(test, this.modelService).evaluate();
       //console.log('test ' + label + 'testText=' + test + ' testResult=' + testResult);
-      let keyPath = ruleDescription.keyPath;
-      if (testResult && keyPath) {
-        let value = this.modelService.getValue(ruleDescription.value);
+      let valuePath = ruleDescription.value;
+      if (testResult && valuePath) {
+        let keyPath = ruleDescription.keyPath;
+        let value = this.modelService.getValue(valuePath);
         this.setComponentsValue(components, keyPath, value);
         console.log('evaluate ' + label + 'set keyPath=' + keyPath + ' to value=' + value);
         this.updateComonents(components);

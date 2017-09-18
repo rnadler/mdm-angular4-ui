@@ -21,7 +21,8 @@
             "TherapyMode": "AutoSet",
             "StartPressure": 6,
             "MinPressure": 6,
-            "MaxPressure": 20
+            "MaxPressure": 20,
+            "xOne": 15
           },
           "AutoSetForHerProfile": {
             "TherapyMode": "HerAuto",
@@ -79,6 +80,14 @@
         "Vent": "Vent"
       }
     }
+  },
+  "CategoryRules": {
+    "relevant": [
+      {
+        "test": "Variant.Attributes.Category == Internal.Categories.Vent",
+        "keyPath": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.xOne"
+      }
+    ]
   },
   "Rules": {
     "calculate": [
@@ -251,13 +260,8 @@
             "xOne": {
               "ui": "range",
               "label": "xOne",
-              "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.MaxPressure",
-              "bind": "Variant.PressureRanges",
-              "relevant": [
-                {
-                  "test": "Variant.Attributes.Category == Internal.Categories.Vent"
-                }
-              ]
+              "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.xOne",
+              "bind": "Variant.PressureRanges"
             }
           }
         },
@@ -373,12 +377,7 @@
             "xOne": {
               "ui": "output",
               "label": "xOne",
-              "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.MaxPressure",
-              "relevant": [
-                {
-                  "test": "Variant.Attributes.Category == Internal.Categories.Vent"
-                }
-              ]
+              "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.xOne"
             }
           }
         },

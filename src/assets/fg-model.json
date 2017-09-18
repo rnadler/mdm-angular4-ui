@@ -20,7 +20,8 @@
           "TherapyMode": "AutoSet",
           "StartPressure": 6,
           "MinPressure": 6,
-          "MaxPressure": 20
+          "MaxPressure": 20,
+          "xOne": 15
         },
         "AutoSetForHerProfile": {
           "TherapyMode": "HerAuto",

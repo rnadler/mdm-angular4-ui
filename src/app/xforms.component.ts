@@ -26,7 +26,8 @@ export class XformsComponent implements OnDestroy {
       .subscribe(data => {
         this.modelService.setModel(data.Model);
         this.modelService.setFgData(this.fgData);
-        this.rulesService.addGlobalRules(data.Rules);
+        this.rulesService.addGlobalRuleSet(data.Rules);
+        this.rulesService.addGlobalRuleSet(data.CategoryRules);
         this.context = data.Controls;
     });
     this.messagingService.of(ModelUpdatedMessage)

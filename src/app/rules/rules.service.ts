@@ -8,7 +8,7 @@ import {DynamicComponent} from "../dynamic.component";
 @Injectable()
 export class RulesService {
   private ruleSets: Array<RuleSet> = [];
-  private globalRuleSet: RuleSet;
+  private globalRuleSets: Array<RuleSet> = [];
   // TODO: This shouldn't be here. Need a DynamicComponentService.
   private dynamicComponents: Array<DynamicComponent> = [];
   private evaluating: boolean = false;
@@ -46,30 +46,36 @@ export class RulesService {
       component.update();
     }
   }
-  addGlobalRules(rules: any) {
+  addGlobalRuleSet(rules: any) {
     let fakeComponent = {context: rules, path: 'global'};
-    this.globalRuleSet = this.createRuleSet(fakeComponent);
-    this.globalRuleSet.components = [];
+    let ruleSet = this.createRuleSet(fakeComponent);
+    ruleSet.components = [];
+    this.globalRuleSets.push(ruleSet);
   }
-  addDynamicComponent(component: DynamicComponent) {
+  addComponentToRuleSet(ruleSet: RuleSet, component: DynamicComponent) {
     let shouldAdd: boolean = false;
     if (component.context.ruleId) {
       shouldAdd = true;
-      let ids = this.globalRuleSet.getIds();
+      let ids = ruleSet.getIds();
       if (ids.filter(id => id === component.context.ruleId).length > 0) {
         console.log('addGlobalRules added ruleId component=' + component.path);
-        this.globalRuleSet.addComponent(component);
+        ruleSet.addComponent(component);
       }
     }
     if (!shouldAdd && component.context.ref) {
       shouldAdd = true;
-      let keyPaths = this.globalRuleSet.getKeyPaths();
+      let keyPaths = ruleSet.getKeyPaths();
       if (keyPaths.filter(kpath => kpath === component.context.ref).length > 0) {
         console.log('addGlobalRules added keyPath component=' + component.path);
-        this.globalRuleSet.addComponent(component);
+        ruleSet.addComponent(component);
       }
     }
-
+    return shouldAdd;
+  }
+  addDynamicComponent(component: DynamicComponent) {
+    let shouldAdd = this.globalRuleSets
+      .map(r => this.addComponentToRuleSet(r, component))
+      .reduce((a, b) => a && b);
     if (shouldAdd) {
       this.dynamicComponents.push(component);
     }
