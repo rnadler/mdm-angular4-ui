@@ -7,7 +7,7 @@ import {ModelService} from "../model/model.service";
 
 @Component({
   selector: 'output-element',
-  template: `<div *ngIf="value" [hidden]="hidden"><strong>{{context?.label}}</strong><br>{{value}}</div>`
+  template: `<div *ngIf="value" [hidden]="hidden">{{context?.label}}<br><strong>{{value}}</strong></div>`
 })
 export class OutputElementComponent extends DynamicComponent {
   value: string;

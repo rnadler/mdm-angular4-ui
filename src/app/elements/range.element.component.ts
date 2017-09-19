@@ -7,7 +7,7 @@ import {RulesService} from "../rules/rules.service";
 
 @Component({
   selector: 'range-element',
-  template: `<div *ngIf="defaultValue" [hidden]="hidden"><strong>{{context?.label}}</strong><br>
+  template: `<div *ngIf="defaultValue" [hidden]="hidden">{{context?.label}}<br>
     <select (change)="onChange($event.target.value)" [(ngModel)]="defaultValue">
       <option *ngFor="let value of values"
               [value]="value"
