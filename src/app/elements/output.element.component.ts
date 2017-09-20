@@ -7,7 +7,7 @@ import {ModelService} from "../model/model.service";
 
 @Component({
   selector: 'output-element',
-  template: `<div *ngIf="value" [hidden]="hidden">{{context?.label}}<br><strong>{{value}}</strong></div>`
+  template: `<div [hidden]="hidden">{{context?.label}}<br><strong>{{value}}</strong></div>`
 })
 export class OutputElementComponent extends DynamicComponent {
   value: string;
@@ -21,6 +21,7 @@ export class OutputElementComponent extends DynamicComponent {
   }
   update() {
     this.value = this.modelService.getValue(this.context.ref);
+    this.updateRelevance(this.value !== undefined);
     console.log(this.path + ' output update: value=' + this.value);
     super.update();
   }
