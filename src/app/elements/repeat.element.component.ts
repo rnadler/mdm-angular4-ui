@@ -22,9 +22,12 @@ import {ModelService} from "../model/model.service";
       </div>
       <div class="container">
         <div class="row">
-              <dynamic-content class="column" *ngFor="let element of elements"
-                               [type]="element.type" [context]="element.context"
-                               [path]="element.path"></dynamic-content>
+          <div *ngFor="let element of elements">
+            <div class="column" *ngIf="!element.hidden">
+              <dynamic-content [type]="element.type" [context]="element.context"
+                               [path]="element.path" [element]="element"></dynamic-content>
+            </div>
+          </div>
         </div>
       </div>
     </div>

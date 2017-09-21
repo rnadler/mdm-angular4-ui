@@ -1,5 +1,5 @@
 import {RulesService} from "./rules/rules.service";
-import {EventEmitter, Input, OnInit, Output} from "@angular/core";
+import {Input, OnInit} from "@angular/core";
 import {RuleSet} from "./rules/rule-set";
 import {ModelService} from "./model/model.service";
 import jp from "jsonpath";
@@ -8,10 +8,10 @@ import {ElementService} from "./element.service";
 export abstract class DynamicComponent implements OnInit {
   @Input() context: any;
   @Input() path: string;
-  @Output() hiddenChangedEvent: EventEmitter<boolean> = new EventEmitter();
   type: string;
   hidden: boolean;
   elements: any;
+  element: any;
   ruleSet: RuleSet;
 
   constructor(protected modelService: ModelService, private rulesService: RulesService) {}
@@ -25,7 +25,7 @@ export abstract class DynamicComponent implements OnInit {
     for (let el in elements) {
       let context = elements[el];
       let type = context.ui != null ? context.ui : ElementService.DEFAULT;
-      this.elements.push({context: context, path: this.getPath(el), type: type});
+      this.elements.push({context: context, path: this.getPath(el), type: type, hidden: false});
     }
   }
 
@@ -35,7 +35,9 @@ export abstract class DynamicComponent implements OnInit {
   }
   updateRelevance(testResult: boolean) {
     this.hidden = !testResult;
-    this.hiddenChangedEvent.emit(!testResult);
+    if (this.element) {
+      this.element.hidden = !testResult;
+    }
     console.log(this.path + ' updateRelevance testResult=' + testResult);
   }
   private getPath(name: string) {

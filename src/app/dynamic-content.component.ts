@@ -9,7 +9,7 @@ import {RulesService} from "./rules/rules.service";
 
 @Component({
   selector: 'dynamic-content',
-  template: `<div #container [hidden]="hidden"></div>`
+  template: `<div #container ></div>`
 })
 export class DynamicContentComponent implements OnInit, OnDestroy {
 
@@ -18,8 +18,8 @@ export class DynamicContentComponent implements OnInit, OnDestroy {
   @Input() type: string;
   @Input() context: any;
   @Input() path: string;
+  @Input() element: any;
   private componentRef: ComponentRef<{}>;
-  hidden: boolean;
 
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver, private rulesService: RulesService) {
@@ -38,12 +38,9 @@ export class DynamicContentComponent implements OnInit, OnDestroy {
       instance.context = this.context;
       instance.path = this.path;
       instance.type = this.type;
-      instance.hiddenChangedEvent.subscribe(state => this.onHiddenEvent(state));
+      instance.element = this.element;
       this.rulesService.addDynamicComponent(instance);
     }
-  }
-  onHiddenEvent(state) {
-    this.hidden = state;
   }
   ngOnDestroy() {
     if (this.componentRef) {
