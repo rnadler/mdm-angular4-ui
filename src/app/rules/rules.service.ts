@@ -20,13 +20,16 @@ export class RulesService {
     this.addRule(rv, RuleTypeEnum.setup, component);
     this.addRule(rv, RuleTypeEnum.calculate, component);
     this.addRule(rv, RuleTypeEnum.relevant, component);
+    if (rv.length === 0) {
+      return null;
+    }
     let ruleSet = new RuleSet(rv);
     ruleSet.addComponent(component);
-    if (rv.length > 0) {
-      this.ruleSets.push(ruleSet);
-      ruleSet.evaluateSetupRules();
-      ruleSet.evaluateRelevantRules();
-    }
+    this.ruleSets.push(ruleSet);
+    ruleSet.evaluateSetupRules();
+    // ToDo: Figure out why running ths relevant rules here causes this runtime error:
+    // ERROR: ExpressionChangedAfterItHasBeenCheckedError: Expression has changed after it was checked. Previous value: 'true'. Current value: 'false'.
+    //ruleSet.evaluateRelevantRules();
     return ruleSet;
   }
   evaluateUpdateRules(ref: string) {
@@ -39,12 +42,17 @@ export class RulesService {
       this.evaluating = false;
     }
     this.updateDynamicComponents(ref);
+    console.log('evaluateUpdateRules complete: ' + this.getAllocationString());
   }
   updateDynamicComponents(ref: string = undefined) {
     let components = this.dynamicComponents.filter(c => ref === undefined || c.context.ref === ref);
     for (let component of components) {
       component.update();
     }
+    console.log('updateDynamicComponents complete: ' + this.getAllocationString());
+  }
+  private getAllocationString() {
+    return 'rulesets=' + this.ruleSets.length + ' components=' + this.dynamicComponents.length;
   }
   addGlobalRuleSet(rules: any) {
     let ruleSet = this.createRuleSet({context: rules});
@@ -71,6 +79,9 @@ export class RulesService {
     return shouldAdd;
   }
   addDynamicComponent(component: DynamicComponent) {
+    if (this.dynamicComponents.filter(c => c.path === component.path).length > 0) {
+      return;
+    }
     let shouldAdd = this.globalRuleSets
       .map(r => this.addComponentToRuleSet(r, component))
       .reduce((a, b) => a && b);
@@ -78,7 +89,12 @@ export class RulesService {
       this.dynamicComponents.push(component);
     }
   }
-
+  removeRuleSet(ruleSet: RuleSet) {
+    if (ruleSet === null) {
+      return;
+    }
+    this.ruleSets = this.ruleSets.filter(rs => rs !== ruleSet);
+  }
   private addRule(rules: Array<Rule>, type: RuleTypeEnum, component: any) {
     let name = RuleTypeEnum[type];
     let ruleContext = component.context[name];

@@ -1,11 +1,11 @@
 import {RulesService} from "./rules/rules.service";
-import {Input, OnInit} from "@angular/core";
+import {Input, OnDestroy, OnInit} from "@angular/core";
 import {RuleSet} from "./rules/rule-set";
 import {ModelService} from "./model/model.service";
 import jp from "jsonpath";
 import {ElementService} from "./element.service";
 
-export abstract class DynamicComponent implements OnInit {
+export abstract class DynamicComponent implements OnInit, OnDestroy {
   @Input() context: any;
   @Input() path: string;
   type: string;
@@ -45,5 +45,8 @@ export abstract class DynamicComponent implements OnInit {
       return name;
     }
     return this.path + '.' + name;
+  }
+  ngOnDestroy() {
+    this.rulesService.removeRuleSet(this.ruleSet);
   }
 }

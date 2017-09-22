@@ -498,9 +498,9 @@
                 }
               ]
             },
-            "SetPressure": {
+            "SetPressureCpap": {
               "ui": "output",
-              "label": "SetPressure",
+              "label": "Cpap SetPressure",
               "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.CpapProfile.SetPressure",
               "relevant": [
                 {
@@ -508,9 +508,9 @@
                 }
               ]
             },
-            "minPressure": {
+            "minPressureAutoSet": {
               "ui": "output",
-              "label": "MinPressure",
+              "label": "AutoSet MinPressure",
               "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.MinPressure",
               "relevant": [
                 {
@@ -518,9 +518,9 @@
                 }
               ]
             },
-            "maxPressure": {
+            "maxPressureAutoSet": {
               "ui": "output",
-              "label": "MaxPressure",
+              "label": "AutoSet MaxPressure",
               "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.MaxPressure",
               "relevant": [
                 {
@@ -528,9 +528,9 @@
                 }
               ]
             },
-            "xOne": {
+            "xOneAutoSet": {
               "ui": "output",
-              "label": "xOne",
+              "label": "AutoSet xOne",
               "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.xOne",
               "relevant": [
                 {
