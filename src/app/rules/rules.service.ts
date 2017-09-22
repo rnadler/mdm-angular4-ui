@@ -47,9 +47,7 @@ export class RulesService {
     }
   }
   addGlobalRuleSet(rules: any) {
-    let fakeComponent = {context: rules, path: 'global'};
-    let ruleSet = this.createRuleSet(fakeComponent);
-    ruleSet.components = [];
+    let ruleSet = this.createRuleSet({context: rules});
     this.globalRuleSets.push(ruleSet);
   }
   addComponentToRuleSet(ruleSet: RuleSet, component: DynamicComponent) {

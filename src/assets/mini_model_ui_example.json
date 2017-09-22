@@ -448,6 +448,97 @@
               "ref": "FlowGenerator.SettingProfiles.FeatureProfiles.SmartStartStopFeature.SmartStart"
             }
           }
+        },
+        "testProfileGroup": {
+          "ui": "repeat",
+          "label": "TestProfile",
+          "relevant": [
+            {
+              "test": "not Internal.Switches.TherapyEditSwitch"
+            }
+          ],
+          "controls": {
+            "therapyModeCpap": {
+              "ui": "output",
+              "label": "Cpap TherapyMode",
+              "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.CpapProfile.TherapyMode",
+              "relevant": [
+                {
+                  "test": "FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile == Internal.TherapyProfiles.CpapTherapyProfile"
+                }
+              ]
+            },
+            "therapyModeAutoSet": {
+              "ui": "output",
+              "label": "AutoSet TherapyMode",
+              "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.TherapyMode",
+              "relevant": [
+                {
+                  "test": "FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile == Internal.TherapyProfiles.AutoSetTherapyProfile"
+                }
+              ]
+            },
+            "startPressureCpap": {
+              "ui": "output",
+              "label": "Cpap StartPressure",
+              "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.CpapProfile.StartPressure",
+              "relevant": [
+                {
+                  "test": "FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile == Internal.TherapyProfiles.CpapTherapyProfile"
+                }
+              ]
+            },
+            "startPressureAutoSet": {
+              "ui": "output",
+              "label": "AutoSet StartPressure",
+              "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.StartPressure",
+              "relevant": [
+                {
+                  "test": "FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile == Internal.TherapyProfiles.AutoSetTherapyProfile"
+                }
+              ]
+            },
+            "SetPressure": {
+              "ui": "output",
+              "label": "SetPressure",
+              "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.CpapProfile.SetPressure",
+              "relevant": [
+                {
+                  "test": "FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile == Internal.TherapyProfiles.CpapTherapyProfile"
+                }
+              ]
+            },
+            "minPressure": {
+              "ui": "output",
+              "label": "MinPressure",
+              "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.MinPressure",
+              "relevant": [
+                {
+                  "test": "FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile == Internal.TherapyProfiles.AutoSetTherapyProfile"
+                }
+              ]
+            },
+            "maxPressure": {
+              "ui": "output",
+              "label": "MaxPressure",
+              "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.MaxPressure",
+              "relevant": [
+                {
+                  "test": "FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile == Internal.TherapyProfiles.AutoSetTherapyProfile"
+                }
+              ]
+            },
+            "xOne": {
+              "ui": "output",
+              "label": "xOne",
+              "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.xOne",
+              "relevant": [
+                {
+                  "test": "FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile == Internal.TherapyProfiles.AutoSetTherapyProfile"
+                }
+              ]
+            }
+          }
         }
       }
     }

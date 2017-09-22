@@ -12,6 +12,9 @@ export class RuleSet {
     this.components = [];
   }
   addComponent(component: DynamicComponent) {
+    if (!component.path) {
+      return;
+    }
     let path = component.path;
     if (this.components.filter(c => c.path === path).length == 0) {
       this.components.push(component);
