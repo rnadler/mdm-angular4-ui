@@ -8,12 +8,14 @@ export class ComponentService {
   addDynamicComponent(component: DynamicComponent) {
     if (this.getDynamicComponent(component.path) === null) {
       this.dynamicComponents.push(component);
+      console.log(this.dynamicComponents.length + ': add component ' + component.path);
       return true;
     }
     return false;
   }
   removeDynamicComponent(component: DynamicComponent) {
     this.dynamicComponents = this.dynamicComponents.filter(c => c !== component);
+    console.log(this.dynamicComponents.length + ': remove component ' + component.path);
   }
   getDynamicComponent(path: string) {
     let results = this.dynamicComponents.filter(c => c.path === path);

@@ -228,13 +228,6 @@
             "therapyMode": {
               "ui": "select",
               "label": "TherapyMode",
-              "setup": [
-                {
-                  "test": true,
-                  "keyPath": "Internal.TherapyModes.CurrentTherapyMode",
-                  "value": "Internal.TherapyModes.AutoSet"
-                }
-              ],
               "ruleId" : "AutoSet_TherapyMode_Change",
               "ref": "Internal.TherapyModes.CurrentTherapyMode",
               "bind": "Variant.TherapyModes.items"
@@ -277,13 +270,6 @@
             "therapyMode": {
               "ui": "select",
               "label": "TherapyMode",
-              "setup": [
-                {
-                  "test": true,
-                  "keyPath": "Internal.TherapyModes.CurrentTherapyMode",
-                  "value": "Internal.TherapyModes.HerAuto"
-                }
-              ],
               "ruleId" : "HerAuto_TherapyMode_Change",
               "ref": "Internal.TherapyModes.CurrentTherapyMode",
               "bind": "Variant.TherapyModes.items"
@@ -320,13 +306,6 @@
             "therapyMode": {
               "ui": "select",
               "label": "TherapyMode",
-              "setup": [
-                {
-                  "test": true,
-                  "keyPath": "Internal.TherapyModes.CurrentTherapyMode",
-                  "value": "Internal.TherapyModes.CPAP"
-                }
-              ],
               "ruleId" : "CPAP_TherapyMode_Change",
               "ref": "Internal.TherapyModes.CurrentTherapyMode",
               "bind": "Variant.TherapyModes.items"

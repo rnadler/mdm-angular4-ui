@@ -40,7 +40,7 @@ export abstract class DynamicComponent implements OnInit, OnDestroy {
     if (this.element) {
       this.element.hidden = !testResult;
     }
-    console.log(this.path + ' updateRelevance testResult=' + testResult);
+    //console.log(this.path + ' updateRelevance testResult=' + testResult);
   }
   private getPath(name: string) {
     if (this.path === undefined) {

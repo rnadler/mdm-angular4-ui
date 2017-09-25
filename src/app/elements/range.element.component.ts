@@ -40,7 +40,7 @@ export class RangeElementComponent extends DynamicComponent {
     for (let v = start; v <= end; v += step) {
       this.values.push(v)
     }
-    console.log(this.path + ' range update: min=' + start + ' max=' + end + ' defVal=' + this.defaultValue);
+    //console.log(this.path + ' range update: min=' + start + ' max=' + end + ' defVal=' + this.defaultValue);
     super.update();
   }
 }

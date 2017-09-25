@@ -38,10 +38,10 @@ export class RulesService {
       for (let ruleSet of this.ruleSets) {
         ruleSet.evaluateUpdateRules();
       }
+      this.componentService.updateDynamicComponents(ref);
       this.evaluating = false;
+      console.log('evaluateUpdateRules complete: ' + this.getAllocationString());
     }
-    this.componentService.updateDynamicComponents(ref);
-    console.log('evaluateUpdateRules complete: ' + this.getAllocationString());
   }
 
   private getAllocationString() {

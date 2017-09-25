@@ -21,9 +21,13 @@ export class OutputElementComponent extends DynamicComponent {
     super.ngOnInit();
   }
   update() {
+    let previousResult = this.value !== undefined;
     this.value = this.modelService.getValue(this.context.ref);
-    this.updateRelevance(this.value !== undefined);
-    console.log(this.path + ' output update: value=' + this.value);
+    let currentResult = this.value !== undefined;
+    this.updateRelevance(currentResult);
+    if (previousResult !== currentResult) {
+      console.log(this.path + ' output update: previousResult=' + previousResult + ' currentResult=' + currentResult);
+    }
     super.update();
   }
 }
