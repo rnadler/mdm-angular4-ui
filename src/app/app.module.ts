@@ -8,6 +8,7 @@ import { DataService } from "./data.service"
 import { ModelService } from "./model/model.service"
 import { RulesService } from "./rules/rules.service"
 import { MessagingService } from "./model/messaging-service"
+import { ComponentService } from "./component.service";
 
 import {
   DynamicContentComponent,
@@ -47,7 +48,8 @@ import {RepeatElementComponent} from "./elements/repeat.element.component";
     DataService,
     ModelService,
     MessagingService,
-    RulesService
+    RulesService,
+    ComponentService
   ],
   entryComponents: [
     XformsComponent,

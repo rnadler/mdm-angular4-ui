@@ -4,6 +4,7 @@ import {RuleSet} from "./rules/rule-set";
 import {ModelService} from "./model/model.service";
 import jp from "jsonpath";
 import {ElementService} from "./element.service";
+import {ComponentService} from "./component.service";
 
 export abstract class DynamicComponent implements OnInit, OnDestroy {
   @Input() context: any;
@@ -14,7 +15,8 @@ export abstract class DynamicComponent implements OnInit, OnDestroy {
   element: any;
   ruleSet: RuleSet;
 
-  constructor(protected modelService: ModelService, private rulesService: RulesService) {}
+  constructor(protected modelService: ModelService, private rulesService: RulesService,
+              private componentService: ComponentService) {}
 
   ngOnInit(): void {
     this.ruleSet = this.rulesService.createRuleSet(this);
@@ -48,5 +50,6 @@ export abstract class DynamicComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy() {
     this.rulesService.removeRuleSet(this.ruleSet);
+    this.componentService.removeDynamicComponent(this);
   }
 }

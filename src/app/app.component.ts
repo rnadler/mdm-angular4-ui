@@ -4,6 +4,7 @@ import {ModelService} from "./model/model.service";
 import {RulesService} from "./rules/rules.service";
 import {Subject} from "rxjs/Subject";
 import 'rxjs/add/operator/takeUntil';
+import {ComponentService} from "./component.service";
 
 @Component({
   selector: 'app-root',
@@ -78,7 +79,7 @@ export class AppComponent implements OnDestroy {
   private counter: number = 0;
 
   constructor(private dataService: DataService, private modelService: ModelService,
-              private rulesService: RulesService) {
+              private rulesService: RulesService, private componentService: ComponentService) {
     this.dataService.getJSON('fg-model.json')
       .takeUntil(this.ngUnsubscribe)
       .subscribe(data => {
@@ -89,7 +90,7 @@ export class AppComponent implements OnDestroy {
   onCategoryChange(value: string) {
     console.log('Category changed to ' + value);
     this.modelService.setValue(this.CATEGORY_PATH, value);
-    this.rulesService.updateDynamicComponents();
+    this.componentService.updateDynamicComponents();
   }
   onVariantChange(value: string) {
     let file = value + '-variant.json';
@@ -100,7 +101,7 @@ export class AppComponent implements OnDestroy {
         this.modelService.setValue('FlowGenerator.IdentificationProfiles.Product.UniversalIdentifier',value);
         this.modelService.setVariantData(data);
         this.modelService.setValue(this.CATEGORY_PATH, this.defaultCategory);
-        this.rulesService.updateDynamicComponents();
+        this.componentService.updateDynamicComponents();
       });
   }
   onProfileChange(value: string) {
@@ -120,7 +121,7 @@ export class AppComponent implements OnDestroy {
     this.modelService.setValue('FlowGenerator.SettingProfiles.TherapyProfiles.CpapProfile.SetPressure',
       this.randomIntFromInterval(5, 15));
     // Update all components
-    this.rulesService.updateDynamicComponents();
+    this.componentService.updateDynamicComponents();
   }
   private randomIntFromInterval(min, max)
   {

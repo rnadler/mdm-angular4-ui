@@ -4,16 +4,15 @@ import {RuleSet} from "./rule-set";
 import {RuleTypeEnum} from "./rule-type-enum";
 import {ModelService} from "../model/model.service";
 import {DynamicComponent} from "../dynamic.component";
+import {ComponentService} from "../component.service";
 
 @Injectable()
 export class RulesService {
   private ruleSets: Array<RuleSet> = [];
   private globalRuleSets: Array<RuleSet> = [];
-  // TODO: This shouldn't be here. Need a DynamicComponentService.
-  private dynamicComponents: Array<DynamicComponent> = [];
   private evaluating: boolean = false;
 
-  constructor(private modelService: ModelService){}
+  constructor(private modelService: ModelService, private componentService: ComponentService){}
 
   createRuleSet(component: any): RuleSet {
     let rv = [];
@@ -41,18 +40,12 @@ export class RulesService {
       }
       this.evaluating = false;
     }
-    this.updateDynamicComponents(ref);
+    this.componentService.updateDynamicComponents(ref);
     console.log('evaluateUpdateRules complete: ' + this.getAllocationString());
   }
-  updateDynamicComponents(ref: string = undefined) {
-    let components = this.dynamicComponents.filter(c => ref === undefined || c.context.ref === ref);
-    for (let component of components) {
-      component.update();
-    }
-    console.log('updateDynamicComponents complete: ' + this.getAllocationString());
-  }
+
   private getAllocationString() {
-    return 'rulesets=' + this.ruleSets.length + ' components=' + this.dynamicComponents.length;
+    return 'rulesets=' + this.ruleSets.length + ' components=' + this.componentService.length();
   }
   addGlobalRuleSet(rules: any) {
     let ruleSet = this.createRuleSet({context: rules});
@@ -79,14 +72,8 @@ export class RulesService {
     return shouldAdd;
   }
   addDynamicComponent(component: DynamicComponent) {
-    if (this.dynamicComponents.filter(c => c.path === component.path).length > 0) {
-      return;
-    }
-    let shouldAdd = this.globalRuleSets
-      .map(r => this.addComponentToRuleSet(r, component))
-      .reduce((a, b) => a && b);
-    if (shouldAdd) {
-      this.dynamicComponents.push(component);
+    if (this.componentService.addDynamicComponent(component)) {
+      this.globalRuleSets.forEach(rs => this.addComponentToRuleSet(rs, component));
     }
   }
   removeRuleSet(ruleSet: RuleSet) {
