@@ -1,5 +1,6 @@
 
 // http://www.processinginfinity.com/weblog/2016/08/18/MessageBus-Pattern-in-Angular2-TypeScript
+// https://angularclass.com/blog/create-a-simple-reactive-store-for-angular-2/
 
 import {Observable} from "rxjs/Observable";
 import {Subject} from "rxjs/Subject";
