@@ -26,14 +26,12 @@ export class RulesService {
     ruleSet.addComponent(component);
     this.ruleSets.push(ruleSet);
     ruleSet.evaluateSetupRules();
-    // ToDo: Figure out why running ths relevant rules here causes this runtime error:
-    // ERROR: ExpressionChangedAfterItHasBeenCheckedError: Expression has changed after it was checked. Previous value: 'true'. Current value: 'false'.
-    //ruleSet.evaluateRelevantRules();
     return ruleSet;
   }
   evaluateUpdateRules(ref: string) {
     if (!this.evaluating) {
       this.evaluating = true;
+      // let ruleSets = this.ruleSets.filter(r => ref === undefined || r.getComponentRefs().filter(r2 => r2 == ref).length > 0);
       console.log('evaluateUpdateRules (total ruleSets=' + this.ruleSets.length + ')');
       for (let ruleSet of this.ruleSets) {
         ruleSet.evaluateUpdateRules();

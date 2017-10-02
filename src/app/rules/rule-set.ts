@@ -40,6 +40,9 @@ export class RuleSet {
   getIds() {
     return this.rules.map(r => r.getIds()).reduce((a, b) => a.concat(b));
   }
+  getComponentRefs() {
+    return this.components.map(c => c.context.ref);
+  }
   private evaluateRulesOfType(type: RuleTypeEnum) {
     let rules = this.rules.filter(r => type === null || r.type === type);
     for (let rule of rules) {
