@@ -30,6 +30,9 @@ export class RangeElementComponent extends DynamicComponent {
     this.update();
     super.ngOnInit();
   }
+  isValid() {
+    return this.defaultValue !== undefined;
+  }
   update() {
     let contextRange = this.modelService.getValue(this.context.bind);
     let start = Number(contextRange.min);

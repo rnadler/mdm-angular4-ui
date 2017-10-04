@@ -29,6 +29,7 @@ export abstract class DynamicComponent implements OnInit, OnDestroy {
       let type = context.ui != null ? context.ui : ElementService.DEFAULT;
       this.elements.push({context: context, path: this.getPath(el), type: type, hidden: false});
     }
+    this.updateRelevance(!this.hidden);
   }
 
   onChange(newValue: any) {
@@ -36,11 +37,15 @@ export abstract class DynamicComponent implements OnInit, OnDestroy {
     this.modelService.setValue(this.context.ref, newValue);
   }
   updateRelevance(testResult: boolean) {
-    this.hidden = !testResult;
+    let relevant = testResult && this.isValid();
+    this.hidden = !relevant;
     if (this.element) {
-      this.element.hidden = !testResult;
+      this.element.hidden = this.hidden;
     }
-    //console.log(this.path + ' updateRelevance testResult=' + testResult);
+    console.log(this.path + ' updateRelevance testResult/valid=' + testResult + '/' + this.isValid() + ' relevant=' + relevant );
+  }
+  isValid() {
+    return true;
   }
   private getPath(name: string) {
     if (this.path === undefined) {
