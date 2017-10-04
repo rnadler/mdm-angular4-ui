@@ -19,10 +19,27 @@ export class Rule {
     this.ruleDescriptions.push(ruleDesc);
   }
   getKeyPaths() {
-    return this.ruleDescriptions.filter(rd => rd.keyPath).map(rd => rd.keyPath);
+    return this.ruleDescriptions.filter(rd => rd.keyPath !== undefined).map(rd => rd.keyPath);
+  }
+  getValues() {
+    return this.ruleDescriptions.filter(rd => rd.value !== undefined).map(rd => rd.value);
   }
   getIds() {
     return this.ruleDescriptions.filter(rd => rd.id).map(rd => rd.id);
+  }
+  getRelevantTestResult() {
+    if (this.type !== RuleTypeEnum.relevant) {
+      return false;
+    }
+    for (let ruleDescription of this.ruleDescriptions) {
+      let test = ruleDescription.test;
+      let testResult = new TestEvaluator(test, this.modelService).evaluate();
+      //console.log('getRelevantTestResult testText=' + test + ' testResult=' + testResult);
+      if (!testResult) {
+        return false;
+      }
+    }
+    return true;
   }
   evaluateRules(components: Array<DynamicComponent>) {
     for (let rd in this.ruleDescriptions) {

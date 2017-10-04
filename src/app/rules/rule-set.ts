@@ -37,15 +37,20 @@ export class RuleSet {
   getKeyPaths() {
     return this.rules.map(r => r.getKeyPaths()).reduce((a, b) => a.concat(b));
   }
+  getValues() {
+    return this.rules.map(r => r.getValues()).reduce((a, b) => a.concat(b));
+  }
   getIds() {
     return this.rules.map(r => r.getIds()).reduce((a, b) => a.concat(b));
   }
   getComponentRefs() {
     return this.components.map(c => c.context.ref);
   }
+  getRulesOfType(type: RuleTypeEnum) {
+    return this.rules.filter(r => type === null || r.type === type);
+  }
   private evaluateRulesOfType(type: RuleTypeEnum) {
-    let rules = this.rules.filter(r => type === null || r.type === type);
-    for (let rule of rules) {
+    for (let rule of this.getRulesOfType(type)) {
       rule.evaluateRules(this.components);
     }
   }

@@ -10,7 +10,6 @@ import {ComponentService} from "../component.service";
 export class RulesService {
   private ruleSets: Array<RuleSet> = [];
   private globalRuleSets: Array<RuleSet> = [];
-  private evaluating: boolean = false;
 
   constructor(private modelService: ModelService, private componentService: ComponentService){}
 
@@ -29,17 +28,16 @@ export class RulesService {
     return ruleSet;
   }
   evaluateUpdateRules(ref: string) {
-    if (!this.evaluating) {
-      this.evaluating = true;
-      // let ruleSets = this.ruleSets.filter(r => ref === undefined || r.getComponentRefs().filter(r2 => r2 == ref).length > 0);
-      console.log('evaluateUpdateRules (total ruleSets=' + this.ruleSets.length + ')');
-      for (let ruleSet of this.ruleSets) {
-        ruleSet.evaluateUpdateRules();
-      }
-      this.componentService.updateDynamicComponents(ref);
-      this.evaluating = false;
-      console.log('evaluateUpdateRules complete: ' + this.getAllocationString());
+    let ruleSets = this.ruleSets.filter(r => ref === undefined || r.getComponentRefs().filter(r2 => r2 == ref).length > 0);
+    if (ruleSets.length === 0 /* && this.componentService.getComponentsByRef(ref).length === 0 */) {
+      ruleSets = this.ruleSets;
     }
+    console.log('evaluateUpdateRules ref=' + ref + ' ruleSets=' + ruleSets.length);
+    for (let ruleSet of ruleSets) {
+      ruleSet.evaluateUpdateRules();
+    }
+    this.componentService.updateDynamicComponents(ref);
+    console.log('evaluateUpdateRules complete: ' + this.getAllocationString() + ' ref=' + ref);
   }
 
   private getAllocationString() {
@@ -53,21 +51,25 @@ export class RulesService {
     let shouldAdd: boolean = false;
     if (component.context.ruleId) {
       shouldAdd = true;
-      let ids = ruleSet.getIds();
-      if (ids.filter(id => id === component.context.ruleId).length > 0) {
-        console.log('addGlobalRules added ruleId component=' + component.path);
-        ruleSet.addComponent(component);
-      }
+      this.addMatchingComponent('ruleId', ruleSet.getIds(), component.context.ruleId, ruleSet, component);
     }
-    if (!shouldAdd && component.context.ref) {
+    let ref = component.context.ref;
+    if (!shouldAdd && ref) {
       shouldAdd = true;
-      let keyPaths = ruleSet.getKeyPaths();
-      if (keyPaths.filter(kpath => kpath === component.context.ref).length > 0) {
-        console.log('addGlobalRules added keyPath component=' + component.path);
-        ruleSet.addComponent(component);
+      if (!this.addMatchingComponent('keyPath', ruleSet.getKeyPaths(), ref, ruleSet, component)) {
+        this.addMatchingComponent('value', ruleSet.getValues(), ref, ruleSet, component)
       }
     }
     return shouldAdd;
+  }
+  addMatchingComponent( type: string, values: Array<string>, key: string, ruleSet: RuleSet,component: DynamicComponent) {
+    if (values.filter(value => value === key).length > 0) {
+      console.log('addGlobalRules added ' + type + ' component=' + component.path);
+      ruleSet.addComponent(component);
+      component.addRules(ruleSet);
+      return true;
+    }
+    return false;
   }
   addDynamicComponent(component: DynamicComponent) {
     if (this.componentService.addDynamicComponent(component)) {

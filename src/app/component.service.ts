@@ -29,10 +29,12 @@ export class ComponentService {
     return results[0];
   }
   updateDynamicComponents(ref: string = undefined) {
-    let components = this.dynamicComponents.filter(c => ref === undefined || c.context.ref === ref);
-    for (let component of components) {
+    for (let component of this.getComponentsByRef(ref)) {
       component.update();
     }
+  }
+  getComponentsByRef(ref: string) {
+    return this.dynamicComponents.filter(c => ref === undefined || c.context.ref === ref);
   }
   length() {
     return this.dynamicComponents.length;
