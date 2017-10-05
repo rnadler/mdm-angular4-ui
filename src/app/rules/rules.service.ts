@@ -57,7 +57,9 @@ export class RulesService {
     if (!shouldAdd && ref) {
       shouldAdd = true;
       if (!this.addMatchingComponent('keyPath', ruleSet.getKeyPaths(), ref, ruleSet, component)) {
-        this.addMatchingComponent('value', ruleSet.getValues(), ref, ruleSet, component)
+        if (!this.addMatchingComponent('value', ruleSet.getValues(), ref, ruleSet, component)) {
+          // this.addMatchingComponent('test', ruleSet.getTestVariables(), ref, ruleSet, component);
+        }
       }
     }
     return shouldAdd;
@@ -73,7 +75,8 @@ export class RulesService {
   }
   addDynamicComponent(component: DynamicComponent) {
     if (this.componentService.addDynamicComponent(component)) {
-      this.globalRuleSets.forEach(rs => this.addComponentToRuleSet(rs, component));
+      this.ruleSets.filter(rs => rs != component.ruleSet).forEach(rs => this.addComponentToRuleSet(rs, component));
+      //this.globalRuleSets.forEach(rs => this.addComponentToRuleSet(rs, component));
     }
   }
   removeRuleSet(ruleSet: RuleSet) {

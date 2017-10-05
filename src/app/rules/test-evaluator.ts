@@ -8,7 +8,7 @@ export class TestEvaluator {
   expression: any;
   private modelService: ModelService;
 
-  constructor(test: string, modelService: ModelService) {
+  constructor(test: string, modelService: ModelService = null) {
     this.test = test;
     this.modelService = modelService;
     try {
@@ -25,16 +25,27 @@ export class TestEvaluator {
       }
     }
   }
+  getVariables(): Array<string> {
+    let rv = [];
+    let variables = this.expression.variables();
+    for (let vname of variables) {
+      rv.push(this.getVname(vname));
+    }
+    return rv;
+  }
   evaluate() : boolean {
     let vars = {};
     let variables = this.expression.variables();
     for (let vname of variables) {
-      let value = this.modelService.getValue(vname.replace(/_/g,'.'));
+      let value = this.modelService.getValue(this.getVname(vname));
       if (value != null) {
         vars[vname] = isNumeric(value) ? Number(value) : value;
       }
     }
     // console.log(this.expression.toString() + ' evalVars=' +  JSON.stringify(vars));
     return this.expression.evaluate(vars);
+  }
+  private getVname(vname: string) {
+    return vname.replace(/_/g,'.');
   }
 }

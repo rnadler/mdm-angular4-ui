@@ -25,7 +25,10 @@ export class Rule {
     return this.ruleDescriptions.filter(rd => rd.value !== undefined).map(rd => rd.value);
   }
   getIds() {
-    return this.ruleDescriptions.filter(rd => rd.id).map(rd => rd.id);
+    return this.ruleDescriptions.filter(rd => rd.id !== undefined).map(rd => rd.id);
+  }
+  getTestVariables() {
+    return this.ruleDescriptions.map(rd => new TestEvaluator(rd.test).getVariables()).reduce((a, b) => a.concat(b));
   }
   getRelevantTestResult() {
     if (this.type !== RuleTypeEnum.relevant) {

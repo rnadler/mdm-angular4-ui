@@ -35,13 +35,16 @@ export class RuleSet {
   }
 
   getKeyPaths() {
-    return this.rules.map(r => r.getKeyPaths()).reduce((a, b) => a.concat(b));
+    return RuleSet.getUnique(this.rules.map(r => r.getKeyPaths()).reduce((a, b) => a.concat(b)));
   }
   getValues() {
-    return this.rules.map(r => r.getValues()).reduce((a, b) => a.concat(b));
+    return RuleSet.getUnique(this.rules.map(r => r.getValues()).reduce((a, b) => a.concat(b)));
   }
   getIds() {
-    return this.rules.map(r => r.getIds()).reduce((a, b) => a.concat(b));
+    return RuleSet.getUnique(this.rules.map(r => r.getIds()).reduce((a, b) => a.concat(b)));
+  }
+  getTestVariables() {
+    return RuleSet.getUnique(this.rules.map(r => r.getTestVariables()).reduce((a, b) => a.concat(b)));
   }
   getComponentRefs() {
     return this.components.map(c => c.context.ref);
@@ -53,5 +56,8 @@ export class RuleSet {
     for (let rule of this.getRulesOfType(type)) {
       rule.evaluateRules(this.components);
     }
+  }
+  static getUnique(values: Array<any>) {
+    return values.filter((item, i, ar) => ar.indexOf(item) === i);
   }
 }
