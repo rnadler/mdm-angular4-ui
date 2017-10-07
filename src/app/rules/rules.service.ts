@@ -9,7 +9,6 @@ import {ComponentService} from "../component.service";
 @Injectable()
 export class RulesService {
   private ruleSets: Array<RuleSet> = [];
-  private globalRuleSets: Array<RuleSet> = [];
 
   constructor(private modelService: ModelService, private componentService: ComponentService){}
 
@@ -29,14 +28,12 @@ export class RulesService {
   }
   evaluateUpdateRules(ref: string) {
     let ruleSets = this.ruleSets.filter(r => ref === undefined || r.getComponentRefs().filter(r2 => r2 == ref).length > 0);
-    if (ruleSets.length === 0 /* && this.componentService.getComponentsByRef(ref).length === 0 */) {
-      ruleSets = this.ruleSets;
-    }
     console.log('evaluateUpdateRules ref=' + ref + ' ruleSets=' + ruleSets.length);
     for (let ruleSet of ruleSets) {
       ruleSet.evaluateUpdateRules();
     }
     this.componentService.updateDynamicComponents(ref);
+    this.ruleSets.forEach(rs => rs.evaluateRelevantRules());
     console.log('evaluateUpdateRules complete: ' + this.getAllocationString() + ' ref=' + ref);
   }
 
@@ -44,7 +41,7 @@ export class RulesService {
     return 'rulesets=' + this.ruleSets.length + ' components=' + this.componentService.length();
   }
   addGlobalRuleSet(rules: any) {
-    this.globalRuleSets.push(this.createRuleSet({context: rules}));
+    this.createRuleSet({context: rules});
   }
   addComponentToRuleSet(ruleSet: RuleSet, component: DynamicComponent) {
     let shouldAdd: boolean = false;
@@ -56,9 +53,7 @@ export class RulesService {
     if (!shouldAdd && ref) {
       shouldAdd = true;
       if (!this.addMatchingComponent('keyPath', ruleSet.getKeyPaths(), ref, ruleSet, component)) {
-        if (!this.addMatchingComponent('value', ruleSet.getValues(), ref, ruleSet, component)) {
-          // this.addMatchingComponent('test', ruleSet.getTestVariables(), ref, ruleSet, component);
-        }
+        this.addMatchingComponent('value', ruleSet.getValues(), ref, ruleSet, component);
       }
     }
     return shouldAdd;
@@ -75,7 +70,6 @@ export class RulesService {
   addDynamicComponent(component: DynamicComponent) {
     if (this.componentService.addDynamicComponent(component)) {
       this.ruleSets.filter(rs => rs != component.ruleSet).forEach(rs => this.addComponentToRuleSet(rs, component));
-      //this.globalRuleSets.forEach(rs => this.addComponentToRuleSet(rs, component));
     }
   }
   removeRuleSet(ruleSet: RuleSet) {
@@ -83,6 +77,7 @@ export class RulesService {
       return;
     }
     this.ruleSets = this.ruleSets.filter(rs => rs !== ruleSet);
+    //console.log(this.ruleSets.length + ": remove ruleSet");
   }
   private addRule(rules: Array<Rule>, type: RuleTypeEnum, component: any) {
     let name = RuleTypeEnum[type];
