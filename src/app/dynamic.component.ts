@@ -59,7 +59,7 @@ export abstract class DynamicComponent implements OnInit, OnDestroy {
   isValid() {
     return true;
   }
-  addRules(ruleSet: RuleSet) {
+  addRuleSet(ruleSet: RuleSet) {
     for (let rule of ruleSet.getRulesOfType(RuleTypeEnum.relevant)) {
      this.relevantRules.push(rule);
     }

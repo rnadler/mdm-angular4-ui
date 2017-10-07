@@ -98,28 +98,28 @@ export class AppComponent implements OnDestroy {
     this.dataService.getJSON(file)
       .takeUntil(this.ngUnsubscribe)
       .subscribe(data => {
-        this.modelService.setValue('FlowGenerator.IdentificationProfiles.Product.UniversalIdentifier',value);
+        this.modelService.setValue('FlowGenerator.IdentificationProfiles.Product.UniversalIdentifier', value, false);
+        this.modelService.setContextValue(data, this.CATEGORY_PATH, this.defaultCategory, false);
         this.modelService.setVariantData(data);
-        this.modelService.setValue(this.CATEGORY_PATH, this.defaultCategory);
         this.componentService.updateDynamicComponents();
       });
   }
   onProfileChange(value: string) {
     console.log('active profile change: value=' + value);
     // Update FG data in Model.
-    this.modelService.setFgData(this.fgData);
-    this.modelService.setValue(this.PROFILE_PATH, value);
+    this.modelService.setContextValue(this.fgData, this.PROFILE_PATH, value, false);
     this.setCurrentTherapyMode(value);
     // Change some settings to random values.
-    this.modelService.setValue('FlowGenerator.IdentificationProfiles.Software.VariantIdentifier',
-        this.counter % 2 == 0 ? this.randomIntFromInterval(1, 15) : undefined);
+    this.modelService.setContextValue(this.fgData, 'FlowGenerator.IdentificationProfiles.Software.VariantIdentifier',
+        this.counter % 2 == 0 ? this.randomIntFromInterval(1, 15) : undefined, false);
     this.counter++;
-    this.modelService.setValue('FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.MaxPressure',
-      this.randomIntFromInterval(15, 20));
-    this.modelService.setValue('FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.MaxPressure',
-      this.randomIntFromInterval(15, 20));
-    this.modelService.setValue('FlowGenerator.SettingProfiles.TherapyProfiles.CpapProfile.SetPressure',
-      this.randomIntFromInterval(5, 15));
+    this.modelService.setContextValue(this.fgData, 'FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.MaxPressure',
+      this.randomIntFromInterval(15, 20), false);
+    this.modelService.setContextValue(this.fgData, 'FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.MaxPressure',
+      this.randomIntFromInterval(15, 20), false);
+    this.modelService.setContextValue(this.fgData, 'FlowGenerator.SettingProfiles.TherapyProfiles.CpapProfile.SetPressure',
+      this.randomIntFromInterval(5, 15), false);
+    this.modelService.setFgData(this.fgData);
     // Update all components
     this.componentService.updateDynamicComponents();
   }
@@ -130,7 +130,7 @@ export class AppComponent implements OnDestroy {
 
   private setCurrentTherapyMode(currentProfile: string) {
     this.modelService.setValue('Internal.TherapyModes.CurrentTherapyMode',
-      this.modelService.getValue('FlowGenerator.SettingProfiles.TherapyProfiles.' + currentProfile + '.TherapyMode'));
+      this.modelService.getValue('FlowGenerator.SettingProfiles.TherapyProfiles.' + currentProfile + '.TherapyMode'), false);
   }
 
   ngOnDestroy() {

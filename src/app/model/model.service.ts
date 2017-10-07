@@ -37,21 +37,24 @@ export class ModelService {
     return val;
   }
 
-  setValue(ref: string, value: any) {
-    return this.setContextValue(this.model, ref, value);
+  setValue(ref: string, value: any, publishMessage: boolean = true) {
+    return this.setContextValue(this.model, ref, value, publishMessage);
   }
 
-  setContextValue(context: any, ref: string, value: any) {
+  setContextValue(context: any, ref: string, value: any, publishMessage: boolean = true) {
     let previousValue = this.getContextValue(context, ref);
-    if (previousValue === value) {
+    if (ref !== this.FLOWGENERATOR && ref !== this.VARIANT && previousValue === value) {
       return value;
     }
     let rv = jp.apply(context, '$.' + ref, oldValue => value);
     if (rv.length === 0) {
+      console.warn('ModelService failed to setValue ref=' + ref + ' value=' + value);
       return null;
     }
-    this.messagingService.publish(new ModelUpdatedMessage(ref, value));
-    console.log('ModelService setValue ref=' + ref + ' value=' + value);
+    if (publishMessage) {
+      this.messagingService.publish(new ModelUpdatedMessage(ref, value));
+    }
+    console.log('ModelService setValue ref=' + ref + ' value=' + value + ' publish=' + publishMessage);
     return rv;
   }
   setFgData(fgData: any) {

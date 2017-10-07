@@ -14,14 +14,14 @@ export class RulesService {
   constructor(private modelService: ModelService, private componentService: ComponentService){}
 
   createRuleSet(component: any): RuleSet {
-    let rv = [];
-    this.addRule(rv, RuleTypeEnum.setup, component);
-    this.addRule(rv, RuleTypeEnum.calculate, component);
-    this.addRule(rv, RuleTypeEnum.relevant, component);
-    if (rv.length === 0) {
+    let rules = [];
+    this.addRule(rules, RuleTypeEnum.setup, component);
+    this.addRule(rules, RuleTypeEnum.calculate, component);
+    this.addRule(rules, RuleTypeEnum.relevant, component);
+    if (rules.length === 0) {
       return null;
     }
-    let ruleSet = new RuleSet(rv);
+    let ruleSet = new RuleSet(rules);
     ruleSet.addComponent(component);
     this.ruleSets.push(ruleSet);
     ruleSet.evaluateSetupRules();
@@ -44,8 +44,7 @@ export class RulesService {
     return 'rulesets=' + this.ruleSets.length + ' components=' + this.componentService.length();
   }
   addGlobalRuleSet(rules: any) {
-    let ruleSet = this.createRuleSet({context: rules});
-    this.globalRuleSets.push(ruleSet);
+    this.globalRuleSets.push(this.createRuleSet({context: rules}));
   }
   addComponentToRuleSet(ruleSet: RuleSet, component: DynamicComponent) {
     let shouldAdd: boolean = false;
@@ -68,7 +67,7 @@ export class RulesService {
     if (values.filter(value => value === key).length > 0) {
       console.log('addGlobalRules added ' + type + ' component=' + component.path);
       ruleSet.addComponent(component);
-      component.addRules(ruleSet);
+      component.addRuleSet(ruleSet);
       return true;
     }
     return false;
