@@ -82,6 +82,7 @@
     }
   },
   "CategoryRules": {
+    "label": "CategoryRules",
     "relevant": [
       {
         "test": "Variant.Attributes.Category == Internal.Categories.Vent",
@@ -90,6 +91,7 @@
     ]
   },
   "Rules": {
+    "label": "GlobalRules",
     "calculate": [
       {
         "id": "AutoSet_TherapyMode_Change",

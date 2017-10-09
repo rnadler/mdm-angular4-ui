@@ -18,6 +18,7 @@ export abstract class DynamicComponent implements OnInit, OnDestroy {
   ruleSet: RuleSet;
   relevantRules: Array<Rule> = [];
 
+  // TODO: Remove unused ComponentService
   constructor(protected modelService: ModelService, private rulesService: RulesService,
               private componentService: ComponentService) {}
 
@@ -71,7 +72,6 @@ export abstract class DynamicComponent implements OnInit, OnDestroy {
     return this.path + '.' + name;
   }
   ngOnDestroy() {
-    this.rulesService.removeRuleSet(this.ruleSet);
-    this.componentService.removeDynamicComponent(this);
+    this.rulesService.removeDynamicComponent(this);
   }
 }

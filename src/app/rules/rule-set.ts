@@ -6,9 +6,11 @@ import {DynamicComponent} from "../dynamic.component";
 export class RuleSet {
   components: Array<DynamicComponent>;
   rules: Array<Rule>;
+  name: string;
 
-  constructor(rules: Array<Rule>) {
+  constructor(rules: Array<Rule>, name: string) {
     this.rules = rules;
+    this.name = name;
     this.components = [];
   }
   addComponent(component: DynamicComponent) {
@@ -18,6 +20,15 @@ export class RuleSet {
     let path = component.path;
     if (this.components.filter(c => c.path === path).length == 0) {
       this.components.push(component);
+      console.log('ruleSet addComponent ruleSet=' + this.name + ' component=' + path + ' components=' + this.components.length);
+    }
+  }
+  removeComponent(component: DynamicComponent) {
+    let startLength = this.components.length;
+    this.components = this.components.filter(c => c.path !== component.path);
+    if (startLength !== this.components.length) {
+      console.log('ruleSet removeComponent ruleSet=' + this.name + ' component=' + component.path +
+        ' components=' + this.components.length);
     }
   }
   evaluateUpdateRules() {
