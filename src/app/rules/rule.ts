@@ -45,6 +45,9 @@ export class Rule {
     return true;
   }
   evaluateRules(components: Array<DynamicComponent>) {
+    if (components.length === 0) {
+      return;
+    }
     for (let rd in this.ruleDescriptions) {
       let ruleDescription = this.ruleDescriptions[rd];
       let test = ruleDescription.test;
