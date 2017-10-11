@@ -33,7 +33,9 @@ export abstract class DynamicComponent implements OnInit, OnDestroy {
       let type = context.ui != null ? context.ui : ElementService.DEFAULT;
       this.elements.push({context: context, path: this.getPath(el), type: type, hidden: false});
     }
-    this.updateRelevance(!this.hidden);
+    setTimeout(() => {
+      this.updateRelevance(!this.hidden);
+    });
   }
 
   onChange(newValue: any) {
