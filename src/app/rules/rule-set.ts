@@ -65,7 +65,7 @@ export class RuleSet {
   }
   private evaluateRulesOfType(type: RuleTypeEnum) {
     for (let rule of this.getRulesOfType(type)) {
-      rule.evaluateRules(this.components);
+      rule.evaluateRules(this.components, this.name);
     }
   }
   static getUnique(values: Array<any>) {

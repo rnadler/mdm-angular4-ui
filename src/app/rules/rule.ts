@@ -44,14 +44,14 @@ export class Rule {
     }
     return true;
   }
-  evaluateRules(components: Array<DynamicComponent>) {
+  evaluateRules(components: Array<DynamicComponent>, ruleSetName: string) {
     if (components.length === 0) {
       return;
     }
     for (let rd in this.ruleDescriptions) {
       let ruleDescription = this.ruleDescriptions[rd];
       let test = ruleDescription.test;
-      let label = RuleTypeEnum[this.type] + '[' + rd + '] ';
+      let label = ruleSetName + ':' + RuleTypeEnum[this.type] + '[' + rd + '] ';
       let testResult = new TestEvaluator(test, this.modelService).evaluate();
       //console.log('test ' + label + 'testText=' + test + ' testResult=' + testResult);
       let valuePath = ruleDescription.value;

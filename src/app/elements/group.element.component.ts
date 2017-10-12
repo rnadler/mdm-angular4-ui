@@ -4,7 +4,6 @@ import {DynamicComponent} from "../dynamic.component";
 import {ElementService} from "../element.service";
 import {RulesService} from "../rules/rules.service";
 import {ModelService} from "../model/model.service";
-import {ComponentService} from "../component.service";
 
 @Component({
   selector: 'group-element',
@@ -21,8 +20,8 @@ import {ComponentService} from "../component.service";
 })
 export class GroupElementComponent extends DynamicComponent  {
 
-  constructor(modelService: ModelService, rulesService: RulesService, componentService: ComponentService) {
-    super(modelService, rulesService, componentService);
+  constructor(modelService: ModelService, rulesService: RulesService) {
+    super(modelService, rulesService);
   }
   ngOnInit(): void {
     this.update();
