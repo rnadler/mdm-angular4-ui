@@ -10,9 +10,7 @@ import { RulesService } from "./rules/rules.service"
 import { MessagingService } from "./model/messaging-service"
 import { ComponentService } from "./component.service";
 
-import {
-  DynamicContentComponent,
-} from './dynamic-content.component';
+import {DynamicContentComponent} from './dynamic-content.component';
 import {XformsComponent} from "./xforms.component";
 import {TextElementComponent} from "./elements/text.element.component";
 import {DefaultElementComponent} from "./elements/default.element.component";
@@ -23,6 +21,7 @@ import {GroupElementComponent} from "./elements/group.element.component"
 import {TableElementComponent} from "./elements/table.element.component"
 import {OutputElementComponent} from "./elements/output.element.component"
 import {RepeatElementComponent} from "./elements/repeat.element.component";
+import {TriggerElementComponent} from "./elements/trigger.element.component"
 
 @NgModule({
   declarations: [
@@ -37,7 +36,8 @@ import {RepeatElementComponent} from "./elements/repeat.element.component";
     GroupElementComponent,
     TableElementComponent,
     OutputElementComponent,
-    RepeatElementComponent
+    RepeatElementComponent,
+    TriggerElementComponent
   ],
   imports: [
     BrowserModule,
@@ -61,7 +61,8 @@ import {RepeatElementComponent} from "./elements/repeat.element.component";
     GroupElementComponent,
     TableElementComponent,
     OutputElementComponent,
-    RepeatElementComponent
+    RepeatElementComponent,
+    TriggerElementComponent
   ],
   bootstrap: [AppComponent]
 })

@@ -15,7 +15,7 @@ import {RulesService} from "../rules/rules.service";
         {{value}}
       </option>
     </select>
-    <div *ngIf="alertMessage"><br>{{alertMessage}}</div>
+    <span *ngIf="alertMessage" class="error">{{alertMessage}}</span>
   </div>`
 })
 export class RangeElementComponent extends DynamicComponent {

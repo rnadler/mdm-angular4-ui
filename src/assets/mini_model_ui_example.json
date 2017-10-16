@@ -257,6 +257,10 @@
               "label": "xOne",
               "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.xOne",
               "bind": "Variant.PressureRanges"
+            },
+            "sendAutoSetSettings": {
+              "ui": "trigger",
+              "label": "Send Settings"
             }
           }
         },

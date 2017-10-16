@@ -38,13 +38,23 @@ export abstract class DynamicComponent implements OnInit, OnDestroy {
     }
   }
   setAlertMessage(message: string, keyPath: string) {
-    this.alertMessage = this.context.ref === keyPath ? message : null;
+    if (this.context.ref === keyPath) {
+      this.alertMessage = message;
+      //setTimeout(() => this.clearAlertMessage(), 4000);
+    } else {
+      this.clearAlertMessage();
+    }
+  }
+  private clearAlertMessage() {
+    this.alertMessage = null;
   }
 
   onChange(newValue: any) {
     console.log('onChange: ' + this.path + ' setting ref=' + this.context.ref + ' to newValue=' + newValue);
     this.alertMessage = null;
-    this.modelService.setValue(this.context.ref, newValue);
+    if (this.context.ref) {
+      this.modelService.setValue(this.context.ref, newValue);
+    }
   }
   updateRelevance(testResult: boolean, fromUpdate: boolean = false) {
     let previousRelevant = !this.hidden;

@@ -62,14 +62,14 @@ export class Rule {
         let message = ruleDescription.message;
         let valuePath = ruleDescription.value;
         let keyPath = ruleDescription.keyPath;
-        if (message) {
-          this.updateAlertMessage(components, message, keyPath);
-        } else if (valuePath) {
-
+        if (valuePath) {
           let value = this.modelService.getValue(valuePath);
           this.setComponentsValue(components, keyPath, value);
           console.log('evaluate ' + label + 'set keyPath=' + keyPath + ' to value=' + value);
           this.updateComonents(components);
+        }
+        if (message) {
+          this.updateAlertMessage(components, message, keyPath);
         }
       }
     }
