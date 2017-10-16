@@ -16,6 +16,7 @@ export abstract class DynamicComponent implements OnInit, OnDestroy {
   element: any;
   ruleSet: RuleSet;
   relevantRules: Array<Rule> = [];
+  alertMessage: string;
 
   constructor(protected modelService: ModelService, private rulesService: RulesService) {}
 
@@ -36,9 +37,13 @@ export abstract class DynamicComponent implements OnInit, OnDestroy {
       });
     }
   }
+  setAlertMessage(message: string, keyPath: string) {
+    this.alertMessage = this.context.ref === keyPath ? message : null;
+  }
 
   onChange(newValue: any) {
     console.log('onChange: ' + this.path + ' setting ref=' + this.context.ref + ' to newValue=' + newValue);
+    this.alertMessage = null;
     this.modelService.setValue(this.context.ref, newValue);
   }
   updateRelevance(testResult: boolean, fromUpdate: boolean = false) {

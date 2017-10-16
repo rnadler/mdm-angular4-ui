@@ -54,35 +54,39 @@ export class Rule {
       let label = ruleSetName + ':' + RuleTypeEnum[this.type] + '[' + rd + '] ';
       let testResult = new TestEvaluator(test, this.modelService).evaluate();
       //console.log('test ' + label + 'testText=' + test + ' testResult=' + testResult);
-      let valuePath = ruleDescription.value;
-      if (testResult && valuePath) {
-        let keyPath = ruleDescription.keyPath;
-        let value = this.modelService.getValue(valuePath);
-        this.setComponentsValue(components, keyPath, value);
-        console.log('evaluate ' + label + 'set keyPath=' + keyPath + ' to value=' + value);
-        this.updateComonents(components);
-      } else if (this.type === RuleTypeEnum.relevant) {
+      if (this.type === RuleTypeEnum.relevant) {
         this.updateComonentsRelevance(components, testResult);
+        return;
+      }
+      if (testResult) {
+        let message = ruleDescription.message;
+        let valuePath = ruleDescription.value;
+        let keyPath = ruleDescription.keyPath;
+        if (message) {
+          this.updateAlertMessage(components, message, keyPath);
+        } else if (valuePath) {
+
+          let value = this.modelService.getValue(valuePath);
+          this.setComponentsValue(components, keyPath, value);
+          console.log('evaluate ' + label + 'set keyPath=' + keyPath + ' to value=' + value);
+          this.updateComonents(components);
+        }
       }
     }
+  }
+  private updateAlertMessage(components: Array<DynamicComponent>, message: string, keyPath: string) {
+    components.forEach(c => c.setAlertMessage(message, keyPath));
   }
   private updateComonents(components: Array<DynamicComponent>) {
-    for (let component of components) {
-      component.update();
-    }
+    components.forEach(c => c.update());
   }
   private updateComonentsRelevance(components: Array<DynamicComponent>, testResult) {
-    for (let component of components) {
-      if(typeof component.updateRelevance === 'function') {
-        component.updateRelevance(testResult);
-      }
-    }
+    components.filter(c => typeof c.updateRelevance === 'function')
+      .forEach(c => c.updateRelevance(testResult));
   }
   private setComponentsValue(components: Array<DynamicComponent>, keyPath, value) {
     if (this.modelService.setValue(keyPath, value) === null) {
-      for (let component of components) {
-        this.modelService.setContextValue(component.context, keyPath, value);
-      }
+      components.forEach(c => this.modelService.setContextValue(c.context, keyPath, value));
     }
   }
 }
