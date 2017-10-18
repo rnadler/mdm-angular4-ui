@@ -58,24 +58,22 @@ export class Rule {
         this.updateComonentsRelevance(components, testResult);
         return;
       }
-      if (testResult) {
-        let message = ruleDescription.message;
-        let valuePath = ruleDescription.value;
-        let keyPath = ruleDescription.keyPath;
-        if (valuePath) {
-          let value = this.modelService.getValue(valuePath);
-          this.setComponentsValue(components, keyPath, value);
-          console.log('evaluate ' + label + 'set keyPath=' + keyPath + ' to value=' + value);
-          this.updateComonents(components);
-        }
-        if (message) {
-          this.updateAlertMessage(components, message, keyPath);
-        }
+      let message = ruleDescription.message;
+      let valuePath = ruleDescription.value;
+      let keyPath = ruleDescription.keyPath;
+      if (testResult && valuePath) {
+        let value = this.modelService.getValue(valuePath);
+        this.setComponentsValue(components, keyPath, value);
+        console.log('evaluate ' + label + 'set keyPath=' + keyPath + ' to value=' + value);
+        this.updateComonents(components);
+      }
+      if (testResult && message) { // TODO: Need to update alert messages for all components!
+        this.updateAlertMessage(components, message, keyPath, valuePath);
       }
     }
   }
-  private updateAlertMessage(components: Array<DynamicComponent>, message: string, keyPath: string) {
-    components.forEach(c => c.setAlertMessage(message, keyPath));
+  private updateAlertMessage(components: Array<DynamicComponent>, message: string, keyPath: string, valuePath: string) {
+    components.forEach(c => c.setAlertMessage(message, keyPath, valuePath));
   }
   private updateComonents(components: Array<DynamicComponent>) {
     components.forEach(c => c.update());

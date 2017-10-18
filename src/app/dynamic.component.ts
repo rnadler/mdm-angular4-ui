@@ -6,6 +6,7 @@ import jp from "jsonpath";
 import {ElementService} from "./element.service";
 import {Rule} from "./rules/rule";
 import {RuleTypeEnum} from "./rules/rule-type-enum";
+import {AlertUpdatedMessage} from "./model/alert-updated-message";
 
 export abstract class DynamicComponent implements OnInit, OnDestroy {
   @Input() context: any;
@@ -37,21 +38,26 @@ export abstract class DynamicComponent implements OnInit, OnDestroy {
       });
     }
   }
-  setAlertMessage(message: string, keyPath: string) {
-    if (this.context.ref === keyPath) {
+  setAlertMessage(message: string, keyPath: string, valuePath: string) {
+    if (this.context.ref === keyPath || this.context.ref === valuePath) {
+      if (this.alertMessage !== message) {
+        this.modelService.getMessagingService().publish(new AlertUpdatedMessage(message !== null));
+      }
       this.alertMessage = message;
-      //setTimeout(() => this.clearAlertMessage(), 4000);
     } else {
       this.clearAlertMessage();
     }
   }
   private clearAlertMessage() {
+    if (this.alertMessage) {
+      this.modelService.getMessagingService().publish(new AlertUpdatedMessage(false));
+    }
     this.alertMessage = null;
   }
 
   onChange(newValue: any) {
     console.log('onChange: ' + this.path + ' setting ref=' + this.context.ref + ' to newValue=' + newValue);
-    this.alertMessage = null;
+    this.clearAlertMessage();
     if (this.context.ref) {
       this.modelService.setValue(this.context.ref, newValue);
     }

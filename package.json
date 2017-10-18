@@ -33,7 +33,7 @@
     "@angular/language-service": "^4.4.5",
     "@types/jasmine": "^2.6.0",
     "@types/jasminewd2": "^2.0.3",
-    "@types/node": "^8.0.37",
+    "@types/node": "^8.0.44",
     "codelyzer": "^3.2.1",
     "jasmine-core": "~2.8.0",
     "jasmine-spec-reporter": "~4.2.0",
@@ -43,7 +43,7 @@
     "karma-coverage-istanbul-reporter": "^1.2.1",
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
-    "protractor": "~5.1.2",
+    "protractor": "~5.2.0",
     "ts-node": "~3.3.0",
     "tslint": "~5.7.0",
     "typescript": "^2.5.3"
