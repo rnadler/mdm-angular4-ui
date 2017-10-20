@@ -18,6 +18,7 @@ export abstract class DynamicComponent implements OnInit, OnDestroy {
   ruleSet: RuleSet;
   relevantRules: Array<Rule> = [];
   alertMessage: string;
+  alertValuePath: string;
 
   constructor(protected modelService: ModelService, private rulesService: RulesService) {}
 
@@ -39,20 +40,35 @@ export abstract class DynamicComponent implements OnInit, OnDestroy {
     }
   }
   setAlertMessage(message: string, keyPath: string, valuePath: string) {
-    if (this.context.ref === keyPath || this.context.ref === valuePath) {
-      if (this.alertMessage !== message) {
-        this.modelService.getMessagingService().publish(new AlertUpdatedMessage(message !== null));
-      }
-      this.alertMessage = message;
+    if (this.context.ref === keyPath) {
+      this.updateAlertMessage(message, valuePath);
     } else {
-      this.clearAlertMessage();
+      this.clearAlertMessage(valuePath);
     }
   }
-  private clearAlertMessage() {
+  private updateAlertMessage(message: string, valuePath: string) {
+    if (message) {
+      this.alertValuePath = valuePath;
+    }
+    if (!message && !this.okToClearAlertMessage(valuePath)) {
+      return;
+    }
+    if (this.alertMessage !== message) {
+      this.modelService.getMessagingService().publish(new AlertUpdatedMessage(message !== null));
+    }
+    this.alertMessage = message;
+  }
+  private clearAlertMessage(valuePath: string = null) {
+    if (!this.okToClearAlertMessage(valuePath)) {
+      return;
+    }
     if (this.alertMessage) {
       this.modelService.getMessagingService().publish(new AlertUpdatedMessage(false));
     }
     this.alertMessage = null;
+  }
+  private okToClearAlertMessage(valuePath: string): boolean {
+    return this.alertMessage && this.alertValuePath === valuePath;
   }
 
   onChange(newValue: any) {
