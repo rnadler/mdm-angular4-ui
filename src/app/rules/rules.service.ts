@@ -5,12 +5,14 @@ import {RuleTypeEnum} from "./rule-type-enum";
 import {ModelService} from "../model/model.service";
 import {DynamicComponent} from "../dynamic.component";
 import {ComponentService} from "../component.service";
+import {MessagingService} from "../model/messaging-service";
 
 @Injectable()
 export class RulesService {
   private ruleSets: Array<RuleSet> = [];
 
-  constructor(private modelService: ModelService, private componentService: ComponentService){}
+  constructor(private modelService: ModelService, private componentService: ComponentService,
+              private messagingService: MessagingService){}
 
   createRuleSet(component: any): RuleSet {
     let rules = [];
@@ -82,7 +84,7 @@ export class RulesService {
     let name = RuleTypeEnum[type];
     let ruleContext = component.context[name];
     if (ruleContext) {
-      let rule = new Rule(type, this.modelService);
+      let rule = new Rule(type, this.modelService, this.messagingService);
       for (let rd of ruleContext) {
         rule.addRuleDescption(rd);
       }

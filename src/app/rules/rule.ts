@@ -4,16 +4,20 @@ import {TestEvaluator} from "./test-evaluator";
 import {RuleTypeEnum} from "./rule-type-enum";
 import {ModelService} from "../model/model.service";
 import {DynamicComponent} from "../dynamic.component";
+import {MessagingService} from "../model/messaging-service";
+import {AlertUpdatedMessage} from "../model/alert-updated-message";
 
 export class Rule {
   type: RuleTypeEnum;
   ruleDescriptions: Array<RuleDescription>;
   private modelService: ModelService;
+  private messagingService: MessagingService;
 
-  constructor(type: RuleTypeEnum, modelService: ModelService) {
+  constructor(type: RuleTypeEnum, modelService: ModelService, messagingService: MessagingService) {
     this.type = type;
     this.ruleDescriptions = [];
     this.modelService = modelService;
+    this.messagingService = messagingService;
   }
   addRuleDescption(ruleDesc: any) {
     this.ruleDescriptions.push(ruleDesc);
@@ -76,7 +80,11 @@ export class Rule {
     }
   }
   private updateAlertMessage(components: Array<DynamicComponent>, message: string, keyPath: string, valuePath: string) {
-    components.forEach(c => c.setAlertMessage(message, keyPath, valuePath));
+    let self = this;
+    components.forEach(c => {
+      c.setAlertMessage(message, keyPath, valuePath, (state) =>
+        self.messagingService.publish(new AlertUpdatedMessage(state)))
+    });
   }
   private updateComonents(components: Array<DynamicComponent>) {
     components.forEach(c => c.update());

@@ -6,7 +6,8 @@ import jp from "jsonpath";
 import {ElementService} from "./element.service";
 import {Rule} from "./rules/rule";
 import {RuleTypeEnum} from "./rules/rule-type-enum";
-import {AlertUpdatedMessage} from "./model/alert-updated-message";
+
+type AlertCallback = (state: boolean) => any;
 
 export abstract class DynamicComponent implements OnInit, OnDestroy {
   @Input() context: any;
@@ -39,14 +40,14 @@ export abstract class DynamicComponent implements OnInit, OnDestroy {
       });
     }
   }
-  setAlertMessage(message: string, keyPath: string, valuePath: string) {
+  setAlertMessage(message: string, keyPath: string, valuePath: string, callback: AlertCallback) {
     if (this.context.ref === keyPath) {
-      this.updateAlertMessage(message, valuePath);
+      this.updateAlertMessage(message, valuePath, callback);
     } else {
-      this.clearAlertMessage(valuePath);
+      this.clearAlertMessage(valuePath, callback);
     }
   }
-  private updateAlertMessage(message: string, valuePath: string) {
+  private updateAlertMessage(message: string, valuePath: string, callback: AlertCallback) {
     if (message) {
       this.alertValuePath = valuePath;
     }
@@ -54,16 +55,16 @@ export abstract class DynamicComponent implements OnInit, OnDestroy {
       return;
     }
     if (this.alertMessage !== message) {
-      this.modelService.getMessagingService().publish(new AlertUpdatedMessage(message !== null));
+      callback(message !== null);
     }
     this.alertMessage = message;
   }
-  private clearAlertMessage(valuePath: string = null) {
+  private clearAlertMessage(valuePath: string = null, callback: AlertCallback = null) {
     if (!this.okToClearAlertMessage(valuePath)) {
       return;
     }
-    if (this.alertMessage) {
-      this.modelService.getMessagingService().publish(new AlertUpdatedMessage(false));
+    if (callback && this.alertMessage) {
+      callback(false);
     }
     this.alertMessage = null;
   }
