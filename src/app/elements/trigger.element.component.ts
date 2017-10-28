@@ -9,7 +9,7 @@ import {Subject} from "rxjs/Subject";
 
 @Component({
   selector: 'trigger-element',
-  template: `<div><br><button (click)="onChange('button clicked')" [disabled]="hidden">{{context?.label}}</button></div>`
+  template: `<button class="column" (click)="onChange('button clicked')" [disabled]="hidden">{{context?.label}}</button>`
 })
 export class TriggerElementComponent extends DynamicComponent {
   private ngUnsubscribe: Subject<void> = new Subject<void>();

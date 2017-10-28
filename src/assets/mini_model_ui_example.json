@@ -219,7 +219,7 @@
           "ref": "Internal.Switches.TherapyEditSwitch"
         },
         "autoSetProfileGroupEdit": {
-          "ui": "repeat",
+          "ui": "group",
           "label": "Edit AutoSetProfile",
           "relevant": [
             {
@@ -227,45 +227,50 @@
             }
           ],
           "controls": {
-            "therapyMode": {
-              "ui": "select",
-              "label": "TherapyMode",
-              "ruleId" : "AutoSet_TherapyMode_Change",
-              "ref": "Internal.TherapyModes.CurrentTherapyMode",
-              "bind": "Variant.TherapyModes.items"
-            },
-            "startPressure": {
-              "ui": "range",
-              "label": "StartPressure",
-              "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.StartPressure",
-              "bind": "Variant.PressureRanges"
-            },
-            "minPressure": {
-              "ui": "range",
-              "label": "MinPressure",
-              "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.MinPressure",
-              "bind": "Variant.PressureRanges"
-            },
-            "maxPressure": {
-              "ui": "range",
-              "label": "MaxPressure",
-              "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.MaxPressure",
-              "bind": "Variant.PressureRanges"
-            },
-            "xOne": {
-              "ui": "range",
-              "label": "xOne",
-              "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.xOne",
-              "bind": "Variant.PressureRanges"
+            "autoSetProfileGroupEditSettings": {
+              "ui": "repeat",
+              "controls": {
+                "therapyMode": {
+                  "ui": "select",
+                  "label": "TherapyMode",
+                  "ruleId": "AutoSet_TherapyMode_Change",
+                  "ref": "Internal.TherapyModes.CurrentTherapyMode",
+                  "bind": "Variant.TherapyModes.items"
+                },
+                "startPressure": {
+                  "ui": "range",
+                  "label": "StartPressure",
+                  "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.StartPressure",
+                  "bind": "Variant.PressureRanges"
+                },
+                "minPressure": {
+                  "ui": "range",
+                  "label": "MinPressure",
+                  "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.MinPressure",
+                  "bind": "Variant.PressureRanges"
+                },
+                "maxPressure": {
+                  "ui": "range",
+                  "label": "MaxPressure",
+                  "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.MaxPressure",
+                  "bind": "Variant.PressureRanges"
+                },
+                "xOne": {
+                  "ui": "range",
+                  "label": "xOne",
+                  "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.xOne",
+                  "bind": "Variant.PressureRanges"
+                }
+              }
             },
             "sendAutoSetSettings": {
               "ui": "trigger",
-              "label": "Send Settings"
+              "label": "Send AutoSet Settings"
             }
           }
         },
         "autoSetForHerProfileGroupEdit": {
-          "ui": "repeat",
+          "ui": "group",
           "label": "Edit AutoSetForHerProfile",
           "relevant": [
             {
@@ -273,35 +278,44 @@
             }
           ],
           "controls": {
-            "therapyMode": {
-              "ui": "select",
-              "label": "TherapyMode",
-              "ruleId" : "HerAuto_TherapyMode_Change",
-              "ref": "Internal.TherapyModes.CurrentTherapyMode",
-              "bind": "Variant.TherapyModes.items"
+            "autoSetForHerProfileGroupEditSettings": {
+              "ui": "repeat",
+              "controls": {
+                "therapyMode": {
+                  "ui": "select",
+                  "label": "TherapyMode",
+                  "ruleId": "HerAuto_TherapyMode_Change",
+                  "ref": "Internal.TherapyModes.CurrentTherapyMode",
+                  "bind": "Variant.TherapyModes.items"
+                },
+                "startPressure": {
+                  "ui": "range",
+                  "label": "StartPressure",
+                  "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.StartPressure",
+                  "bind": "Variant.PressureRanges"
+                },
+                "minPressure": {
+                  "ui": "range",
+                  "label": "MinPressure",
+                  "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.MinPressure",
+                  "bind": "Variant.PressureRanges"
+                },
+                "maxPressure": {
+                  "ui": "range",
+                  "label": "MaxPressure",
+                  "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.MaxPressure",
+                  "bind": "Variant.PressureRanges"
+                }
+              }
             },
-            "startPressure": {
-              "ui": "range",
-              "label": "StartPressure",
-              "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.StartPressure",
-              "bind": "Variant.PressureRanges"
-            },
-            "minPressure": {
-              "ui": "range",
-              "label": "MinPressure",
-              "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.MinPressure",
-              "bind": "Variant.PressureRanges"
-            },
-            "maxPressure": {
-              "ui": "range",
-              "label": "MaxPressure",
-              "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.MaxPressure",
-              "bind": "Variant.PressureRanges"
+            "sendAutoSetForHerSettings": {
+              "ui": "trigger",
+              "label": "Send AutoSetForHer Settings"
             }
           }
         },
         "cpapProfileGroupEdit": {
-          "ui": "repeat",
+          "ui": "group",
           "label": "Edit CpapProfile",
           "relevant": [
             {
@@ -309,24 +323,33 @@
             }
           ],
           "controls": {
-            "therapyMode": {
-              "ui": "select",
-              "label": "TherapyMode",
-              "ruleId" : "CPAP_TherapyMode_Change",
-              "ref": "Internal.TherapyModes.CurrentTherapyMode",
-              "bind": "Variant.TherapyModes.items"
+            "cpapProfileGroupEditSettings": {
+              "ui": "repeat",
+              "controls": {
+                "therapyMode": {
+                  "ui": "select",
+                  "label": "TherapyMode",
+                  "ruleId": "CPAP_TherapyMode_Change",
+                  "ref": "Internal.TherapyModes.CurrentTherapyMode",
+                  "bind": "Variant.TherapyModes.items"
+                },
+                "startPressure": {
+                  "ui": "range",
+                  "label": "StartPressure",
+                  "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.CpapProfile.StartPressure",
+                  "bind": "Variant.PressureRanges"
+                },
+                "SetPressure": {
+                  "ui": "range",
+                  "label": "SetPressure",
+                  "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.CpapProfile.SetPressure",
+                  "bind": "Variant.PressureRanges"
+                }
+              }
             },
-            "startPressure": {
-              "ui": "range",
-              "label": "StartPressure",
-              "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.CpapProfile.StartPressure",
-              "bind": "Variant.PressureRanges"
-            },
-            "SetPressure": {
-              "ui": "range",
-              "label": "SetPressure",
-              "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.CpapProfile.SetPressure",
-              "bind": "Variant.PressureRanges"
+            "sendCpapSettings": {
+              "ui": "trigger",
+              "label": "Send CPAP Settings"
             }
           }
         },

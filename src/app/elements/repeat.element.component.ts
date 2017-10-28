@@ -6,15 +6,6 @@ import {ModelService} from "../model/model.service";
 
 @Component({
   selector: 'repeat-element',
-  styles: [
-    `table {
-      border-collapse: separate;
-      border-spacing: 15px;
-    }
-    td {
-     text-align: center;
-    }`
-  ],
   template: `
     <div class="panel panel-info" [hidden]="hidden">
       <div class="panel-heading" *ngIf="context.label">

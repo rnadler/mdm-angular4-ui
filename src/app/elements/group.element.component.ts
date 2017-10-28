@@ -12,8 +12,10 @@ import {ModelService} from "../model/model.service";
       <div class="panel-heading" *ngIf="context.label">
         <h2 class="panel-title">{{context.label}}</h2>
       </div>
-      <div class="panel-body" *ngFor="let element of elements">
-        <dynamic-content [type]="element.type" [context]="element.context" [path]="element.path"></dynamic-content>
+      <div class="panel-body">
+        <div *ngFor="let element of elements">
+          <dynamic-content [type]="element.type" [context]="element.context" [path]="element.path"></dynamic-content>
+        </div>
       </div>
     </div>
   `
