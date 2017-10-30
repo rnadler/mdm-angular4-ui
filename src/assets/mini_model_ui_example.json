@@ -241,7 +241,8 @@
                   "ui": "range",
                   "label": "StartPressure",
                   "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.StartPressure",
-                  "bind": "Variant.PressureRanges"
+                  "bind": "Variant.PressureRanges",
+                  "alert": "autoSetProfileGroupEdit.sendAutoSetSettings"
                 },
                 "minPressure": {
                   "ui": "range",
@@ -292,7 +293,8 @@
                   "ui": "range",
                   "label": "StartPressure",
                   "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.StartPressure",
-                  "bind": "Variant.PressureRanges"
+                  "bind": "Variant.PressureRanges",
+                  "alert": "autoSetForHerProfileGroupEdit.sendAutoSetForHerSettings"
                 },
                 "minPressure": {
                   "ui": "range",
@@ -337,7 +339,8 @@
                   "ui": "range",
                   "label": "StartPressure",
                   "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.CpapProfile.StartPressure",
-                  "bind": "Variant.PressureRanges"
+                  "bind": "Variant.PressureRanges",
+                  "alert": "cpapProfileGroupEdit.sendCpapSettings"
                 },
                 "SetPressure": {
                   "ui": "range",

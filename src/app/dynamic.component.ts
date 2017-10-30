@@ -40,14 +40,14 @@ export abstract class DynamicComponent implements OnInit, OnDestroy {
       });
     }
   }
-  setAlertMessage(message: string, keyPath: string, valuePath: string, callback: AlertCallback) {
+  setAlertMessage(message: string, keyPath: string, valuePath: string, alertCallback: AlertCallback) {
     if (this.context.ref === keyPath) {
-      this.updateAlertMessage(message, valuePath, callback);
+      this.updateAlertMessage(message, valuePath, alertCallback);
     } else {
-      this.clearAlertMessage(valuePath, callback);
+      this.clearAlertMessage(valuePath, alertCallback);
     }
   }
-  private updateAlertMessage(message: string, valuePath: string, callback: AlertCallback) {
+  private updateAlertMessage(message: string, valuePath: string, alertCallback: AlertCallback) {
     if (message) {
       this.alertValuePath = valuePath;
     }
@@ -55,21 +55,24 @@ export abstract class DynamicComponent implements OnInit, OnDestroy {
       return;
     }
     if (this.alertMessage !== message) {
-      callback(message !== null);
+      alertCallback(message !== null);
     }
     this.alertMessage = message;
   }
-  private clearAlertMessage(valuePath: string = null, callback: AlertCallback = null) {
+  private clearAlertMessage(valuePath: string = null, alertCallback: AlertCallback = null) {
     if (!this.okToClearAlertMessage(valuePath)) {
       return;
     }
-    if (callback && this.alertMessage) {
-      callback(false);
+    if (alertCallback && this.alertMessage) {
+      alertCallback(false);
     }
     this.alertMessage = null;
   }
   private okToClearAlertMessage(valuePath: string): boolean {
     return this.alertMessage && this.alertValuePath === valuePath;
+  }
+  onAlertChange(state: boolean) {
+    this.hidden = state;
   }
 
   onChange(newValue: any) {
@@ -88,8 +91,8 @@ export abstract class DynamicComponent implements OnInit, OnDestroy {
       this.element.hidden = this.hidden;
     }
     let callUpdate = !fromUpdate && relevant && !previousRelevant;
-    console.log(this.path + ' updateRelevance testResult/valid/relevant=' + testResult + '/' + this.isValid() + '/' + localRelevant + ' relevant=' + relevant +
-        ' callUpdate=' + callUpdate + ' fromUpdate=' + fromUpdate);
+    // console.log(this.path + ' updateRelevance testResult/valid/relevant=' + testResult + '/' + this.isValid() + '/' + localRelevant + ' relevant=' + relevant +
+    //     ' callUpdate=' + callUpdate + ' fromUpdate=' + fromUpdate);
     if (callUpdate) {
       this.update(false);
     }

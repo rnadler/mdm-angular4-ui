@@ -14,9 +14,6 @@ export class ModelService {
   setModel(model: any) {
     this.model = model;
   }
-  getMessagingService() {
-    return this.messagingService;
-  }
   getValue(ref: string) {
     return this.getContextValue(this.model, ref);
   }

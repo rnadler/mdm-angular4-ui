@@ -83,7 +83,7 @@ export class Rule {
     let self = this;
     components.forEach(c => {
       c.setAlertMessage(message, keyPath, valuePath, (state) =>
-        self.messagingService.publish(new AlertUpdatedMessage(state)))
+        self.messagingService.publish(new AlertUpdatedMessage(state, c.path)))
     });
   }
   private updateComonents(components: Array<DynamicComponent>) {
