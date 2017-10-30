@@ -41,43 +41,30 @@ export abstract class DynamicComponent implements OnInit, OnDestroy {
     }
   }
   setAlertMessage(message: string, keyPath: string, valuePath: string, alertCallback: AlertCallback) {
-    if (this.context.ref === keyPath) {
-      this.updateAlertMessage(message, valuePath, alertCallback);
-    } else {
-      this.clearAlertMessage(valuePath, alertCallback);
-    }
+      this.updateAlertMessage(this.context.ref === keyPath ? message : null, valuePath, alertCallback);
   }
-  private updateAlertMessage(message: string, valuePath: string, alertCallback: AlertCallback) {
+  private updateAlertMessage(message: string = null, valuePath: string = null, alertCallback: AlertCallback = null) {
     if (message) {
       this.alertValuePath = valuePath;
-    }
-    if (!message && !this.okToClearAlertMessage(valuePath)) {
+    } else if (!this.okToClearAlertMessage(valuePath)) {
       return;
     }
-    if (this.alertMessage !== message) {
+    if (alertCallback && this.alertMessage !== message) {
       alertCallback(message !== null);
     }
     this.alertMessage = message;
-  }
-  private clearAlertMessage(valuePath: string = null, alertCallback: AlertCallback = null) {
-    if (!this.okToClearAlertMessage(valuePath)) {
-      return;
-    }
-    if (alertCallback && this.alertMessage) {
-      alertCallback(false);
-    }
-    this.alertMessage = null;
   }
   private okToClearAlertMessage(valuePath: string): boolean {
     return this.alertMessage && this.alertValuePath === valuePath;
   }
   onAlertChange(state: boolean) {
     this.hidden = state;
+    console.log('onAlertChange: ' + this.path + ' state=' + state);
   }
 
   onChange(newValue: any) {
     console.log('onChange: ' + this.path + ' setting ref=' + this.context.ref + ' to newValue=' + newValue);
-    this.clearAlertMessage();
+    this.updateAlertMessage();
     if (this.context.ref) {
       this.modelService.setValue(this.context.ref, newValue);
     }
