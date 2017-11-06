@@ -44,17 +44,72 @@
       }
     },
     "Variant": {
-      "TherapyModes": {
-        "items": [
-          "CPAP",
-          "AutoSet"
-        ]
+      "TherapyModes" : {
+        "items" : [ "AutoSet", "HerAuto", "CPAP" ]
       },
-      "PressureRanges": {
-        "min": 4,
-        "max": 20,
-        "step": 0.5,
-        "decimals": 2
+      "StartPressureRanges" : {
+        "AutoSet" : {
+          "min" : 4.0,
+          "max" : 20.0,
+          "default" : 4.0,
+          "decimals" : 2,
+          "step" : 0.5
+        },
+        "HerAuto" : {
+          "min" : 4.0,
+          "max" : 20.0,
+          "default" : 4.0,
+          "decimals" : 2,
+          "step" : 0.5
+        },
+        "CPAP" : {
+          "min" : 4.0,
+          "max" : 20.0,
+          "default" : 4.0,
+          "decimals" : 2,
+          "step" : 0.5
+        }
+      },
+      "MinimumPressureRanges" : {
+        "AutoSet" : {
+          "min" : 4.0,
+          "max" : 20.0,
+          "default" : 4.0,
+          "decimals" : 2,
+          "step" : 0.5
+        },
+        "HerAuto" : {
+          "min" : 4.0,
+          "max" : 20.0,
+          "default" : 4.0,
+          "decimals" : 2,
+          "step" : 0.5
+        }
+      },
+      "MaximumPressureRanges" : {
+        "AutoSet" : {
+          "min" : 4.0,
+          "max" : 20.0,
+          "default" : 20.0,
+          "decimals" : 2,
+          "step" : 0.5
+        },
+        "HerAuto" : {
+          "min" : 4.0,
+          "max" : 20.0,
+          "default" : 20.0,
+          "decimals" : 2,
+          "step" : 0.5
+        }
+      },
+      "SetPressureRanges" : {
+        "CPAP" : {
+          "min" : 4.0,
+          "max" : 20.0,
+          "default" : 10.0,
+          "decimals" : 2,
+          "step" : 0.5
+        }
       },
       "Attributes": {
         "Category": "Sleep"
@@ -241,26 +296,26 @@
                   "ui": "range",
                   "label": "StartPressure",
                   "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.StartPressure",
-                  "bind": "Variant.PressureRanges",
+                  "bind": "Variant.StartPressureRanges.AutoSet",
                   "alert": "autoSetProfileGroupEdit.sendAutoSetSettings"
                 },
                 "minPressure": {
                   "ui": "range",
                   "label": "MinPressure",
                   "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.MinPressure",
-                  "bind": "Variant.PressureRanges"
+                  "bind": "Variant.MinimumPressureRanges.AutoSet"
                 },
                 "maxPressure": {
                   "ui": "range",
                   "label": "MaxPressure",
                   "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.MaxPressure",
-                  "bind": "Variant.PressureRanges"
+                  "bind": "Variant.MaximumPressureRanges.AutoSet"
                 },
                 "xOne": {
                   "ui": "range",
                   "label": "xOne",
                   "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.xOne",
-                  "bind": "Variant.PressureRanges"
+                  "bind": "Variant.MaximumPressureRanges.AutoSet"
                 }
               }
             },
@@ -293,20 +348,20 @@
                   "ui": "range",
                   "label": "StartPressure",
                   "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.StartPressure",
-                  "bind": "Variant.PressureRanges",
+                  "bind": "Variant.StartPressureRanges.HerAuto",
                   "alert": "autoSetForHerProfileGroupEdit.sendAutoSetForHerSettings"
                 },
                 "minPressure": {
                   "ui": "range",
                   "label": "MinPressure",
                   "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.MinPressure",
-                  "bind": "Variant.PressureRanges"
+                  "bind": "Variant.MinimumPressureRanges.HerAuto"
                 },
                 "maxPressure": {
                   "ui": "range",
                   "label": "MaxPressure",
                   "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.MaxPressure",
-                  "bind": "Variant.PressureRanges"
+                  "bind": "Variant.MaximumPressureRanges.HerAuto"
                 }
               }
             },
@@ -339,14 +394,14 @@
                   "ui": "range",
                   "label": "StartPressure",
                   "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.CpapProfile.StartPressure",
-                  "bind": "Variant.PressureRanges",
+                  "bind": "Variant.StartPressureRanges.CPAP",
                   "alert": "cpapProfileGroupEdit.sendCpapSettings"
                 },
                 "SetPressure": {
                   "ui": "range",
                   "label": "SetPressure",
                   "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.CpapProfile.SetPressure",
-                  "bind": "Variant.PressureRanges"
+                  "bind": "Variant.SetPressureRanges.CPAP"
                 }
               }
             },

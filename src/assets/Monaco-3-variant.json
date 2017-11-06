@@ -1,17 +1,71 @@
 {
-  "Variant": {
-    "TherapyModes": {
-      "items": [
-        "CPAP",
-        "AutoSet",
-        "HerAuto"
-      ]
+  "Variant" : {
+    "TherapyModes" : {
+      "items" : [ "AutoSet", "HerAuto", "CPAP" ]
     },
-    "PressureRanges": {
-      "min": 5,
-      "max": 20,
-      "step": 0.5,
-      "decimals": 2
+    "StartPressureRanges" : {
+      "AutoSet" : {
+        "min" : 5.0,
+        "max" : 20.0,
+        "default" : 5.0,
+        "decimals" : 2,
+        "step" : 0.5
+      },
+      "HerAuto" : {
+        "min" : 5.0,
+        "max" : 20.0,
+        "default" : 5.0,
+        "decimals" : 2,
+        "step" : 0.5
+      },
+      "CPAP" : {
+        "min" : 5.0,
+        "max" : 20.0,
+        "default" : 5.0,
+        "decimals" : 2,
+        "step" : 0.5
+      }
+    },
+    "MinimumPressureRanges" : {
+      "AutoSet" : {
+        "min" : 5.0,
+        "max" : 20.0,
+        "default" : 5.0,
+        "decimals" : 2,
+        "step" : 0.5
+      },
+      "HerAuto" : {
+        "min" : 5.0,
+        "max" : 20.0,
+        "default" : 5.0,
+        "decimals" : 2,
+        "step" : 0.5
+      }
+    },
+    "MaximumPressureRanges" : {
+      "AutoSet" : {
+        "min" : 5.0,
+        "max" : 20.0,
+        "default" : 20.0,
+        "decimals" : 2,
+        "step" : 0.5
+      },
+      "HerAuto" : {
+        "min" : 5.0,
+        "max" : 20.0,
+        "default" : 20.0,
+        "decimals" : 2,
+        "step" : 0.5
+      }
+    },
+    "SetPressureRanges" : {
+      "CPAP" : {
+        "min" : 5.0,
+        "max" : 20.0,
+        "default" : 10.0,
+        "decimals" : 2,
+        "step" : 0.5
+      }
     },
     "Attributes": {
       "Category": "Sleep"
