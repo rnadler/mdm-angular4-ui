@@ -29,6 +29,9 @@ export class ModelService {
     if (typeof ref !== 'string') {
       return ref;
     }
+    if (ref.indexOf("'") === 0) {
+      return ref.replace(/[']+/g, '')
+    }
     let val = jp.value(context, '$.' + ref);
     if (val === undefined && !ref.startsWith(this.FLOWGENERATOR)) {
       console.warn("ModelService: Failed to get ref=" + ref);
