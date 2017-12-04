@@ -6,6 +6,7 @@ import {ModelUpdatedMessage} from "./model-updated-message";
 @Injectable()
 export class ModelService {
   private model: any;
+  private modelClone: any;
   readonly FLOWGENERATOR: string = 'FlowGenerator';
   readonly VARIANT: string = 'Variant';
 
@@ -13,6 +14,12 @@ export class ModelService {
 
   setModel(model: any) {
     this.model = model;
+    this.modelClone = Object.assign({}, model);
+  }
+  revertModelValue(ref: string) {
+    let value = this.getContextValue(this.modelClone, ref);
+    console.log('ModelService revertModelValue ref=' + ref + ' value=' + value);
+    return this.setValue(ref, value, false);
   }
   getValue(ref: string) {
     return this.getContextValue(this.model, ref);

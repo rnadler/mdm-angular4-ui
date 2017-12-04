@@ -1,4 +1,4 @@
-import {Component, OnDestroy} from '@angular/core';
+import {Component, OnDestroy, VERSION} from '@angular/core';
 import {DataService} from "./data.service";
 import {ModelService} from "./model/model.service";
 import {RulesService} from "./rules/rules.service";
@@ -55,7 +55,7 @@ import {ComponentService} from "./component.service";
 })
 export class AppComponent implements OnDestroy {
 
-  title: string = 'Data Driven Angular4 Dynamic Content Demo';
+  title: string;
   readonly PROFILE_PATH: string = 'FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile';
   readonly CATEGORY_PATH: string = 'Variant.Attributes.Category';
   defaultProfile: string;
@@ -80,6 +80,7 @@ export class AppComponent implements OnDestroy {
 
   constructor(private dataService: DataService, private modelService: ModelService,
               private rulesService: RulesService, private componentService: ComponentService) {
+    this.title = 'Data Driven Angular-' + VERSION.full + ' Dynamic Content Demo';
     this.dataService.getJSON('fg-model.json')
       .takeUntil(this.ngUnsubscribe)
       .subscribe(data => {

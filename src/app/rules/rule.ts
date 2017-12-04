@@ -68,6 +68,7 @@ export class Rule {
       if (testResult) {
         if (message) {
           this.updateAlertMessage(components, message, keyPath, valuePath);
+          this.modelService.revertModelValue(keyPath);
         } else if (valuePath) {
           let value = this.modelService.getValue(valuePath);
           this.setComponentsValue(components, keyPath, value);
