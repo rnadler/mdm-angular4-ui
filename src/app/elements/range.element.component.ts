@@ -33,6 +33,9 @@ export class RangeElementComponent extends DynamicComponent {
   isValid() {
     return this.defaultValue !== undefined;
   }
+  supportsAlertMessage() {
+    return true;
+  }
   update() {
     let contextRange = this.modelService.getValue(this.context.bind);
     let start = Number(contextRange.min);

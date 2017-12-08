@@ -20,11 +20,13 @@ export abstract class DynamicComponent implements OnInit, OnDestroy {
   relevantRules: Array<Rule> = [];
   alertMessage: string;
   alertValuePath: string;
+  parentRefPath: string;
 
   constructor(protected modelService: ModelService, private rulesService: RulesService) {}
 
   ngOnInit(): void {
     this.ruleSet = this.rulesService.createRuleSet(this);
+    this.parentRefPath = this.getParent(this.context.ref);
   }
   update(doUpdateRelevance: boolean = true) {
     this.elements = [];
@@ -41,13 +43,31 @@ export abstract class DynamicComponent implements OnInit, OnDestroy {
     }
   }
   setAlertMessage(message: string, keyPath: string, valuePath: string, alertCallback: AlertCallback) {
-      this.updateAlertMessage(this.context.ref === keyPath ? message : null, valuePath, alertCallback);
+      if (!this.supportsAlertMessage()) {
+        return;
+      }
+      this.updateAlertMessage(message, keyPath, valuePath, alertCallback);
   }
-  private updateAlertMessage(message: string = null, valuePath: string = null, alertCallback: AlertCallback = null) {
-    if (message) {
-      this.alertValuePath = valuePath;
-    } else if (!this.okToClearAlertMessage(valuePath)) {
-      return;
+  private updateAlertMessage(message: string = null, keyPath: string = null, valuePath: string = null, alertCallback: AlertCallback = null) {
+    let isSameParent = this.isSameParent(keyPath);
+    let isSameRef = this.context.ref === keyPath;
+    if (isSameParent) {
+      console.log('updateAlertMessage: ' + this.path + ' sameRef=' + isSameRef + ' sameParent=' + isSameParent + ' valuePath=' + this.stripPath(valuePath) + ' msg=' + message);
+    }
+    if (isSameRef) {
+      if (message) {
+        if (this.alertMessage) {
+          return;
+        }
+        this.alertValuePath = valuePath;
+      } else if (!this.okToClearAlertMessage(valuePath)) {
+        return;
+      }
+    } else {
+      if (isSameParent || !this.okToClearAlertMessage(valuePath)) {
+        return;
+      }
+      message = null;
     }
     if (alertCallback && this.alertMessage !== message) {
       alertCallback(message !== null);
@@ -60,6 +80,26 @@ export abstract class DynamicComponent implements OnInit, OnDestroy {
   onAlertChange(state: boolean) {
     this.hidden = state;
     console.log('onAlertChange: ' + this.path + ' state=' + state);
+  }
+  supportsAlertMessage() {
+    return false;
+  }
+  private isSameParent(keyPath: string) {
+    return this.parentRefPath === this.getParent(keyPath);
+  }
+  private getParent(path: string) {
+    if (!path) {
+      return null;
+    }
+    let rv = path.split('.');
+    rv.pop();
+    return rv.join('.');
+  }
+  private stripPath(path: string) {
+    if (!path) {
+      return null;
+    }
+    return path.split('.').pop();
   }
 
   onChange(newValue: any) {
