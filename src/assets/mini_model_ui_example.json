@@ -291,7 +291,8 @@
                   "ui": "range",
                   "label": "MinPressure",
                   "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetProfile.MinPressure",
-                  "bind": "Variant.MinimumPressureRanges.AutoSet"
+                  "bind": "Variant.MinimumPressureRanges.AutoSet",
+                  "alert": "autoSetProfileGroupEdit.sendAutoSetSettings"
                 },
                 "maxPressure": {
                   "ui": "range",
@@ -310,6 +311,10 @@
             "sendAutoSetSettings": {
               "ui": "trigger",
               "label": "Send AutoSet Settings"
+            },
+            "cancelAutoSetSettings": {
+              "ui": "link",
+              "label": "Cancel AutoSet Settings"
             }
           }
         },
@@ -343,7 +348,8 @@
                   "ui": "range",
                   "label": "MinPressure",
                   "ref": "FlowGenerator.SettingProfiles.TherapyProfiles.AutoSetForHerProfile.MinPressure",
-                  "bind": "Variant.MinimumPressureRanges.HerAuto"
+                  "bind": "Variant.MinimumPressureRanges.HerAuto",
+                  "alert": "autoSetForHerProfileGroupEdit.sendAutoSetForHerSettings"
                 },
                 "maxPressure": {
                   "ui": "range",
@@ -356,6 +362,10 @@
             "sendAutoSetForHerSettings": {
               "ui": "trigger",
               "label": "Send AutoSetForHer Settings"
+            },
+            "cancelAutoSetForHerSettings": {
+              "ui": "link",
+              "label": "Cancel AutoSetForHer Settings"
             }
           }
         },
@@ -396,6 +406,10 @@
             "sendCpapSettings": {
               "ui": "trigger",
               "label": "Send CPAP Settings"
+            },
+            "cancelCpapSettings": {
+              "ui": "link",
+              "label": "Cancel CPAP Settings"
             }
           }
         },

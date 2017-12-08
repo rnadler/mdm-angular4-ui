@@ -22,6 +22,7 @@ import {TableElementComponent} from "./elements/table.element.component"
 import {OutputElementComponent} from "./elements/output.element.component"
 import {RepeatElementComponent} from "./elements/repeat.element.component";
 import {TriggerElementComponent} from "./elements/trigger.element.component"
+import {LinkElementComponent} from "./elements/link.element.component"
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import {TriggerElementComponent} from "./elements/trigger.element.component"
     TableElementComponent,
     OutputElementComponent,
     RepeatElementComponent,
-    TriggerElementComponent
+    TriggerElementComponent,
+    LinkElementComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +64,8 @@ import {TriggerElementComponent} from "./elements/trigger.element.component"
     TableElementComponent,
     OutputElementComponent,
     RepeatElementComponent,
-    TriggerElementComponent
+    TriggerElementComponent,
+    LinkElementComponent
   ],
   bootstrap: [AppComponent]
 })
