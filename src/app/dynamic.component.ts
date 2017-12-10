@@ -107,6 +107,20 @@ export abstract class DynamicComponent implements OnInit, OnDestroy {
     this.updateAlertMessage();
     if (this.context.ref) {
       this.modelService.setValue(this.context.ref, newValue);
+    } else {
+      this.runActions();
+    }
+  }
+  private runActions() {
+    if (!this.context.actions) {
+      return;
+    }
+    for (let action of this.context.actions) {
+      if (action.action === 'set') {
+        this.modelService.setValue(action.ref, action.value);
+      } else if (action.action === 'revertFgData') {
+        this.modelService.revertFgData();
+      }
     }
   }
   updateRelevance(testResult: boolean, fromUpdate: boolean = false) {
@@ -126,7 +140,9 @@ export abstract class DynamicComponent implements OnInit, OnDestroy {
   }
   isRelevant() {
     if (this.ruleSet) {
-      if (!this.ruleSet.getRulesOfType(RuleTypeEnum.relevant).map(r => r.getRelevantTestResult()).reduce((a, b) => a && b)) {
+      if (!this.ruleSet.getRulesOfType(RuleTypeEnum.relevant)
+          .map(r => r.getRelevantTestResult())
+          .reduce((a, b) => a && b)) {
         return false;
       }
     }

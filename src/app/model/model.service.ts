@@ -6,7 +6,7 @@ import {ModelUpdatedMessage} from "./model-updated-message";
 @Injectable()
 export class ModelService {
   private model: any;
-  private modelClone: any;
+  private fgDataClone: any;
   readonly FLOWGENERATOR: string = 'FlowGenerator';
   readonly VARIANT: string = 'Variant';
 
@@ -14,12 +14,7 @@ export class ModelService {
 
   setModel(model: any) {
     this.model = model;
-    this.modelClone = Object.assign({}, model);
-  }
-  revertModelValue(ref: string) {
-    let value = this.getContextValue(this.modelClone, ref);
-    console.log('ModelService revertModelValue ref=' + ref + ' value=' + value);
-    return this.setValue(ref, value, false);
+    this.fgDataClone = ModelService.cloneObject(model[this.FLOWGENERATOR]);
   }
   getValue(ref: string) {
     return this.getContextValue(this.model, ref);
@@ -67,9 +62,18 @@ export class ModelService {
     return rv;
   }
   setFgData(fgData: any) {
-    this.setValue(this.FLOWGENERATOR, fgData[this.FLOWGENERATOR]);
+    let fgDatum = fgData[this.FLOWGENERATOR];
+    this.fgDataClone = ModelService.cloneObject(fgDatum);
+    this.setValue(this.FLOWGENERATOR, fgDatum);
+  }
+  revertFgData() {
+    this.setValue(this.FLOWGENERATOR, ModelService.cloneObject(this.fgDataClone));
   }
   setVariantData(variantData: any) {
     this.setValue(this.VARIANT, variantData[this.VARIANT]);
+  }
+  // Note: For some reason Object.assign({}, obj) did not work!?!
+  private static cloneObject(obj: any): any {
+    return JSON.parse(JSON.stringify(obj))
   }
 }
