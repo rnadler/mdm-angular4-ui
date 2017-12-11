@@ -6,6 +6,7 @@ import {RulesService} from "./rules/rules.service";
 import {ModelService} from "./model/model.service";
 import {MessagingService} from "./model/messaging-service";
 import {ModelUpdatedMessage} from "./model/model-updated-message";
+import {ComponentService} from "./component.service";
 
 @Component({
   selector: 'xforms',
@@ -20,7 +21,7 @@ export class XformsComponent implements OnDestroy {
 
   constructor(private dataService: DataService,
               private messagingService: MessagingService, private modelService: ModelService,
-              private rulesService: RulesService) {
+              private rulesService: RulesService, private componentService: ComponentService) {
     this.dataService.getJSON(this.MODEL_JSON_FILE)
       .takeUntil(this.ngUnsubscribe)
       .subscribe(data => {
@@ -35,8 +36,12 @@ export class XformsComponent implements OnDestroy {
       .subscribe(message => this.onModelUpdated(message));
   }
   private onModelUpdated(message: ModelUpdatedMessage) {
-    console.log('onModelUpdated: ref=' + message.ref + ' value=' + message.value);
-    this.rulesService.evaluateUpdateRules(message.ref);
+    if (!message.ref) { // Bulk change: update all components
+      this.componentService.updateDynamicComponents();
+    } else {
+      console.log('onModelUpdated: ref=' + message.ref + ' value=' + message.value);
+      this.rulesService.evaluateUpdateRules(message.ref);
+    }
   }
   ngOnDestroy() {
     this.ngUnsubscribe.next();

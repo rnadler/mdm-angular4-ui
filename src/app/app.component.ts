@@ -21,33 +21,47 @@ import {ComponentService} from "./component.service";
       <h1>{{title}}</h1>
     </div>
     <table class="table-condensed">
-      <tr><td class="right"><strong>Device Category:</strong></td><td>
-        <select (change)="onCategoryChange($event.target.value)" [(ngModel)]="defaultCategory">
-          <option *ngFor="let category of categories"
-                  [value]="category"
-                  [selected]="category == defaultCategory">
-            {{category}}
-          </option>
-        </select>
-      </td></tr>
-      <tr><td class="right"><strong>Device Variant:</strong></td><td>
-        <select (change)="onVariantChange($event.target.value)" [(ngModel)]="defaultVariant">
-          <option *ngFor="let variant of variants"
-                  [value]="variant"
-                  [selected]="variant == defaultVariant">
-            {{variant}}
-          </option>
-        </select>
-      </td></tr>
-      <tr><td class="right"><strong>Device Therapy Profile:</strong></td><td>
-        <select (change)="onProfileChange($event.target.value)" [(ngModel)]="defaultProfile">
-          <option *ngFor="let profile of profiles"
-                  [value]="profile"
-                  [selected]="profile == defaultProfile">
-            {{profile}}
-          </option>
-        </select>
-      </td></tr>
+      <tr>
+        <td class="right"><strong>Device Category:</strong></td>
+        <td>
+          <select (change)="onCategoryChange($event.target.value)" [(ngModel)]="defaultCategory">
+            <option *ngFor="let category of categories"
+                    [value]="category"
+                    [selected]="category == defaultCategory">
+              {{category}}
+            </option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td class="right"><strong>Device Variant:</strong></td>
+        <td>
+          <select (change)="onVariantChange($event.target.value)" [(ngModel)]="defaultVariant">
+            <option *ngFor="let variant of variants"
+                    [value]="variant"
+                    [selected]="variant == defaultVariant">
+              {{variant}}
+            </option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td class="right"><strong>Device Therapy Profile:</strong></td>
+        <td>
+          <select (change)="onProfileChange($event.target.value)" [(ngModel)]="defaultProfile">
+            <option *ngFor="let profile of profiles"
+                    [value]="profile"
+                    [selected]="profile == defaultProfile">
+              {{profile}}
+            </option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td class="right"><strong>Therapy Edit Enabled:</strong></td>
+        <td><input type='checkbox' [checked]="therapyEditchecked"
+                   (change)="onTherapyEditEnabledChange($event.target.checked)"></td>
+      </tr>
     </table>
     <hr>
     <xforms *ngIf="fgData" [fgData]="fgData"></xforms>
@@ -77,6 +91,7 @@ export class AppComponent implements OnDestroy {
   ];
   defaultCategory: string = 'Sleep';
   private counter: number = 0;
+  therapyEditchecked: boolean = false;
 
   constructor(private dataService: DataService, private modelService: ModelService,
               private rulesService: RulesService, private componentService: ComponentService) {
@@ -109,7 +124,6 @@ export class AppComponent implements OnDestroy {
     console.log('active profile change: value=' + value);
     // Update FG data in Model.
     this.modelService.setContextValue(this.fgData, this.PROFILE_PATH, value, false);
-    this.setCurrentTherapyMode(value);
     // Change some settings to random values.
     this.modelService.setContextValue(this.fgData, 'FlowGenerator.IdentificationProfiles.Software.VariantIdentifier',
         this.counter % 2 == 0 ? this.randomIntFromInterval(1, 15) : undefined, false);
@@ -124,14 +138,14 @@ export class AppComponent implements OnDestroy {
     // Update all components
     this.componentService.updateDynamicComponents();
   }
+  onTherapyEditEnabledChange(state: boolean) {
+    this.modelService.setValue('Internal.Switches.TherapyEditEnabled', state);
+    this.componentService.updateDynamicComponents();
+  }
+
   private randomIntFromInterval(min, max)
   {
     return Math.floor(Math.random()*(max-min+1)+min);
-  }
-
-  private setCurrentTherapyMode(currentProfile: string) {
-    this.modelService.setValue('Internal.TherapyModes.CurrentTherapyMode',
-      this.modelService.getValue('FlowGenerator.SettingProfiles.TherapyProfiles.' + currentProfile + '.TherapyMode'), false);
   }
 
   ngOnDestroy() {

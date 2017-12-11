@@ -117,9 +117,13 @@ export abstract class DynamicComponent implements OnInit, OnDestroy {
     }
     for (let action of this.context.actions) {
       if (action.action === 'set') {
-        this.modelService.setValue(action.ref, action.value);
+        this.modelService.setValue(action.keyPath, action.value);
       } else if (action.action === 'revertFgData') {
         this.modelService.revertFgData();
+      } else if (action.action === 'sendFgData') {
+        this.modelService.sendFgData();
+      } else {
+        console.warn('Unknown action! ' + action.action);
       }
     }
   }

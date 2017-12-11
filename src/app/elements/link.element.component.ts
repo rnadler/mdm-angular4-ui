@@ -13,9 +13,10 @@ import {ElementService} from "../element.service";
       vertical-align: bottom;
       display: table-cell;
       height: 42px;
+      cursor: pointer;
     }`
   ],
-  template: `<div class="column"><a (click)="onChange('link clicked')" [class.disabled]="hidden">{{context?.label}}</a></div>`
+  template: `<div [hidden]="hidden"><a (click)="onChange('link clicked')">{{context?.label}}</a></div>`
 })
 export class LinkElementComponent extends DynamicComponent {
 

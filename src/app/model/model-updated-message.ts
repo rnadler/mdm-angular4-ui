@@ -1,4 +1,4 @@
 
 export class ModelUpdatedMessage {
-  constructor(public ref: string, public value: any) {}
+  constructor(public ref: string = null, public value: any = null) {}
 }

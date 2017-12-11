@@ -117,7 +117,8 @@
     },
     "Internal": {
       "Switches": {
-        "TherapyEditSwitch": false
+        "TherapyEditSwitch": false,
+        "TherapyEditEnabled": false
       },
       "TherapyModes": {
         "CurrentTherapyMode" : "CPAP"
@@ -305,7 +306,17 @@
             },
             "sendAutoSetSettings": {
               "ui": "trigger",
-              "label": "Send AutoSet Settings"
+              "label": "Send AutoSet Settings",
+              "actions": [
+                {
+                  "action": "sendFgData"
+                },
+                {
+                  "action": "set",
+                  "keyPath": "Internal.Switches.TherapyEditSwitch",
+                  "value": false
+                }
+              ]
             },
             "cancelAutoSetSettings": {
               "ui": "link",
@@ -316,7 +327,7 @@
                 },
                 {
                   "action": "set",
-                  "ref": "Internal.Switches.TherapyEditSwitch",
+                  "keyPath": "Internal.Switches.TherapyEditSwitch",
                   "value": false
                 }
               ]
@@ -366,18 +377,28 @@
             },
             "sendAutoSetForHerSettings": {
               "ui": "trigger",
-              "label": "Send AutoSetForHer Settings"
+              "label": "Send HerAuto Settings",
+              "actions": [
+                {
+                  "action": "sendFgData"
+                },
+                {
+                  "action": "set",
+                  "keyPath": "Internal.Switches.TherapyEditSwitch",
+                  "value": false
+                }
+              ]
             },
             "cancelAutoSetForHerSettings": {
               "ui": "link",
-              "label": "Cancel AutoSetForHer Settings",
+              "label": "Cancel HerAuto Settings",
               "actions": [
                 {
                   "action": "revertFgData"
                 },
                 {
                   "action": "set",
-                  "ref": "Internal.Switches.TherapyEditSwitch",
+                  "keyPath": "Internal.Switches.TherapyEditSwitch",
                   "value": false
                 }
               ]
@@ -420,7 +441,17 @@
             },
             "sendCpapSettings": {
               "ui": "trigger",
-              "label": "Send CPAP Settings"
+              "label": "Send CPAP Settings",
+              "actions": [
+                {
+                  "action": "sendFgData"
+                },
+                {
+                  "action": "set",
+                  "keyPath": "Internal.Switches.TherapyEditSwitch",
+                  "value": false
+                }
+              ]
             },
             "cancelCpapSettings": {
               "ui": "link",
@@ -431,7 +462,7 @@
                 },
                 {
                   "action": "set",
-                  "ref": "Internal.Switches.TherapyEditSwitch",
+                  "keyPath": "Internal.Switches.TherapyEditSwitch",
                   "value": false
                 }
               ]
@@ -480,10 +511,15 @@
             "editAutoSetSettings": {
               "ui": "link",
               "label": "Edit AutoSet Settings",
+              "relevant": [
+                {
+                  "test": "Internal.Switches.TherapyEditEnabled"
+                }
+              ],
               "actions": [
                 {
                   "action": "set",
-                  "ref": "Internal.Switches.TherapyEditSwitch",
+                  "keyPath": "Internal.Switches.TherapyEditSwitch",
                   "value": true
                 }
               ]
@@ -527,10 +563,15 @@
             "editAutoSetForHerSettings": {
               "ui": "link",
               "label": "Edit HerAuto Settings",
+              "relevant": [
+                {
+                  "test": "Internal.Switches.TherapyEditEnabled"
+                }
+              ],
               "actions": [
                 {
                   "action": "set",
-                  "ref": "Internal.Switches.TherapyEditSwitch",
+                  "keyPath": "Internal.Switches.TherapyEditSwitch",
                   "value": true
                 }
               ]
@@ -569,10 +610,15 @@
             "editCpapSettings": {
               "ui": "link",
               "label": "Edit CPAP Settings",
+              "relevant": [
+                {
+                  "test": "Internal.Switches.TherapyEditEnabled"
+                }
+              ],
               "actions": [
                 {
                   "action": "set",
-                  "ref": "Internal.Switches.TherapyEditSwitch",
+                  "keyPath": "Internal.Switches.TherapyEditSwitch",
                   "value": true
                 }
               ]
