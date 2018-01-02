@@ -2,7 +2,6 @@ import {RulesService} from "./rules/rules.service";
 import {Input, OnDestroy, OnInit} from "@angular/core";
 import {RuleSet} from "./rules/rule-set";
 import {ModelService} from "./model/model.service";
-import jp from "jsonpath";
 import {ElementService} from "./element.service";
 import {Rule} from "./rules/rule";
 import {RuleTypeEnum} from "./rules/rule-type-enum";
@@ -30,7 +29,7 @@ export abstract class DynamicComponent implements OnInit, OnDestroy {
   }
   update(doUpdateRelevance: boolean = true) {
     this.elements = [];
-    let elements = jp.query(this.context, '$..controls')[0];
+    let elements = ModelService.getContextQuery(this.context, '$..controls');
     for (let el in elements) {
       let context = elements[el];
       let type = context.ui != null ? context.ui : ElementService.DEFAULT;
@@ -52,7 +51,7 @@ export abstract class DynamicComponent implements OnInit, OnDestroy {
     let isSameParent = this.isSameParent(keyPath);
     let isSameRef = this.context.ref === keyPath;
     if (isSameParent) {
-      console.log('updateAlertMessage: ' + this.path + ' sameRef=' + isSameRef + ' sameParent=' + isSameParent + ' valuePath=' + this.stripPath(valuePath) + ' msg=' + message);
+      console.debug('updateAlertMessage: ' + this.path + ' sameRef=' + isSameRef + ' sameParent=' + isSameParent + ' valuePath=' + this.stripPath(valuePath) + ' msg=' + message);
     }
     if (isSameRef) {
       if (message) {

@@ -22,6 +22,7 @@ module.exports = function (config) {
     angularCli: {
       environment: 'dev'
     },
+    webpack: { node: { fs: 'empty', } },
     reporters: ['progress', 'kjhtml'],
     port: 9876,
     colors: true,

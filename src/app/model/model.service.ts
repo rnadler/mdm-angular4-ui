@@ -1,8 +1,7 @@
 import {Injectable} from "@angular/core";
-import jp from "jsonpath";
+import * as jp from "jsonpath";
 import {MessagingService} from "./messaging-service";
 import {ModelUpdatedMessage} from "./model-updated-message";
-import {ComponentService} from "../component.service";
 
 @Injectable()
 export class ModelService {
@@ -19,6 +18,9 @@ export class ModelService {
   }
   getValue(ref: string) {
     return this.getContextValue(this.model, ref);
+  }
+  static getContextQuery(context: any, ref: string) {
+    return jp.query(context, ref)[0];
   }
   getContextValue(context: any, ref: string) {
     if (context === undefined) {

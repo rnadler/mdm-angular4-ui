@@ -63,7 +63,7 @@ export class RulesService {
   }
   addMatchingComponent( type: string, values: Array<string>, key: string, ruleSet: RuleSet,component: DynamicComponent) {
     if (values.filter(value => value === key).length > 0) {
-      console.log('addGlobalRules added ' + type + ' ruleSet=' + ruleSet.name + ' component=' + component.path);
+      console.debug('addGlobalRules added ' + type + ' ruleSet=' + ruleSet.name + ' component=' + component.path);
       ruleSet.addComponent(component);
       component.addRuleSet(ruleSet);
       return true;
@@ -81,7 +81,7 @@ export class RulesService {
       this.ruleSets = this.ruleSets.filter(rs => rs !== component.ruleSet);
     }
     this.ruleSets.forEach(rs => rs.removeComponent(component));
-    console.log('removeDynamicComponent: ' + this.getAllocationString());
+    console.debug('removeDynamicComponent: ' + this.getAllocationString());
   }
   private addRule(rules: Array<Rule>, type: RuleTypeEnum, component: any) {
     let name = RuleTypeEnum[type];
@@ -92,7 +92,7 @@ export class RulesService {
         rule.addRuleDescption(rd);
       }
       rules.push(rule);
-      console.log(component.path + ' Added rule ' + name + ' with length=' + rule.ruleDescriptions.length);
+      console.debug(component.path + ' Added rule ' + name + ' with length=' + rule.ruleDescriptions.length);
     }
   }
   private onAlertChange(message: AlertUpdatedMessage) {
