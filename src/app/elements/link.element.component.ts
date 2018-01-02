@@ -1,9 +1,7 @@
-
 import {Component} from "@angular/core";
 import {DynamicComponent} from "../dynamic.component";
-import {RulesService} from "../rules/rules.service";
-import {ModelService} from "../model/model.service";
 import {ElementService} from "../element.service";
+import {UiStateService} from "../ui.state.service";
 
 @Component({
   selector: 'link-element',
@@ -20,8 +18,8 @@ import {ElementService} from "../element.service";
 })
 export class LinkElementComponent extends DynamicComponent {
 
-  constructor(modelService: ModelService, rulesService: RulesService) {
-    super(modelService, rulesService);
+  constructor(uiStateService: UiStateService) {
+    super(uiStateService);
   }
   ngOnInit(): void {
     this.update();

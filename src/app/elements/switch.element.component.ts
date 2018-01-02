@@ -1,9 +1,7 @@
-
 import {Component} from "@angular/core";
 import {ElementService} from "../element.service";
 import {DynamicComponent} from "../dynamic.component";
-import {ModelService} from "../model/model.service";
-import {RulesService} from "../rules/rules.service";
+import {UiStateService} from "../ui.state.service";
 
 @Component({
   selector: 'switch-element',
@@ -13,8 +11,8 @@ import {RulesService} from "../rules/rules.service";
 export class SwitchElementComponent extends DynamicComponent {
   checked: boolean;
 
-  constructor(modelService: ModelService, rulesService: RulesService) {
-    super(modelService, rulesService);
+  constructor(uiStateService: UiStateService) {
+    super(uiStateService);
   }
   ngOnInit(): void {
     this.update();

@@ -1,8 +1,7 @@
 import {Component} from "@angular/core";
 import {DynamicComponent} from "../dynamic.component";
 import {ElementService} from "../element.service";
-import {RulesService} from "../rules/rules.service";
-import {ModelService} from "../model/model.service";
+import {UiStateService} from "../ui.state.service";
 
 @Component({
   selector: 'select-element',
@@ -19,8 +18,8 @@ import {ModelService} from "../model/model.service";
 export class SelectElementComponent extends DynamicComponent {
   items: any;
   defaultItem: any;
-  constructor(modelService: ModelService, rulesService: RulesService) {
-    super(modelService, rulesService);
+  constructor(uiStateService: UiStateService) {
+    super(uiStateService);
   }
 
   ngOnInit(): void {

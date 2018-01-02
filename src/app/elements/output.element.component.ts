@@ -1,9 +1,7 @@
-
 import {Component} from "@angular/core";
 import {DynamicComponent} from "../dynamic.component";
 import {ElementService} from "../element.service";
-import {RulesService} from "../rules/rules.service";
-import {ModelService} from "../model/model.service";
+import {UiStateService} from "../ui.state.service";
 
 @Component({
   selector: 'output-element',
@@ -12,8 +10,8 @@ import {ModelService} from "../model/model.service";
 export class OutputElementComponent extends DynamicComponent {
   value: string;
 
-  constructor(modelService: ModelService, rulesService: RulesService) {
-    super(modelService, rulesService);
+  constructor(uiStateService: UiStateService) {
+    super(uiStateService);
   }
   ngOnInit(): void {
     this.update();

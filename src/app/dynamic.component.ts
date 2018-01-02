@@ -5,6 +5,7 @@ import {ModelService} from "./model/model.service";
 import {ElementService} from "./element.service";
 import {Rule} from "./rules/rule";
 import {RuleTypeEnum} from "./rules/rule-type-enum";
+import {UiStateService} from "./ui.state.service";
 
 type AlertCallback = (state: boolean) => any;
 
@@ -20,8 +21,13 @@ export abstract class DynamicComponent implements OnInit, OnDestroy {
   alertMessage: string;
   alertValuePath: string;
   parentRefPath: string;
+  protected modelService: ModelService;
+  private rulesService: RulesService;
 
-  constructor(protected modelService: ModelService, private rulesService: RulesService) {}
+  constructor(protected uiStateService: UiStateService) {
+    this.modelService = this.uiStateService.modelService;
+    this.rulesService = this.uiStateService.rulesService;
+  }
 
   ngOnInit(): void {
     this.ruleSet = this.rulesService.createRuleSet(this);

@@ -1,9 +1,7 @@
-
 import {Component} from "@angular/core";
 import {ElementService} from "../element.service";
 import {DynamicComponent} from "../dynamic.component";
-import {ModelService} from "../model/model.service";
-import {RulesService} from "../rules/rules.service";
+import {UiStateService} from "../ui.state.service";
 
 @Component({
   selector: 'range-element',
@@ -22,8 +20,8 @@ export class RangeElementComponent extends DynamicComponent {
   values: Array<number>;
   defaultValue: number;
 
-  constructor(modelService: ModelService, rulesService: RulesService) {
-    super(modelService, rulesService);
+  constructor(uiStateService: UiStateService) {
+    super(uiStateService);
   }
 
   ngOnInit(): void {
