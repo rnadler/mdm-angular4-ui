@@ -13,7 +13,7 @@ import {UiStateService} from "../ui.state.service";
         {{value}}
       </option>
     </select>
-    <span *ngIf="alertMessage" class="error">{{alertMessage}}</span>
+    <span *ngIf="alertMessage" class="error">{{alertMessage.message}}</span>
   </div>`
 })
 export class RangeElementComponent extends DynamicComponent {

@@ -6,6 +6,7 @@ import {ElementService} from "./element.service";
 import {Rule} from "./rules/rule";
 import {RuleTypeEnum} from "./rules/rule-type-enum";
 import {UiStateService} from "./ui.state.service";
+import {IAlertMessage} from "./model/alert.message";
 
 type AlertCallback = (state: boolean) => any;
 
@@ -18,8 +19,7 @@ export abstract class DynamicComponent implements OnInit, OnDestroy {
   element: any;
   ruleSet: RuleSet;
   relevantRules: Array<Rule> = [];
-  alertMessage: string;
-  alertValuePath: string;
+  alertMessage: IAlertMessage = <IAlertMessage>{};
   parentRefPath: string;
   protected modelService: ModelService;
   private rulesService: RulesService;
@@ -47,24 +47,28 @@ export abstract class DynamicComponent implements OnInit, OnDestroy {
       });
     }
   }
-  setAlertMessage(message: string, keyPath: string, valuePath: string, alertCallback: AlertCallback) {
+  setAlertMessage(newMessage: IAlertMessage, alertCallback: AlertCallback) {
       if (!this.supportsAlertMessage()) {
         return;
       }
-      this.updateAlertMessage(message, keyPath, valuePath, alertCallback);
+      this.updateAlertMessage(newMessage, alertCallback);
   }
-  private updateAlertMessage(message: string = null, keyPath: string = null, valuePath: string = null, alertCallback: AlertCallback = null) {
+  private updateAlertMessage(newMessage: IAlertMessage = <IAlertMessage>{}, alertCallback: AlertCallback = null) {
+    let valuePath = newMessage.valuePath;
+    let keyPath = newMessage.keyPath;
+    let message = newMessage.message;
     let isSameParent = this.isSameParent(keyPath);
     let isSameRef = this.context.ref === keyPath;
     if (isSameParent) {
-      console.debug('updateAlertMessage: ' + this.path + ' sameRef=' + isSameRef + ' sameParent=' + isSameParent + ' valuePath=' + this.stripPath(valuePath) + ' msg=' + message);
+      console.debug('updateAlertMessage: ' + this.path + ' sameRef=' + isSameRef + ' sameParent=' + isSameParent +
+        ' valuePath=' + this.stripPath(valuePath) + ' msg=' + message);
     }
     if (isSameRef) {
       if (message) {
-        if (this.alertMessage) {
+        if (this.alertMessage.message) {
           return;
         }
-        this.alertValuePath = valuePath;
+        this.alertMessage.valuePath = valuePath;
       } else if (!this.okToClearAlertMessage(valuePath)) {
         return;
       }
@@ -74,13 +78,13 @@ export abstract class DynamicComponent implements OnInit, OnDestroy {
       }
       message = null;
     }
-    if (alertCallback && this.alertMessage !== message) {
+    if (alertCallback && this.alertMessage.message !== message) {
       alertCallback(message !== null);
     }
-    this.alertMessage = message;
+    this.alertMessage.message = message;
   }
   private okToClearAlertMessage(valuePath: string): boolean {
-    return this.alertMessage && this.alertValuePath === valuePath;
+    return this.alertMessage.message && this.alertMessage.valuePath === valuePath;
   }
   onAlertChange(state: boolean) {
     this.hidden = state;

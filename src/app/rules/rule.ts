@@ -6,6 +6,7 @@ import {ModelService} from "../model/model.service";
 import {DynamicComponent} from "../dynamic.component";
 import {MessagingService} from "../model/messaging-service";
 import {AlertUpdatedMessage} from "../model/alert-updated-message";
+import {IAlertMessage} from "../model/alert.message";
 
 export class Rule {
   type: RuleTypeEnum;
@@ -65,9 +66,10 @@ export class Rule {
       let message = ruleDescription.message;
       let valuePath = ruleDescription.value;
       let keyPath = ruleDescription.keyPath;
+      let alertMessage = <IAlertMessage>{message: message, keyPath: keyPath, valuePath: valuePath};
       if (testResult) {
         if (message) {
-          this.updateAlertMessage(components, message, keyPath, valuePath);
+          this.updateAlertMessage(components, alertMessage);
         } else if (valuePath) {
           let value = this.modelService.getValue(valuePath);
           this.setComponentsValue(components, keyPath, value);
@@ -75,14 +77,15 @@ export class Rule {
           this.updateComonents(components);
         }
       } else if (message) {
-        this.updateAlertMessage(components, null, keyPath, valuePath);
+        alertMessage.message = null; // clear message when !testResult
+        this.updateAlertMessage(components, alertMessage);
       }
     }
   }
-  private updateAlertMessage(components: Array<DynamicComponent>, message: string, keyPath: string, valuePath: string) {
+  private updateAlertMessage(components: Array<DynamicComponent>, alertMessage: IAlertMessage) {
     let self = this;
     components.forEach(c => {
-      c.setAlertMessage(message, keyPath, valuePath, (state) =>
+      c.setAlertMessage(alertMessage, (state) =>
         self.messagingService.publish(new AlertUpdatedMessage(state, c.path)))
     });
   }
