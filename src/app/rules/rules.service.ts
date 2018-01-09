@@ -39,7 +39,7 @@ export class RulesService {
   }
 
   private getAllocationString() {
-    return 'rulesets=' + this.ruleSets.length + ' components=' + this.componentService.length();
+    return 'rulesets=' + this.ruleSets.length + ' components=' + this.componentService.length;
   }
   addGlobalRuleSet(rules: any) {
     this.createRuleSet({context: rules});

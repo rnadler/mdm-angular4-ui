@@ -2,6 +2,7 @@ import {Component} from "@angular/core";
 import {ElementService} from "../element.service";
 import {DynamicComponent} from "../dynamic.component";
 import {UiStateService} from "../ui.state.service";
+import {IPressureRange} from "../model/pressure.range";
 
 @Component({
   selector: 'range-element',
@@ -35,7 +36,7 @@ export class RangeElementComponent extends DynamicComponent {
     return true;
   }
   update() {
-    let contextRange = this.modelService.getValue(this.context.bind);
+    let contextRange: IPressureRange = this.modelService.getValue(this.context.bind);
     let start = Number(contextRange.min);
     let end = Number(contextRange.max);
     let step = Number(contextRange.step);

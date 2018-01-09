@@ -8,6 +8,7 @@ import {Rule} from "./rules/rule";
 import {RuleTypeEnum} from "./rules/rule.type.enum";
 import {UiStateService} from "./ui.state.service";
 import {IAlertMessage} from "./model/alert.message";
+import {Utils} from "./utils";
 
 export abstract class DynamicComponent implements OnInit, OnDestroy {
   @Input() context: any;
@@ -16,10 +17,10 @@ export abstract class DynamicComponent implements OnInit, OnDestroy {
   hidden: boolean;
   elements: any;
   element: any;
-  ruleSet: RuleSet;
-  relevantRules: Array<Rule> = [];
-  alertMessage: IAlertMessage = <IAlertMessage>{};
-  parentRefPath: string;
+  private _ruleSet: RuleSet;
+  private relevantRules: Array<Rule> = [];
+  protected _alertMessage: IAlertMessage = <IAlertMessage>{};
+  private parentRefPath: string;
   protected modelService: ModelService;
   private rulesService: RulesService;
 
@@ -29,12 +30,15 @@ export abstract class DynamicComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.ruleSet = this.rulesService.createRuleSet(this);
-    this.parentRefPath = this.getParent(this.context.ref);
+    this._ruleSet = this.rulesService.createRuleSet(this);
+    this.parentRefPath = Utils.getParent(this.context.ref);
   }
   getUiStateService() {
     return this.uiStateService;
   }
+  get ruleSet(): RuleSet { return this._ruleSet; }
+  get alertMessage(): IAlertMessage { return this._alertMessage; }
+
   update(doUpdateRelevance: boolean = true) {
     this.elements = [];
     let elements = ModelService.getContextQuery(this.context, '$..controls');
@@ -49,45 +53,6 @@ export abstract class DynamicComponent implements OnInit, OnDestroy {
       });
     }
   }
-  setAlertMessage(newMessage: IAlertMessage) {
-      if (!this.supportsAlertMessage()) {
-        return;
-      }
-      this.updateAlertMessage(newMessage);
-  }
-  private updateAlertMessage(newMessage: IAlertMessage = <IAlertMessage>{}) {
-    let valuePath = newMessage.valuePath;
-    let keyPath = newMessage.keyPath;
-    let message = newMessage.message;
-    let isSameParent = this.isSameParent(keyPath);
-    let isSameRef = this.context.ref === keyPath;
-    if (isSameParent) {
-      console.debug('updateAlertMessage: ' + this.path + ' sameRef=' + isSameRef + ' sameParent=' + isSameParent +
-        ' valuePath=' + this.stripPath(valuePath) + ' msg=' + message);
-    }
-    if (isSameRef) {
-      if (message) {
-        if (this.alertMessage.message) {
-          return;
-        }
-        this.alertMessage.valuePath = valuePath;
-      } else if (!this.okToClearAlertMessage(valuePath)) {
-        return;
-      }
-    } else {
-      if (isSameParent || !this.okToClearAlertMessage(valuePath)) {
-        return;
-      }
-      message = null;
-    }
-    if (this.alertMessage.alertCallback && this.alertMessage.message !== message) {
-      this.alertMessage.alertCallback(message !== null);
-    }
-    this.alertMessage.message = message;
-  }
-  private okToClearAlertMessage(valuePath: string): boolean {
-    return this.alertMessage.message && this.alertMessage.valuePath === valuePath;
-  }
   onAlertChange(state: boolean) {
     this.hidden = state;
     console.log('onAlertChange: ' + this.path + ' state=' + state);
@@ -95,27 +60,13 @@ export abstract class DynamicComponent implements OnInit, OnDestroy {
   supportsAlertMessage() {
     return false;
   }
-  private isSameParent(keyPath: string) {
-    return this.parentRefPath === this.getParent(keyPath);
-  }
-  private getParent(path: string) {
-    if (!path) {
-      return null;
-    }
-    let rv = path.split('.');
-    rv.pop();
-    return rv.join('.');
-  }
-  private stripPath(path: string) {
-    if (!path) {
-      return null;
-    }
-    return path.split('.').pop();
+  public isSameParent(keyPath: string) {
+    return this.parentRefPath === Utils.getParent(keyPath);
   }
 
   onChange(newValue: any) {
     console.log('onChange: ' + this.path + ' setting ref=' + this.context.ref + ' to newValue=' + newValue);
-    this.updateAlertMessage();
+    this.uiStateService.setComponentAlertMessage(this);
     if (this.context.ref) {
       this.modelService.setValue(this.context.ref, newValue);
     } else {

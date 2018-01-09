@@ -73,16 +73,13 @@ export class Rule {
           let value = this.modelService.getValue(valuePath);
           this.setComponentsValue(components, keyPath, value);
           console.log('evaluate ' + label + 'set keyPath=' + keyPath + ' to value=' + value);
-          this.updateComonents(components);
+          components.forEach(c => c.update());
         }
       } else if (message) {
         alertMessage.message = null; // clear message when !testResult
         uiStateService.updateAlertMessage(components, alertMessage);
       }
     }
-  }
-  private updateComonents(components: Array<DynamicComponent>) {
-    components.forEach(c => c.update());
   }
   private updateComonentsRelevance(components: Array<DynamicComponent>, testResult) {
     components.filter(c => typeof c.updateRelevance === 'function')

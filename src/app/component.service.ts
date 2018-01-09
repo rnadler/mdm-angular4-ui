@@ -36,7 +36,7 @@ export class ComponentService {
   getComponentsByRef(ref: string) {
     return this.dynamicComponents.filter(c => ref === null || c.context.ref === ref);
   }
-  length() {
+  get length(): number {
     return this.dynamicComponents.length;
   }
 }

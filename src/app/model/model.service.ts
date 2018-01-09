@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import * as jp from "jsonpath";
 import {MessagingService} from "./messaging.service";
 import {ModelUpdatedMessage} from "./model.updated.message";
+import {Utils} from "../utils";
 
 @Injectable()
 export class ModelService {
@@ -14,7 +15,7 @@ export class ModelService {
 
   setModel(model: any) {
     this.model = model;
-    this.fgDataClone = ModelService.cloneObject(model[this.FLOWGENERATOR]);
+    this.fgDataClone = Utils.cloneObject(model[this.FLOWGENERATOR]);
   }
   getValue(ref: string) {
     return this.getContextValue(this.model, ref);
@@ -70,13 +71,13 @@ export class ModelService {
     this.setCurrentTherapyMode();
   }
   revertFgData() {
-    this.setValue(this.FLOWGENERATOR, ModelService.cloneObject(this.fgDataClone));
+    this.setValue(this.FLOWGENERATOR, Utils.cloneObject(this.fgDataClone));
     this.setCurrentTherapyMode();
     this.messagingService.publish(new ModelUpdatedMessage());
   }
   sendFgData() {
     // Update the clone to be the same as the model so future reverts use the new FG settings.
-    this.fgDataClone = ModelService.cloneObject(this.getValue(this.FLOWGENERATOR));
+    this.fgDataClone = Utils.cloneObject(this.getValue(this.FLOWGENERATOR));
   }
   setVariantData(variantData: any) {
     this.setValue(this.VARIANT, variantData[this.VARIANT]);
@@ -86,9 +87,5 @@ export class ModelService {
     let currentProfile = this.getValue('FlowGenerator.SettingProfiles.ActiveProfiles.TherapyProfile');
     this.setValue('Internal.TherapyModes.CurrentTherapyMode',
       this.getValue('FlowGenerator.SettingProfiles.TherapyProfiles.' + currentProfile + '.TherapyMode'), false);
-  }
-  // Note: For some reason Object.assign({}, obj) did not work!?!
-  public static cloneObject(obj: any): any {
-    return JSON.parse(JSON.stringify(obj))
   }
 }

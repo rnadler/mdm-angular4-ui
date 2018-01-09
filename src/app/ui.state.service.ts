@@ -7,6 +7,7 @@ import {AlertUpdatedMessage} from "./model/alert.updated.message";
 import {ComponentService} from "./component.service";
 import {DynamicComponent} from "./dynamic.component";
 import {IAlertMessage} from "./model/alert.message";
+import {Utils} from "./utils";
 
 export type AlertCallback = (state: boolean) => void;
 
@@ -31,11 +32,46 @@ export class UiStateService {
   public updateAlertMessage(components: Array<DynamicComponent>, alertMessage: IAlertMessage) {
     let self = this;
     components.forEach(c => {
-      let alert = ModelService.cloneObject(alertMessage);
+      let alert = Utils.cloneObject(alertMessage);
       alert.path = c.path;
       alert.alertCallback = (state) => self.messagingService.publish(new AlertUpdatedMessage(state, c.path));
-      c.setAlertMessage(alert);
+      this.setComponentAlertMessage(c, alert);
     });
+  }
+
+  public setComponentAlertMessage(component: DynamicComponent, newMessage: IAlertMessage = <IAlertMessage>{}) {
+    let alertMessage = component.alertMessage;
+    let valuePath = newMessage.valuePath;
+    let keyPath = newMessage.keyPath;
+    let message = newMessage.message;
+    let isSameParent = component.isSameParent(keyPath);
+    let isSameRef = component.context.ref === keyPath;
+    if (isSameParent) {
+      console.debug('updateAlertMessage: ' + component.path + ' sameRef=' + isSameRef + ' sameParent=' + isSameParent +
+        ' valuePath=' + Utils.stripPath(valuePath) + ' msg=' + message);
+    }
+    if (isSameRef) {
+      if (message) {
+        if (alertMessage.message) {
+          return;
+        }
+        alertMessage.valuePath = valuePath;
+      } else if (!this.okToClearAlertMessage(alertMessage, valuePath)) {
+        return;
+      }
+    } else {
+      if (isSameParent || !this.okToClearAlertMessage(alertMessage, valuePath)) {
+        return;
+      }
+      message = null;
+    }
+    if (newMessage.alertCallback && alertMessage.message !== message) {
+      newMessage.alertCallback(message !== null);
+    }
+    alertMessage.message = message;
+  }
+  private okToClearAlertMessage(alertMessage: IAlertMessage, valuePath: string): boolean {
+    return alertMessage.message && alertMessage.valuePath === valuePath;
   }
 }
 
