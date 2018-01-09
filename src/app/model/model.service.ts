@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import * as jp from "jsonpath";
-import {MessagingService} from "./messaging-service";
-import {ModelUpdatedMessage} from "./model-updated-message";
+import {MessagingService} from "./messaging.service";
+import {ModelUpdatedMessage} from "./model.updated.message";
 
 @Injectable()
 export class ModelService {

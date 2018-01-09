@@ -1,11 +1,11 @@
 
 import {Input, OnDestroy, OnInit} from "@angular/core";
 import {RulesService} from "./rules/rules.service";
-import {RuleSet} from "./rules/rule-set";
+import {RuleSet} from "./rules/rule.set";
 import {ModelService} from "./model/model.service";
 import {ElementService} from "./element.service";
 import {Rule} from "./rules/rule";
-import {RuleTypeEnum} from "./rules/rule-type-enum";
+import {RuleTypeEnum} from "./rules/rule.type.enum";
 import {UiStateService} from "./ui.state.service";
 import {IAlertMessage} from "./model/alert.message";
 

@@ -1,6 +1,6 @@
 
 import {ModelService} from "./model.service";
-import {MessagingService} from "./messaging-service";
+import {MessagingService} from "./messaging.service";
 
 describe('ModelService Test', () => {
   let service: ModelService;

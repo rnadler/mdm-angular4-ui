@@ -1,6 +1,6 @@
 
 import {Rule} from "./rule";
-import {RuleTypeEnum} from "./rule-type-enum";
+import {RuleTypeEnum} from "./rule.type.enum";
 import {DynamicComponent} from "../dynamic.component";
 
 export class RuleSet {

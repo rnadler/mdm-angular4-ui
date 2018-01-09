@@ -4,8 +4,8 @@ import {Subject} from "rxjs/Subject";
 import 'rxjs/add/operator/takeUntil';
 import {RulesService} from "./rules/rules.service";
 import {ModelService} from "./model/model.service";
-import {MessagingService} from "./model/messaging-service";
-import {ModelUpdatedMessage} from "./model/model-updated-message";
+import {MessagingService} from "./model/messaging.service";
+import {ModelUpdatedMessage} from "./model/model.updated.message";
 import {ComponentService} from "./component.service";
 
 @Component({

@@ -1,8 +1,8 @@
 
 import {Injectable} from "@angular/core";
 import {Rule} from "./rule";
-import {RuleSet} from "./rule-set";
-import {RuleTypeEnum} from "./rule-type-enum";
+import {RuleSet} from "./rule.set";
+import {RuleTypeEnum} from "./rule.type.enum";
 import {ModelService} from "../model/model.service";
 import {DynamicComponent} from "../dynamic.component";
 import {ComponentService} from "../component.service";

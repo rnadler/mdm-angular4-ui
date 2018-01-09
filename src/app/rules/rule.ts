@@ -1,7 +1,7 @@
 
-import {RuleDescription} from "./rule-description";
-import {TestEvaluator} from "./test-evaluator";
-import {RuleTypeEnum} from "./rule-type-enum";
+import {RuleDescription} from "./rule.description";
+import {TestEvaluator} from "./test.evaluator";
+import {RuleTypeEnum} from "./rule.type.enum";
 import {ModelService} from "../model/model.service";
 import {DynamicComponent} from "../dynamic.component";
 import {IAlertMessage} from "../model/alert.message";
