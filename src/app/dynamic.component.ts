@@ -8,8 +8,6 @@ import {RuleTypeEnum} from "./rules/rule-type-enum";
 import {UiStateService} from "./ui.state.service";
 import {IAlertMessage} from "./model/alert.message";
 
-type AlertCallback = (state: boolean) => any;
-
 export abstract class DynamicComponent implements OnInit, OnDestroy {
   @Input() context: any;
   @Input() path: string;
@@ -47,13 +45,13 @@ export abstract class DynamicComponent implements OnInit, OnDestroy {
       });
     }
   }
-  setAlertMessage(newMessage: IAlertMessage, alertCallback: AlertCallback) {
+  setAlertMessage(newMessage: IAlertMessage) {
       if (!this.supportsAlertMessage()) {
         return;
       }
-      this.updateAlertMessage(newMessage, alertCallback);
+      this.updateAlertMessage(newMessage);
   }
-  private updateAlertMessage(newMessage: IAlertMessage = <IAlertMessage>{}, alertCallback: AlertCallback = null) {
+  private updateAlertMessage(newMessage: IAlertMessage = <IAlertMessage>{}) {
     let valuePath = newMessage.valuePath;
     let keyPath = newMessage.keyPath;
     let message = newMessage.message;
@@ -78,8 +76,8 @@ export abstract class DynamicComponent implements OnInit, OnDestroy {
       }
       message = null;
     }
-    if (alertCallback && this.alertMessage.message !== message) {
-      alertCallback(message !== null);
+    if (this.alertMessage.alertCallback && this.alertMessage.message !== message) {
+      this.alertMessage.alertCallback(message !== null);
     }
     this.alertMessage.message = message;
   }

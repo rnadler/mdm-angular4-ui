@@ -88,7 +88,7 @@ export class ModelService {
       this.getValue('FlowGenerator.SettingProfiles.TherapyProfiles.' + currentProfile + '.TherapyMode'), false);
   }
   // Note: For some reason Object.assign({}, obj) did not work!?!
-  private static cloneObject(obj: any): any {
+  public static cloneObject(obj: any): any {
     return JSON.parse(JSON.stringify(obj))
   }
 }

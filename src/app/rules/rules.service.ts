@@ -6,16 +6,13 @@ import {ModelService} from "../model/model.service";
 import {DynamicComponent} from "../dynamic.component";
 import {ComponentService} from "../component.service";
 import {MessagingService} from "../model/messaging-service";
-import {AlertUpdatedMessage} from "../model/alert-updated-message";
 
 @Injectable()
 export class RulesService {
   private ruleSets: Array<RuleSet> = [];
 
   constructor(private modelService: ModelService, private componentService: ComponentService,
-              private messagingService: MessagingService){
-    messagingService.of(AlertUpdatedMessage).subscribe(message => this.onAlertChange(message));
-  }
+              private messagingService: MessagingService){}
 
   createRuleSet(component: any): RuleSet {
     let rules = [];
@@ -93,15 +90,6 @@ export class RulesService {
       }
       rules.push(rule);
       console.debug(component.path + ' Added rule ' + name + ' with length=' + rule.ruleDescriptions.length);
-    }
-  }
-  private onAlertChange(message: AlertUpdatedMessage) {
-    let component = this.componentService.getDynamicComponent(message.path);
-    if (component && component.context.alert) {
-      let alertComponent = this.componentService.getDynamicComponent(component.context.alert);
-      if (alertComponent) {
-        alertComponent.onAlertChange(message.state);
-      }
     }
   }
 }

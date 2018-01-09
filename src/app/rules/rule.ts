@@ -85,8 +85,10 @@ export class Rule {
   private updateAlertMessage(components: Array<DynamicComponent>, alertMessage: IAlertMessage) {
     let self = this;
     components.forEach(c => {
-      c.setAlertMessage(alertMessage, (state) =>
-        self.messagingService.publish(new AlertUpdatedMessage(state, c.path)))
+      let alert = ModelService.cloneObject(alertMessage);
+      alert.path = c.path;
+      alert.alertCallback = (state) => self.messagingService.publish(new AlertUpdatedMessage(state, c.path));
+      c.setAlertMessage(alert);
     });
   }
   private updateComonents(components: Array<DynamicComponent>) {
