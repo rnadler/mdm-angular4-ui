@@ -4,21 +4,17 @@ import {TestEvaluator} from "./test-evaluator";
 import {RuleTypeEnum} from "./rule-type-enum";
 import {ModelService} from "../model/model.service";
 import {DynamicComponent} from "../dynamic.component";
-import {MessagingService} from "../model/messaging-service";
-import {AlertUpdatedMessage} from "../model/alert-updated-message";
 import {IAlertMessage} from "../model/alert.message";
 
 export class Rule {
   type: RuleTypeEnum;
   ruleDescriptions: Array<RuleDescription>;
   private modelService: ModelService;
-  private messagingService: MessagingService;
 
-  constructor(type: RuleTypeEnum, modelService: ModelService, messagingService: MessagingService) {
+  constructor(type: RuleTypeEnum, modelService: ModelService) {
     this.type = type;
     this.ruleDescriptions = [];
     this.modelService = modelService;
-    this.messagingService = messagingService;
   }
   addRuleDescption(ruleDesc: any) {
     this.ruleDescriptions.push(ruleDesc);
@@ -53,6 +49,9 @@ export class Rule {
     if (components.length === 0) {
       return;
     }
+    // TODO: Getting the UiStateService from a DynamicComponent is ugly and should be replaced.
+    // Could not inject this because of circular dependency: rule.ts -> ui.state.service.ts -> rules.service.ts -> rule.ts
+    let uiStateService = components[0].getUiStateService();
     for (let rd in this.ruleDescriptions) {
       let ruleDescription = this.ruleDescriptions[rd];
       let test = ruleDescription.test;
@@ -69,7 +68,7 @@ export class Rule {
       let alertMessage = <IAlertMessage>{message: message, keyPath: keyPath, valuePath: valuePath};
       if (testResult) {
         if (message) {
-          this.updateAlertMessage(components, alertMessage);
+          uiStateService.updateAlertMessage(components, alertMessage);
         } else if (valuePath) {
           let value = this.modelService.getValue(valuePath);
           this.setComponentsValue(components, keyPath, value);
@@ -78,18 +77,9 @@ export class Rule {
         }
       } else if (message) {
         alertMessage.message = null; // clear message when !testResult
-        this.updateAlertMessage(components, alertMessage);
+        uiStateService.updateAlertMessage(components, alertMessage);
       }
     }
-  }
-  private updateAlertMessage(components: Array<DynamicComponent>, alertMessage: IAlertMessage) {
-    let self = this;
-    components.forEach(c => {
-      let alert = ModelService.cloneObject(alertMessage);
-      alert.path = c.path;
-      alert.alertCallback = (state) => self.messagingService.publish(new AlertUpdatedMessage(state, c.path));
-      c.setAlertMessage(alert);
-    });
   }
   private updateComonents(components: Array<DynamicComponent>) {
     components.forEach(c => c.update());

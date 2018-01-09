@@ -28,13 +28,13 @@ export class ComponentService {
     }
     return results[0];
   }
-  updateDynamicComponents(ref: string = undefined) {
+  updateDynamicComponents(ref: string = null) {
     for (let component of this.getComponentsByRef(ref)) {
       component.update();
     }
   }
   getComponentsByRef(ref: string) {
-    return this.dynamicComponents.filter(c => ref === undefined || c.context.ref === ref);
+    return this.dynamicComponents.filter(c => ref === null || c.context.ref === ref);
   }
   length() {
     return this.dynamicComponents.length;

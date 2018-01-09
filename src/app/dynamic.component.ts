@@ -1,5 +1,6 @@
-import {RulesService} from "./rules/rules.service";
+
 import {Input, OnDestroy, OnInit} from "@angular/core";
+import {RulesService} from "./rules/rules.service";
 import {RuleSet} from "./rules/rule-set";
 import {ModelService} from "./model/model.service";
 import {ElementService} from "./element.service";
@@ -30,6 +31,9 @@ export abstract class DynamicComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.ruleSet = this.rulesService.createRuleSet(this);
     this.parentRefPath = this.getParent(this.context.ref);
+  }
+  getUiStateService() {
+    return this.uiStateService;
   }
   update(doUpdateRelevance: boolean = true) {
     this.elements = [];
