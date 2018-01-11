@@ -1,4 +1,4 @@
 export class AlertUpdatedMessage {
-  constructor(public state: boolean,
+  constructor(public message: string,
               public path: string) {}
 }
