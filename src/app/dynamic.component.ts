@@ -30,6 +30,7 @@ export abstract class DynamicComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this._alertMessage.path = this.path;
     this._ruleSet = this.rulesService.createRuleSet(this);
     this.parentRefPath = Utils.getParent(this.context.ref);
   }
@@ -38,6 +39,9 @@ export abstract class DynamicComponent implements OnInit, OnDestroy {
   }
   get ruleSet(): RuleSet { return this._ruleSet; }
   get alertMessage(): IAlertMessage { return this._alertMessage; }
+  set alertMessage(alertMessage: IAlertMessage) {
+    this._alertMessage = alertMessage;
+  }
 
   update(doUpdateRelevance: boolean = true) {
     this.elements = [];

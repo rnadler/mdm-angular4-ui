@@ -8,15 +8,37 @@ import {ComponentService} from "./component.service";
 import {DynamicComponent} from "./dynamic.component";
 import {IAlertMessage} from "./model/alert.message";
 import {Utils} from "./utils";
+import {RuleEvaluationStateEnum} from "./rules/rule.evaluation.state.enum";
 
 export type AlertCallback = (state: boolean) => void;
 
 @Injectable()
 export class UiStateService {
+  private alertMessageCache = {};
 
   constructor(public modelService: ModelService, public rulesService: RulesService,
               private messagingService: MessagingService, private componentService: ComponentService) {
     messagingService.of(AlertUpdatedMessage).subscribe(message => this.onAlertChange(message));
+  }
+
+  public ruleEvaluationChange(state: RuleEvaluationStateEnum) {
+    console.debug('onRuleEvaluationChange: ' + RuleEvaluationStateEnum[state]);
+    if (state === RuleEvaluationStateEnum.start) {
+      this.alertMessageCache = {};
+    } else if (state === RuleEvaluationStateEnum.end) {
+      let keys = Object.keys(this.alertMessageCache);
+      console.debug('onRuleEvaluationChange: cached keys = ' + keys.length);
+      keys.forEach((m) => {
+        let component = this.componentService.getDynamicComponent(m);
+        if (component) {
+          let cachedAlertMessage = this.alertMessageCache[m];
+          if (component.alertMessage.message !== cachedAlertMessage.message) {
+            console.log('onRuleEvaluationChange: updated alert message for: ' + m);
+            component.alertMessage = cachedAlertMessage;
+          }
+        }
+      });
+    }
   }
 
   private onAlertChange(message: AlertUpdatedMessage) {
@@ -40,27 +62,24 @@ export class UiStateService {
   }
 
   public setComponentAlertMessage(component: DynamicComponent, newMessage: IAlertMessage = <IAlertMessage>{}) {
-    let alertMessage = component.alertMessage;
+    if (!component.supportsAlertMessage()) {
+      return;
+    }
+    let alertMessage = this.getCachedAlertMessage(component.alertMessage);
     let valuePath = newMessage.valuePath;
     let keyPath = newMessage.keyPath;
     let message = newMessage.message;
     let isSameParent = component.isSameParent(keyPath);
     let isSameRef = component.context.ref === keyPath;
-    if (isSameParent) {
-      console.debug('updateAlertMessage: ' + component.path + ' sameRef=' + isSameRef + ' sameParent=' + isSameParent +
-        ' valuePath=' + Utils.stripPath(valuePath) + ' msg=' + message);
-    }
+    let dontClearMessage = !this.okToClearAlertMessage(alertMessage, valuePath);
     if (isSameRef) {
       if (message) {
-        if (alertMessage.message) {
-          return;
-        }
         alertMessage.valuePath = valuePath;
-      } else if (!this.okToClearAlertMessage(alertMessage, valuePath)) {
+      } else if (dontClearMessage) {
         return;
       }
     } else {
-      if (isSameParent || !this.okToClearAlertMessage(alertMessage, valuePath)) {
+      if (isSameParent || dontClearMessage) {
         return;
       }
       message = null;
@@ -68,11 +87,22 @@ export class UiStateService {
     if (newMessage.alertCallback && alertMessage.message !== message) {
       newMessage.alertCallback(message !== null);
     }
+    console.debug('setComponentAlertMessage: ' + component.path + ' sameRef=' + isSameRef + ' sameParent=' + isSameParent +
+      ' dontClearMessage=' + dontClearMessage +
+      ' valuePath=' + Utils.stripPath(valuePath) + ' msg=' + message);
     alertMessage.message = message;
   }
   private okToClearAlertMessage(alertMessage: IAlertMessage, valuePath: string): boolean {
     return alertMessage.message && alertMessage.valuePath === valuePath;
   }
+  private getCachedAlertMessage(alertMessage: IAlertMessage): IAlertMessage {
+    let path = alertMessage.path;
+    if (!(path in this.alertMessageCache)) {
+      this.alertMessageCache[path] = Utils.cloneObject(alertMessage);
+    }
+    return this.alertMessageCache[path];
+  }
+
 }
 
 

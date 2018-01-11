@@ -1,3 +1,4 @@
+
 import {Component, Input, OnDestroy} from "@angular/core";
 import {DataService} from "./data.service";
 import {Subject} from "rxjs/Subject";
@@ -7,6 +8,8 @@ import {ModelService} from "./model/model.service";
 import {MessagingService} from "./model/messaging.service";
 import {ModelUpdatedMessage} from "./model/model.updated.message";
 import {ComponentService} from "./component.service";
+import {UiStateService} from "./ui.state.service";
+import {RuleEvaluationStateEnum} from "./rules/rule.evaluation.state.enum";
 
 @Component({
   selector: 'xforms',
@@ -18,10 +21,15 @@ export class XformsComponent implements OnDestroy {
   path: string;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   readonly MODEL_JSON_FILE: string = 'mini_model_ui_example.json';
+  private modelService: ModelService;
+  private rulesService: RulesService;
 
   constructor(private dataService: DataService,
-              private messagingService: MessagingService, private modelService: ModelService,
-              private rulesService: RulesService, private componentService: ComponentService) {
+              private messagingService: MessagingService,
+              private uiStateService: UiStateService,
+              private componentService: ComponentService) {
+    this.modelService = this.uiStateService.modelService;
+    this.rulesService = this.uiStateService.rulesService;
     this.dataService.getJSON(this.MODEL_JSON_FILE)
       .takeUntil(this.ngUnsubscribe)
       .subscribe(data => {
@@ -40,7 +48,9 @@ export class XformsComponent implements OnDestroy {
       this.componentService.updateDynamicComponents();
     } else {
       console.log('onModelUpdated: ref=' + message.ref + ' value=' + message.value);
+      this.uiStateService.ruleEvaluationChange(RuleEvaluationStateEnum.start);
       this.rulesService.evaluateUpdateRules(message.ref);
+      this.uiStateService.ruleEvaluationChange(RuleEvaluationStateEnum.end);
     }
   }
   ngOnDestroy() {
