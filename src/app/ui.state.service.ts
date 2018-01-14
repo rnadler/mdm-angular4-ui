@@ -12,9 +12,15 @@ import {RuleEvaluationStateEnum} from "./rules/rule.evaluation.state.enum";
 
 export type AlertCallback = (message: string) => void;
 
+interface IComponentHidden {
+  path: string;
+  hidden: boolean
+}
+
 @Injectable()
 export class UiStateService {
   private alertMessageCache = {};
+  private hiddenCache = {};
 
   constructor(public modelService: ModelService, public rulesService: RulesService,
               private messagingService: MessagingService, private componentService: ComponentService) {
@@ -25,6 +31,7 @@ export class UiStateService {
     console.debug('onRuleEvaluationChange: ' + RuleEvaluationStateEnum[state]);
     if (state === RuleEvaluationStateEnum.start) {
       this.alertMessageCache = {};
+      this.hiddenCache = {}
     } else if (state === RuleEvaluationStateEnum.end) {
       let keys = Object.keys(this.alertMessageCache);
       console.debug('onRuleEvaluationChange: cached keys = ' + keys.length);
@@ -32,7 +39,7 @@ export class UiStateService {
         let component = this.componentService.getDynamicComponent(key);
         if (component) {
           let cachedAlertMessage = this.alertMessageCache[key];
-          if (component.alertMessage.message !== cachedAlertMessage.message) {
+          if (cachedAlertMessage.message || component.alertMessage.message !== cachedAlertMessage.message) {
             console.log('onRuleEvaluationChange: updated alert message for: ' + key);
             if (cachedAlertMessage.alertCallback) {
               cachedAlertMessage.alertCallback(cachedAlertMessage.message);
@@ -50,7 +57,11 @@ export class UiStateService {
     if (component && component.context.alert) {
       let alertComponent = this.componentService.getDynamicComponent(component.context.alert);
       if (alertComponent) {
-        alertComponent.onAlertChange(updatedMessage.message !== null);
+        let componentHidden = this.getCachedHidden(alertComponent);
+        let hidden = updatedMessage.message !== null;
+        if (hidden !== componentHidden.hidden) {
+          alertComponent.onAlertChange(hidden);
+        }
       }
     }
   }
@@ -104,7 +115,13 @@ export class UiStateService {
     }
     return this.alertMessageCache[path];
   }
-
+  private getCachedHidden(component: DynamicComponent): IComponentHidden {
+    let path = component.path;
+    if (!(path in this.hiddenCache)) {
+      this.hiddenCache[path] = Utils.cloneObject(<IComponentHidden>{path: component.path, hidden: component.hidden});
+    }
+    return this.hiddenCache[path];
+  }
 }
 
 
