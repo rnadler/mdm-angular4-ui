@@ -9,8 +9,9 @@ import {RuleTypeEnum} from "./rules/rule.type.enum";
 import {UiStateService} from "./ui.state.service";
 import {IAlertMessage} from "./model/alert.message";
 import {Utils} from "./utils";
+import {IDynamicComponent} from "./model/dynamic.component.interface";
 
-export abstract class DynamicComponent implements OnInit, OnDestroy {
+export abstract class DynamicComponent implements OnInit, OnDestroy, IDynamicComponent {
   @Input() context: any;
   @Input() path: string;
   type: string;

@@ -4,10 +4,10 @@ import {ModelService} from "./model/model.service";
 import {RulesService} from "./rules/rules.service";
 import {MessagingService} from "./model/messaging.service";
 import {ComponentService} from "./component.service";
-import {DynamicComponent} from "./dynamic.component";
 import {IAlertMessage} from "./model/alert.message";
 import {Utils} from "./utils";
 import {RuleEvaluationStateEnum} from "./rules/rule.evaluation.state.enum";
+import {IDynamicComponent} from "./model/dynamic.component.interface";
 
 interface IComponentHidden {
   hidden: boolean
@@ -47,7 +47,7 @@ export class UiStateService {
     }
   }
 
-  private updateAlertComponent(component: DynamicComponent, message: string) {
+  private updateAlertComponent(component: IDynamicComponent, message: string) {
     if (component.context.alert) {
       let alertComponent = this.componentService.getDynamicComponent(component.context.alert);
       if (alertComponent) {
@@ -56,7 +56,7 @@ export class UiStateService {
       }
     }
   }
-  public updateAlertMessage(components: Array<DynamicComponent>, alertMessage: IAlertMessage) {
+  public updateAlertMessage(components: Array<IDynamicComponent>, alertMessage: IAlertMessage) {
     let self = this;
     components.forEach(c => {
       let alert = Utils.cloneObject(alertMessage);
@@ -65,7 +65,7 @@ export class UiStateService {
     });
   }
 
-  public setComponentAlertMessage(component: DynamicComponent, newMessage: IAlertMessage = <IAlertMessage>{}) {
+  public setComponentAlertMessage(component: IDynamicComponent, newMessage: IAlertMessage = <IAlertMessage>{}) {
     if (!component.supportsAlertMessage()) {
       return;
     }
@@ -104,7 +104,7 @@ export class UiStateService {
     }
     return this.alertMessageCache[path];
   }
-  private getCachedHidden(component: DynamicComponent): IComponentHidden {
+  private getCachedHidden(component: IDynamicComponent): IComponentHidden {
     let path = component.path;
     if (!(path in this.hiddenCache)) {
       this.hiddenCache[path] = Utils.cloneObject(<IComponentHidden>{hidden: false});
@@ -112,5 +112,3 @@ export class UiStateService {
     return this.hiddenCache[path];
   }
 }
-
-
