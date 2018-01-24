@@ -9,7 +9,8 @@ import { ModelService } from "./model/model.service"
 import { RulesService } from "./rules/rules.service"
 import { MessagingService } from "./model/messaging.service"
 import { ComponentService } from "./component.service";
-import { UiStateService} from "./ui.state.service";
+import { UiStateService } from "./ui.state.service";
+import { ActionManager } from "./action.manager";
 
 import {DynamicContentComponent} from './dynamic.content.component';
 import {XformsComponent} from "./xforms.component";
@@ -53,7 +54,8 @@ import {LinkElementComponent} from "./elements/link.element.component"
     MessagingService,
     RulesService,
     ComponentService,
-    UiStateService
+    UiStateService,
+    ActionManager
   ],
   entryComponents: [
     XformsComponent,

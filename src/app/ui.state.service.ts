@@ -8,6 +8,7 @@ import {IAlertMessage} from "./model/alert.message";
 import {Utils} from "./utils";
 import {RuleEvaluationStateEnum} from "./rules/rule.evaluation.state.enum";
 import {IDynamicComponent} from "./model/dynamic.component.interface";
+import {ActionManager} from "./action.manager";
 
 interface IComponentHidden {
   hidden: boolean
@@ -19,7 +20,8 @@ export class UiStateService {
   private hiddenCache = {};
 
   constructor(public modelService: ModelService, public rulesService: RulesService,
-              private messagingService: MessagingService, private componentService: ComponentService) {
+              private messagingService: MessagingService, private componentService: ComponentService,
+              public actionManager: ActionManager) {
   }
 
   public ruleEvaluationChange(state: RuleEvaluationStateEnum) {
@@ -57,7 +59,6 @@ export class UiStateService {
     }
   }
   public updateAlertMessage(components: Array<IDynamicComponent>, alertMessage: IAlertMessage) {
-    let self = this;
     components.forEach(c => {
       let alert = Utils.cloneObject(alertMessage);
       alert.path = c.path;

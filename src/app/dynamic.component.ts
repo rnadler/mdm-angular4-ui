@@ -10,6 +10,7 @@ import {UiStateService} from "./ui.state.service";
 import {IAlertMessage} from "./model/alert.message";
 import {Utils} from "./utils";
 import {IDynamicComponent} from "./model/dynamic.component.interface";
+import {ActionManager} from "./action.manager";
 
 export abstract class DynamicComponent implements OnInit, OnDestroy, IDynamicComponent {
   @Input() context: any;
@@ -24,10 +25,12 @@ export abstract class DynamicComponent implements OnInit, OnDestroy, IDynamicCom
   private parentRefPath: string;
   protected modelService: ModelService;
   private rulesService: RulesService;
+  private actionManager: ActionManager;
 
   constructor(protected uiStateService: UiStateService) {
     this.modelService = this.uiStateService.modelService;
     this.rulesService = this.uiStateService.rulesService;
+    this.actionManager = this.uiStateService.actionManager;
   }
 
   ngOnInit(): void {
@@ -72,28 +75,9 @@ export abstract class DynamicComponent implements OnInit, OnDestroy, IDynamicCom
   onChange(newValue: any) {
     console.log('onChange: ' + this.path + ' setting ref=' + this.context.ref + ' to newValue=' + newValue);
     this.uiStateService.setComponentAlertMessage(this);
-    if (this.context.ref) {
-      this.modelService.setValue(this.context.ref, newValue);
-    } else {
-      this.runActions();
-    }
+    this.actionManager.runActions(this.context, newValue);
   }
-  private runActions() {
-    if (!this.context.actions) {
-      return;
-    }
-    for (let action of this.context.actions) {
-      if (action.action === 'set') {
-        this.modelService.setValue(action.keyPath, action.value);
-      } else if (action.action === 'revertFgData') {
-        this.modelService.revertFgData();
-      } else if (action.action === 'sendFgData') {
-        this.modelService.sendFgData();
-      } else {
-        console.warn('Unknown action! ' + action.action);
-      }
-    }
-  }
+
   updateRelevance(testResult: boolean, fromUpdate: boolean = false) {
     let previousRelevant = !this.hidden;
     let localRelevant = this.isRelevant();
