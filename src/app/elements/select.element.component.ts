@@ -6,7 +6,7 @@ import {UiStateService} from "../ui.state.service";
 @Component({
   selector: 'select-element',
   template: `<div *ngIf="defaultItem" [hidden]="hidden">{{context?.label}}<br>
-    <select (change)="onChange($event.target.value)" [(ngModel)]="defaultItem">
+    <select [attr.id]="path" (change)="onChange($event.target.value)" [(ngModel)]="defaultItem">
       <option *ngFor="let item of items"
         [value]="item"
         [selected]="item == defaultItem ? true : null">

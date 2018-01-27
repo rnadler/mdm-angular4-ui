@@ -5,7 +5,7 @@ import {UiStateService} from "../ui.state.service";
 
 @Component({
   selector: 'switch-element',
-  template: `<div><input type='checkbox' [checked]="checked" (change)="onChange($event.target.checked)">
+  template: `<div><input type='checkbox' [checked]="checked" (change)="onChange($event.target.checked)" [attr.id]="path">
     <strong>{{context?.label}}</strong></div>`
 })
 export class SwitchElementComponent extends DynamicComponent {

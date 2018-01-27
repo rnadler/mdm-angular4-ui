@@ -7,8 +7,8 @@ describe('mdm-ui App', () => {
     page = new MdmUiPage();
   });
 
-  it('should display welcome message', () => {
+  it('should display correct title', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('Welcome to app!');
+    expect(page.getTitleText()).toContain('Data Driven Angular')
   });
 });

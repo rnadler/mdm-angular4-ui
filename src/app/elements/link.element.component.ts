@@ -14,7 +14,7 @@ import {UiStateService} from "../ui.state.service";
       cursor: pointer;
     }`
   ],
-  template: `<div [hidden]="hidden"><a (click)="onChange('link clicked')">{{context?.label}}</a></div>`
+  template: `<div [hidden]="hidden"><a [attr.id]="path" (click)="onChange('link clicked')">{{context?.label}}</a></div>`
 })
 export class LinkElementComponent extends DynamicComponent {
 

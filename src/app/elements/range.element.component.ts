@@ -7,7 +7,7 @@ import {IPressureRange} from "../model/pressure.range";
 @Component({
   selector: 'range-element',
   template: `<div *ngIf="defaultValue" [hidden]="hidden">{{context?.label}}<br>
-    <select (change)="onChange($event.target.value)" [(ngModel)]="defaultValue">
+    <select [attr.id]="path" (change)="onChange($event.target.value)" [(ngModel)]="defaultValue">
       <option *ngFor="let value of values"
               [value]="value"
               [selected]="value == defaultValue">

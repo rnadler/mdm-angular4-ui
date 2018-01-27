@@ -5,7 +5,7 @@ import {UiStateService} from "../ui.state.service";
 
 @Component({
   selector: 'trigger-element',
-  template: `<button class="column" (click)="onChange('button clicked')" [disabled]="hidden">{{context?.label}}</button>`
+  template: `<button [attr.id]="path" class="column" (click)="onChange('button clicked')" [disabled]="hidden">{{context?.label}}</button>`
 })
 export class TriggerElementComponent extends DynamicComponent {
 
