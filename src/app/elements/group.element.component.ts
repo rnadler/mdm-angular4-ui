@@ -6,7 +6,7 @@ import {UiStateService} from "../ui.state.service";
 @Component({
   selector: 'group-element',
   template: `
-    <div class="panel panel-info" [hidden]="hidden">
+    <div [attr.id]="path" class="panel panel-info" [hidden]="hidden">
       <div class="panel-heading" *ngIf="context.label">
         <h2 class="panel-title">{{context.label}}</h2>
       </div>

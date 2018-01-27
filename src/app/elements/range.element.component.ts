@@ -6,15 +6,15 @@ import {IPressureRange} from "../model/pressure.range";
 
 @Component({
   selector: 'range-element',
-  template: `<div *ngIf="defaultValue" [hidden]="hidden">{{context?.label}}<br>
-    <select [attr.id]="path" (change)="onChange($event.target.value)" [(ngModel)]="defaultValue">
+  template: `<div [attr.id]="path" *ngIf="defaultValue" [hidden]="hidden">{{context?.label}}<br>
+    <select [attr.id]="path + '.select'" (change)="onChange($event.target.value)" [(ngModel)]="defaultValue">
       <option *ngFor="let value of values"
               [value]="value"
               [selected]="value == defaultValue">
         {{value}}
       </option>
     </select>
-    <span *ngIf="alertMessage" class="error">{{alertMessage.message}}</span>
+    <span [attr.id]="path + '.alert'" *ngIf="alertMessage" class="error">{{alertMessage.message}}</span>
   </div>`
 })
 export class RangeElementComponent extends DynamicComponent {

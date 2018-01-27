@@ -5,7 +5,7 @@ import {UiStateService} from "../ui.state.service";
 
 @Component({
   selector: 'output-element',
-  template: `<div [hidden]="hidden">{{context?.label}}<br><strong>{{value}}</strong></div>`
+  template: `<div [attr.id]="path" [hidden]="hidden">{{context?.label}}<br><strong>{{value}}</strong></div>`
 })
 export class OutputElementComponent extends DynamicComponent {
   value: string;

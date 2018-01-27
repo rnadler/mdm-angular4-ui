@@ -24,7 +24,7 @@ import {ComponentService} from "./component.service";
       <tr>
         <td class="right"><strong>Device Category:</strong></td>
         <td>
-          <select (change)="onCategoryChange($event.target.value)" [(ngModel)]="defaultCategory">
+          <select id="deviceCategory" (change)="onCategoryChange($event.target.value)" [(ngModel)]="defaultCategory">
             <option *ngFor="let category of categories"
                     [value]="category"
                     [selected]="category == defaultCategory">
@@ -36,7 +36,7 @@ import {ComponentService} from "./component.service";
       <tr>
         <td class="right"><strong>Device Variant:</strong></td>
         <td>
-          <select (change)="onVariantChange($event.target.value)" [(ngModel)]="defaultVariant">
+          <select id="deviceVariant" (change)="onVariantChange($event.target.value)" [(ngModel)]="defaultVariant">
             <option *ngFor="let variant of variants"
                     [value]="variant"
                     [selected]="variant == defaultVariant">
@@ -48,7 +48,7 @@ import {ComponentService} from "./component.service";
       <tr>
         <td class="right"><strong>Device Therapy Profile:</strong></td>
         <td>
-          <select (change)="onProfileChange($event.target.value)" [(ngModel)]="defaultProfile">
+          <select id="deviceTherapyProfile" (change)="onProfileChange($event.target.value)" [(ngModel)]="defaultProfile">
             <option *ngFor="let profile of profiles"
                     [value]="profile"
                     [selected]="profile == defaultProfile">
@@ -59,7 +59,7 @@ import {ComponentService} from "./component.service";
       </tr>
       <tr>
         <td class="right"><strong>Therapy Edit Enabled:</strong></td>
-        <td><input type='checkbox' [checked]="therapyEditchecked"
+        <td><input id="therapyEditEnabled" type='checkbox' [checked]="therapyEditchecked"
                    (change)="onTherapyEditEnabledChange($event.target.checked)"></td>
       </tr>
     </table>

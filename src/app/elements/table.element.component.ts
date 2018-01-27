@@ -6,7 +6,7 @@ import {UiStateService} from "../ui.state.service";
 @Component({
   selector: 'table-element',
   template: `
-    <div *ngFor="let element of elements" [hidden]="hidden">
+    <div [attr.id]="path" *ngFor="let element of elements" [hidden]="hidden">
       <dynamic-content [type]="element.type" [context]="element.context" [path]="element.path"></dynamic-content>
     </div>
   `
