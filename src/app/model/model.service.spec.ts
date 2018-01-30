@@ -6,7 +6,7 @@ describe('ModelService Test', () => {
   let service: ModelService;
 
   beforeEach(() => {
-    service = new ModelService(new MessagingService());
+    service = new ModelService(new MessagingService(null));
     service.setModel({
       data: 'test data',
       FlowGenerator: {

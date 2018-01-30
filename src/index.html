@@ -11,5 +11,21 @@
 </head>
 <body>
   <app-root></app-root>
+  <script>
+    const DELAY_MS = 20;
+    let retryCount = 0;
+    function subscribeToButtonEvents() {
+      if (!window.messagingService) {
+        retryCount++;
+        setTimeout(() => { subscribeToButtonEvents() }, DELAY_MS);
+        return;
+      }
+      console.log('Waited ' + retryCount*DELAY_MS + ' ms to setup Button Events.');
+      window.messagingService.zone.run(() =>
+        window.messagingService.service.ofClass('ButtonEvent')
+          .subscribe(event => console.log('ButtonEvent: path=' + event.path + ' message=' + event.message)));
+    }
+    subscribeToButtonEvents();
+  </script>
 </body>
 </html>

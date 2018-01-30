@@ -7,13 +7,16 @@ import {IAlertMessage} from "./model/alert.message";
 
 class MockModelService extends ModelService {
   constructor() {
-    super(new MessagingService());
+    super(new MockMessagingService());
   }
   public setValue(key, value) {}
   public revertFgData() {}
   public sendFgData() {}
 }
 class MockMessagingService extends MessagingService {
+  constructor() {
+    super(null);
+  }
   public publish(message: any) {}
 }
 class MockDynamicComponent implements IDynamicComponent {

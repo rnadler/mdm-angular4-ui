@@ -2,12 +2,13 @@
 // http://www.processinginfinity.com/weblog/2016/08/18/MessageBus-Pattern-in-Angular2-TypeScript
 // https://angularclass.com/blog/create-a-simple-reactive-store-for-angular-2/
 
+import {Injectable, NgZone} from "@angular/core";
 import {Observable} from "rxjs/Observable";
 import {Subject} from "rxjs/Subject";
 import "rxjs/add/operator/filter";
 import {async} from "rxjs/scheduler/async";
 import "rxjs/add/operator/observeOn";
-import {Injectable} from "@angular/core";
+import {ElementService} from "../element.service";
 
 interface Message {
   channel: string;
@@ -16,17 +17,10 @@ interface Message {
 
 @Injectable()
 export class MessagingService {
-  private static _instance: MessagingService;
   private message$: Subject<Message> = new Subject<Message>();
 
-  constructor() {
-    MessagingService._instance = this;
-  }
-  public static getInstance(): MessagingService {
-    if (!MessagingService._instance) {
-      new MessagingService();
-    }
-    return MessagingService._instance;
+  constructor(private ngZone: NgZone) {
+    window['messagingService'] = {service: this, zone: this.ngZone}
   }
   public publish<T>(message: T): void {
     const channel = (<any>message.constructor).name;
@@ -38,5 +32,9 @@ export class MessagingService {
     return this.message$
       .observeOn(async)
       .filter(m => m.channel === channel).map(m => m.data);
+  }
+
+  public ofClass(className: string): any {
+    return this.of(ElementService.getComponent(className));
   }
 }
