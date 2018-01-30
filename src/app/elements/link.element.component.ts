@@ -25,6 +25,9 @@ export class LinkElementComponent extends DynamicComponent {
     this.update();
     super.ngOnInit();
   }
+  supportsButtonEvent() {
+    return true;
+  }
   onChange(value: any) {
     super.onChange(value);
   }

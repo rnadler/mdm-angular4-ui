@@ -16,8 +16,18 @@ interface Message {
 
 @Injectable()
 export class MessagingService {
+  private static _instance: MessagingService;
   private message$: Subject<Message> = new Subject<Message>();
 
+  constructor() {
+    MessagingService._instance = this;
+  }
+  public static getInstance(): MessagingService {
+    if (!MessagingService._instance) {
+      new MessagingService();
+    }
+    return MessagingService._instance;
+  }
   public publish<T>(message: T): void {
     const channel = (<any>message.constructor).name;
     this.message$.next({ channel: channel, data: message });

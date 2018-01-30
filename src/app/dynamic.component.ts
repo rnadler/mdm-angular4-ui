@@ -68,6 +68,9 @@ export abstract class DynamicComponent implements OnInit, OnDestroy, IDynamicCom
   supportsAlertMessage() {
     return false;
   }
+  supportsButtonEvent() {
+    return false;
+  }
   public isSameParent(keyPath: string) {
     return this.parentRefPath === Utils.getParent(keyPath);
   }
@@ -75,7 +78,7 @@ export abstract class DynamicComponent implements OnInit, OnDestroy, IDynamicCom
   onChange(newValue: any) {
     console.log('onChange: ' + this.path + ' setting ref=' + this.context.ref + ' to newValue=' + newValue);
     this.uiStateService.setComponentAlertMessage(this);
-    this.actionManager.runActions(this.context, newValue);
+    this.actionManager.runActions(this, newValue);
   }
 
   updateRelevance(testResult: boolean, fromUpdate: boolean = false) {
