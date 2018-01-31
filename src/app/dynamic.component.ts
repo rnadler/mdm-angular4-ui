@@ -90,8 +90,8 @@ export abstract class DynamicComponent implements OnInit, OnDestroy, IDynamicCom
       this.element.hidden = this.hidden;
     }
     let callUpdate = !fromUpdate && relevant && !previousRelevant;
-    // console.log(this.path + ' updateRelevance testResult/valid/relevant=' + testResult + '/' + this.isValid() + '/' + localRelevant + ' relevant=' + relevant +
-    //     ' callUpdate=' + callUpdate + ' fromUpdate=' + fromUpdate);
+    // console.log(this.path + ' updateRelevance testResult/valid/relevant=' + testResult + '/' + this.isValid() + '/' + localRelevant +
+    //     ' relevant/previous=' + relevant + '/' + previousRelevant + ' callUpdate=' + callUpdate + ' fromUpdate=' + fromUpdate);
     if (callUpdate) {
       this.update(false);
     }
