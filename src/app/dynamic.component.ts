@@ -11,6 +11,7 @@ import {IAlertMessage} from "./model/alert.message";
 import {Utils} from "./utils";
 import {IDynamicComponent} from "./model/dynamic.component.interface";
 import {ActionManager} from "./action.manager";
+import {RelevanceBuilder} from "./relevance.builder";
 
 export abstract class DynamicComponent implements OnInit, OnDestroy, IDynamicComponent {
   @Input() context: any;
@@ -20,7 +21,7 @@ export abstract class DynamicComponent implements OnInit, OnDestroy, IDynamicCom
   elements: any;
   element: any;
   private _ruleSet: RuleSet;
-  private relevantRules: Array<Rule> = [];
+  private _relevantRules: Array<Rule> = [];
   protected _alertMessage: IAlertMessage = <IAlertMessage>{};
   private parentRefPath: string;
   protected modelService: ModelService;
@@ -28,6 +29,9 @@ export abstract class DynamicComponent implements OnInit, OnDestroy, IDynamicCom
   private actionManager: ActionManager;
 
   constructor(protected uiStateService: UiStateService) {
+    if (!uiStateService) {
+      return;
+    }
     this.modelService = this.uiStateService.modelService;
     this.rulesService = this.uiStateService.rulesService;
     this.actionManager = this.uiStateService.actionManager;
@@ -41,6 +45,7 @@ export abstract class DynamicComponent implements OnInit, OnDestroy, IDynamicCom
   getUiStateService() {
     return this.uiStateService;
   }
+  get relevantRules(): Array<Rule> { return this._relevantRules; }
   get ruleSet(): RuleSet { return this._ruleSet; }
   get alertMessage(): IAlertMessage { return this._alertMessage; }
   set alertMessage(alertMessage: IAlertMessage) {
@@ -82,42 +87,18 @@ export abstract class DynamicComponent implements OnInit, OnDestroy, IDynamicCom
   }
 
   updateRelevance(testResult: boolean, fromUpdate: boolean = false) {
-    let previousRelevant = !this.hidden;
-    let localRelevant = this.isRelevant();
-    let relevant = testResult && this.isValid() && localRelevant;
-    this.hidden = !relevant;
-    if (this.element) {
-      this.element.hidden = this.hidden;
-    }
-    let callUpdate = !fromUpdate && relevant && !previousRelevant;
-    // console.log(this.path + ' updateRelevance testResult/valid/relevant=' + testResult + '/' + this.isValid() + '/' + localRelevant +
-    //     ' relevant/previous=' + relevant + '/' + previousRelevant + ' callUpdate=' + callUpdate + ' fromUpdate=' + fromUpdate);
-    if (callUpdate) {
-      this.update(false);
-    }
-  }
-  isRelevant() {
-    if (this.ruleSet) {
-      if (!this.ruleSet.getRulesOfType(RuleTypeEnum.relevant)
-          .map(r => r.getRelevantTestResult())
-          .reduce((a, b) => a && b)) {
-        return false;
-      }
-    }
-    for (let rule of this.relevantRules) {
-      if (!rule.getRelevantTestResult()) {
-        return false;
-      }
-    }
-    return true;
+    new RelevanceBuilder(this)
+      .withTestResult(testResult)
+      .withFromUpdate(fromUpdate)
+      .build();
   }
   isValid() {
     return true;
   }
   addRuleSet(ruleSet: RuleSet) {
     for (let rule of ruleSet.getRulesOfType(RuleTypeEnum.relevant)) {
-     this.relevantRules.push(rule);
-     //console.log(this.path + ' addRuleSet added relevant rule from ruleSet=' + ruleSet.name + ' relevantRules=' + this.relevantRules.length);
+     this._relevantRules.push(rule);
+     //console.log(this.path + ' addRuleSet added relevant rule from ruleSet=' + ruleSet.name + ' relevantRules=' + this._relevantRules.length);
     }
   }
   private getPath(name: string) {
