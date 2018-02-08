@@ -1,9 +1,9 @@
 
 import {ActionManager} from "./action.manager";
 import {ModelService} from "./model/model.service";
-import {MessagingService} from "./model/messaging.service";
 import {IDynamicComponent} from "./model/dynamic.component.interface";
 import {IAlertMessage} from "./model/alert.message";
+import {MockMessagingService} from "./model/mock.messaging.service";
 
 class MockModelService extends ModelService {
   constructor() {
@@ -13,12 +13,7 @@ class MockModelService extends ModelService {
   public revertFgData() {}
   public sendFgData() {}
 }
-class MockMessagingService extends MessagingService {
-  constructor() {
-    super(null);
-  }
-  public publish(message: any) {}
-}
+
 class MockDynamicComponent implements IDynamicComponent {
   alertMessage: IAlertMessage;
   context: any;

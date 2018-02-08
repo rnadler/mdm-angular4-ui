@@ -71,7 +71,7 @@ export class ModelService {
     this.setCurrentTherapyMode();
   }
   revertFgData() {
-    this.setValue(this.FLOWGENERATOR, Utils.cloneObject(this.fgDataClone));
+    this.setValue(this.FLOWGENERATOR, Utils.cloneObject(this.fgDataClone), false);
     this.setCurrentTherapyMode();
     this.messagingService.publish(new ModelUpdatedMessage());
   }

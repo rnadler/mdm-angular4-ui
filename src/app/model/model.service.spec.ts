@@ -1,12 +1,14 @@
 
 import {ModelService} from "./model.service";
-import {MessagingService} from "./messaging.service";
+import {MockMessagingService} from "./mock.messaging.service";
 
 describe('ModelService Test', () => {
   let service: ModelService;
+  let mockMessagingService: MockMessagingService;
 
   beforeEach(() => {
-    service = new ModelService(new MessagingService(null));
+    mockMessagingService = new MockMessagingService();
+    service = new ModelService(mockMessagingService);
     service.setModel({
       data: 'test data',
       FlowGenerator: {
@@ -31,5 +33,13 @@ describe('ModelService Test', () => {
   it('#getContextQuery should return expected data', () => {
     expect(Object.keys(ModelService.getContextQuery({controls: { c1: 'a', c2: 'b'}}, '$..controls')).length).toBe(2);
   });
-  // TODO: Add set/revert FgData tests.
+  it('#revertFgData should revert data', () => {
+    expect(service.getValue('FlowGenerator.fgData')).toBe('value1');
+    service.setValue('FlowGenerator.fgData', 'newValue');
+    expect(service.getValue('FlowGenerator.fgData')).toBe('newValue');
+    spyOn(mockMessagingService, 'publish');
+    service.revertFgData();
+    expect(service.getValue('FlowGenerator.fgData')).toBe('value1');
+    expect(mockMessagingService.publish).toHaveBeenCalledTimes(1);
+  });
 });
